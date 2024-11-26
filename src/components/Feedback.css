@@ -1,0 +1,123 @@
+/* Overall Section Styling */
+.feedback-section {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 100px 20px;
+    background-color: #fff; /* White background */
+  }
+  
+  /* Text Content */
+  .feedback-content {
+    max-width: 50%;
+  }
+  
+  .feedback-content h2 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+    line-height: 1.4;
+    font-family: Recoleta;
+}
+  
+  .feedback-content .highlight {
+    color: #ff7600; /* Orange color for highlight */
+    font-family: Recoleta;
+  }
+  
+  .feedback-content p {
+    font-size: 16px;
+    color: #000005;
+    line-height: 1.6;
+    font-family: Recoleta;
+  }
+  
+  /* Form Section */
+  .feedback-form {
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .feedback-form h3 {
+    font-size: 20px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .feedback-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .feedback-form input,
+  .feedback-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+  .feedback-form textarea {
+    resize: none;
+    height: 100px;
+  }
+  
+  .feedback-form button {
+    padding: 12px 15px;
+    background-color: #ff7600; /* Orange background */
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .feedback-form button:hover {
+    background-color: #ff8800;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .feedback-section {
+      flex-direction: column;
+      gap: 40px;
+      text-align: center;
+    }
+  
+    .feedback-content {
+      max-width: 100%;
+    }
+  }
+  
+  /* Add to your existing styles */
+  button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  /* Toast customization */
+  .Toastify__toast {
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .Toastify__toast--success {
+    background: #fff;
+    color: #2ecc71;
+    border: 1px solid #2ecc71;
+  }
+  
+  .Toastify__toast--error {
+    background: #fff;
+    color: #e74c3c;
+    border: 1px solid #e74c3c;
+  }
+  

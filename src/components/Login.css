@@ -1,0 +1,140 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 70px);
+    padding: 20px;
+    background-color: #f5f5f5;
+  }
+  
+  .login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .login-box h2 {
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  .login-box p {
+    color: #666;
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .google-signin-btn {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    border: 1px solid #ddd;
+    color: black;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .google-signin-btn:hover {
+    background-color: #f5f5f5;
+  }
+  
+  .google-signin-btn img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .divider {
+    margin: 20px 0;
+    text-align: center;
+    position: relative;
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background-color: #ddd;
+  }
+  
+  .divider::before {
+    left: 0;
+  }
+  
+  .divider::after {
+    right: 0;
+  }
+  
+  .divider span {
+    background-color: white;
+    padding: 0 10px;
+    color: #666;
+  }
+  
+  .login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .login-form input {
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+  
+  .forgot-password {
+    text-align: right;
+  }
+  
+  .forgot-password span {
+    color: #FF7600;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .forgot-password span:hover {
+    text-decoration: underline;
+  }
+  
+  .login-submit-btn {
+    background-color: #FF7600;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+  
+  .login-submit-btn:hover {
+    background-color: #e66a00;
+  }
+  
+  .signup-link {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .signup-link span {
+    color: #FF7600;
+    cursor: pointer;
+  }
+  
+  .signup-link span:hover {
+    text-decoration: underline;
+  }

@@ -1,0 +1,935 @@
+@font-face {
+    font-family: 'Recoleta';
+    src: url('../assets/font/Recoleta-RegularDEMO.otf') format('opentype'); 
+}
+body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+*, *:before, *:after {
+    box-sizing: inherit;
+}
+
+button{
+  font-family: Roboto;
+}
+.home-container {
+    min-height: calc(70vh - 70px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    width: 100%;
+    overflow: hidden;
+    margin-top: 70px;
+    box-sizing: border-box;
+}
+
+
+.home-image {
+    max-width: 90%;
+    height: auto;
+    width: auto;
+    object-fit: contain;
+}
+
+.button-group {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+}
+
+.primary-btn, .secondary-btn {
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-btn {
+    background-color: #FF7600;
+    color: white;
+    border: none;
+}
+
+.primary-btn:hover {
+    background-color: #e66a00;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(255, 118, 0, 0.2);
+}
+
+.secondary-btn {
+    background-color: transparent;
+    color: #FF7600;
+    border: 2px solid #FF7600;
+}
+
+.secondary-btn:hover {
+    background-color: rgba(255, 118, 0, 0.1);
+    transform: translateY(-1px);
+}
+
+/* Add responsive design */
+@media (max-width: 768px) {
+    .button-group {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .primary-btn, .secondary-btn {
+        width: 10%;
+        max-width: 200px;
+    }
+}
+
+/* Ensure responsiveness for smaller screens */
+@media (max-width: 868px) {
+    .home-image {
+        min-width: unset;
+        max-width: 100%;
+    }
+    
+    .content-wrapper {
+        padding: 0 15px; 
+    }
+}
+
+.offer-section {
+    padding: 50px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+}
+
+.offer-title {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 40px;
+    margin-top: 100px;
+}
+
+.offer-boxes {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    cursor: pointer;
+}
+
+.offer-box {
+    width: 250px; /* Adjust based on your image size */
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.offer-box:hover {
+    transform: translateY(-5px);
+}
+
+/* Responsive design */
+@media (max-width: 1100px) {
+    .offer-boxes {
+        gap: 15px;
+    }
+    
+    .offer-box {
+        width: 200px; /* Slightly smaller on medium screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .offer-boxes {
+        gap: 20px;
+    }
+    
+    .offer-box {
+        width: 45%; /* Two boxes per row on mobile */
+        max-width: 180px;
+    }
+}
+
+/* Add these new styles for the course section */
+.course-section {
+    padding: 10px 20px; /* More padding to create space */
+    display: flex;
+    flex-direction: column; /* Change to column direction */
+    align-items: center;
+    background-color: white;
+}
+
+.course-title {
+    max-width: 300px;
+    height: auto;
+    margin-bottom: 40px; /* Change margin-top to margin-bottom */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .course-title {
+        max-width: 250px;
+        margin-top: 60px;
+    }
+}
+
+.course-list {
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.course-item {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 100px;
+    padding: 20px;
+}
+
+
+.course-image {
+    flex: 1;
+    max-width: 500px;
+}
+
+.course-image img {
+    width: 80%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.course-content {
+    flex: 1;
+    max-width: 500px;
+}
+
+.course-content h1 {
+    font-family: Recoleta;
+    color: #333;
+    font-weight: bold;
+    margin-bottom: 10px;
+    font-size: 25px;
+    color: #FF7600;
+    
+}
+
+.course-content .level {
+    color: #FF7600;
+    font-family: Recoleta;
+    font-weight: 300;
+    margin-bottom: 20px;
+}
+
+.course-content .description {
+    font-family: Recoleta;
+    color: #000005;
+    line-height: 1.6;
+    font-size: 15px;
+    margin-bottom: 30px;
+}
+
+.learn-more-btn {
+    background-color: #FF7600;
+    color: white;
+    border: none;
+    font-family: Recoleta;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.learn-more-btn:hover {
+    background-color: #e66a00;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 118, 0, 0.2);
+}
+
+/* Responsive design */
+@media (max-width: 968px) {
+    .course-item {
+        flex-direction: column;
+        gap: 30px;
+        margin-bottom: 60px;
+    }
+
+    .course-item.right {
+        flex-direction: column;
+    }
+
+    .course-content {
+        text-align: center;
+    }
+
+    .course-content h1 {
+        font-size: 28px;
+    }
+}
+
+.tryout-section {
+    padding: 50px 20px;
+    background-color: white;
+}
+
+.tryout-container {
+    display: flex;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: flex-start;
+    justify-content: center;
+}
+
+.tryout-image-wrapper, .tryout-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tryout-image {
+    width: 400px;
+    height: -1px;
+    object-fit: contain;
+}
+
+.tryout-btn {
+    background-color: #FF7600;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    align-self: start;
+    font-family: Roboto;
+    margin-left: 20px;
+}
+.changes{
+    margin-top: 40px;
+}
+
+@media (max-width: 968px) {
+    .tryout-container {
+        flex-direction: column;
+    }
+    
+    .tryout-image {
+        width: 300px;
+        height: 200px;
+    }
+}
+.Testimonials-section{
+    background: black;
+    height: auto;
+    padding: 40px 30px;
+}
+.Testimonials-section h3{
+    font-weight: 100;
+    text-transform: uppercase;
+    color: white;
+    font-family: Recoleta;
+    text-align: center;
+    margin-bottom: 10px;
+}
+.Testimonials-section h1{
+    color: white;
+    text-transform: capitalize;
+    font-family: Recoleta;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.slider-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    overflow: hidden;
+    padding: 20px;
+    position: relative;
+}
+
+.slider-wrapper {
+    display: flex;
+    transition: transform 0.3s ease-out;
+    cursor: grab;
+    user-select: none;
+    gap: 30px;
+    align-items: center;
+    padding: 20px 10px;
+}
+
+.slider-wrapper:active {
+    cursor: grabbing;
+}
+
+.testimonial-card{
+    color: white;
+    flex: 0 0 calc(33.333% - 40px);
+    min-width: 280px;
+    background: #1a1a1a;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: none;
+}
+
+.testimonial-card.active,
+.testimonial-card.prev,
+.testimonial-card.next {
+    opacity: 1;
+    transform: none;
+    z-index: auto;
+}
+
+.testimonial-image {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin: 0 auto 20px;
+    display: block;
+    object-fit: cover;
+}
+
+.active .testimonial-image {
+    width: 100px;
+    height: 100px;
+}
+
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.slider-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #333;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.slider-dot.active {
+    background: #FF7600;
+}
+
+
+.Testimonials-section {
+    background: linear-gradient(to bottom, #000000, #1a1a1a);
+    padding: 60px 30px;
+}
+
+.testimonial-card.active:hover {
+    transform: scale(1.02);
+}
+
+.FAQ {
+    padding: 100px 20px; /* Adjust padding as needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white; /* Adjust background color if needed */
+}
+
+.faq-title {
+    max-width: 500px; /* Adjust size as needed */
+    height: auto;
+    margin-bottom: 40px; /* Space below the image */
+}
+.data-sec {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 50px 20px;
+    background-color: #f9f9f9;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 20px;
+}
+
+.data-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+.data-content h1 {
+    font-family: Recoleta;
+    color: #FF7600;
+    font-size: 24px;
+    margin-bottom: 15px;
+}
+
+.data-content p {
+    font-family: Recoleta;
+    color: #333;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.data-image-wrapper {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.data-image {
+    max-width: 80%;
+    height: auto;
+    border-radius: 10px;
+}
+
+@media (max-width: 768px) {
+    body{
+        overflow-x: hidden;
+    }
+    .data-sec {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .data-content {
+        max-width: 100%;
+    }
+    .tryout-image-wrapper{
+        display: none;
+    }
+    .data-image {
+        width: 70%;
+        margin-top: 20px;
+    }
+}
+
+.tryout-section {
+    padding: 30px 20px;
+}
+/* Footer Section */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ff7600; /* Orange background */
+    color: #fff;
+    padding: 20px 30px;
+    font-size: 14px;
+  }
+  
+  .footer-text {
+    font-size: 14px;
+    font-weight: bold;
+  }
+  
+  .footer-icons {
+    display: flex;
+    gap: 15px;
+  }
+  
+  .footer-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+    transition: background-color 0.3s, color 0.3s;
+  }
+  
+  .footer-icons a:hover {
+    background-color: #fff;
+    color: #ff7600;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .footer {
+      flex-direction: column;
+      gap: 10px;
+      text-align: center;
+    }
+  }
+  
+/* Add these new media queries */
+@media (max-width: 1200px) {
+    .home-container {
+        padding: 15px;
+    }
+
+    .content-wrapper {
+        max-width: 100%;
+    }
+
+    .home-image {
+        max-width: 100%;
+        min-width: unset;
+    }
+
+    .offer-boxes {
+        padding: 0 20px;
+    }
+
+    .course-list {
+        padding: 0 15px;
+    }
+
+    .slider-container {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 968px) {
+    .course-item {
+        flex-direction: column;
+        gap: 30px;
+        margin-bottom: 60px;
+        align-items: center;
+    }
+
+    .course-item.right {
+        flex-direction: column;
+    }
+
+    .course-content {
+        text-align: center;
+        padding: 0 15px;
+    }
+
+    .course-content h1 {
+        font-size: 28px;
+    }
+
+    .tryout-container {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .tryout-image {
+        width: 300px;
+        height: 200px;
+    }
+
+    .data-sec {
+        padding: 30px 15px;
+    }
+}
+
+@media (max-width: 868px) {
+    .home-image {
+        min-width: unset;
+        max-width: 100%;
+    }
+    
+    .content-wrapper {
+        padding: 0 15px; 
+    }
+
+    .offer-box {
+        width: 45%;
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .home-container {
+        min-height: 60vh;
+        padding: 15px;
+        margin-top: 50px;
+    }
+
+    .content-wrapper {
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .home-image {
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+    }
+
+    .button-group {
+        flex-direction: column;
+        gap: 12px;
+        padding: 0 20px;
+        margin-top: 20px;
+    }
+
+    .primary-btn, .secondary-btn {
+        width: 100%;
+        max-width: 280px;
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+
+    .offer-section {
+        padding: 30px 15px;
+    }
+
+    .offer-boxes {
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .offer-box {
+        width: calc(50% - 15px);
+        max-width: 160px;
+    }
+
+    .course-title {
+        width: 80%;
+        max-width: 250px;
+    }
+
+    .data-content {
+        padding: 0 15px;
+    }
+
+    .data-image {
+        width: 90%;
+        max-width: 400px;
+        margin: 20px auto;
+    }
+
+    .footer {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        padding: 15px 10px;
+    }
+
+    .testimonial-card {
+        padding: 15px 10px;
+    }
+    .home-image {
+        max-width: 100%;    
+        width: 100%;
+    }
+    .course-image img{
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .home-container {
+        min-height: 50vh;
+        padding: 10px;
+        margin-top: 40px;
+    }
+
+    .content-wrapper {
+        padding: 0 5px;
+    }
+
+    .button-group {
+        padding: 0 10px;
+    }
+
+    .primary-btn, .secondary-btn {
+        width: 100%;
+        max-width: 250px;
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+    .offer-section {
+        padding: 20px 10px;
+    }
+
+    .offer-box {
+        width: calc(50% - 10px);
+        max-width: 140px;
+    }
+
+    .course-content {
+        padding: 0 10px;
+    }
+
+    .course-content h1 {
+        font-size: 22px;
+    }
+
+    .data-content h1 {
+        font-size: 24px;
+    }
+
+    .data-content p {
+        font-size: 14px;
+    }
+
+    .testimonial-card {
+        padding: 15px 10px;
+    }
+
+    .footer {
+        padding: 15px 10px;
+    }
+}
+
+/* Extra small screens (360px and down) */
+@media (max-width: 360px) {
+    .home-container {
+        min-height: 45vh;
+    }
+
+    .offer-box {
+        width: 100%;
+        max-width: 130px;
+    }
+
+    .primary-btn, .secondary-btn {
+        font-size: 12px;
+        padding: 8px 12px;
+    }
+
+    .course-content h1 {
+        font-size: 20px;
+    }
+}
+
+.banner-section {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  padding: 60px 20px;
+  margin: 40px 0;
+  position: relative;
+}
+
+.banner-content {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.banner-content h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  font-family: 'Recoleta', serif;
+  line-height: 1.3;
+}
+
+.get-started-btn {
+  background: transparent;
+  color: white;
+  border:1px  solid white;
+  padding: 15px 30px;
+  border-radius: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.get-started-btn:hover {
+  background: transparent;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+  .banner-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .get-started-btn {
+    padding: 12px 25px;
+    font-size: 14px;
+  }
+}
+
+.founder-section {
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  max-width: 1500px;
+  margin: 40px auto;
+  padding: 0 20px;
+}
+
+.founder-image {
+  flex: 1;
+  max-width: 400px;
+}
+
+.founder-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 20px;
+}
+
+.founder-content {
+  flex: 1.5;
+}
+
+.founder-content h1 {
+  color: #FF7600;
+  font-size: 2rem;
+  margin-bottom: 10px;
+  font-family: 'Recoleta', serif;
+}
+
+.founder-title {
+  color: #FF7600;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  font-weight: 500;
+}
+
+.founder-message {
+  color: #000;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  font-size: 0.8rem;
+}
+
+.connect-btn {
+  background: #FF7600;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 50px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.connect-btn:hover {
+  background: #e66a00;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 968px) {
+  .founder-section {
+    flex-direction: column;
+    text-align: center;
+    gap: 30px;
+  }
+
+  .founder-image {
+    max-width: 300px;
+    margin: 0 auto;
+  }
+
+  .founder-content h1 {
+    font-size: 2rem;
+  }
+}
