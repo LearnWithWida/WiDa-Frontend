@@ -1,191 +1,370 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useParams } from "react-router-dom";
-import "./CourseContent.css";
-import Thumbnail from "../assets/CourseThumb.png";
-import Curriculum from "../assets/Curriculum.png";
-import CourseThumbnail from "../assets/Thumbnail.png";
-import { FaPlay, FaPause, FaExpand, FaCompress } from "react-icons/fa";
+import React, { useState, useRef, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
+import { saveVideoProgress, getVideoProgress } from '../firebase/videoProgress';
+import './CourseContent.css';
+import { FaPlay, FaPause, FaRedo, FaLock, FaExpand, FaCompress } from 'react-icons/fa';
+import CourseThumbnail from '../assets/thumbnail.png'; 
 import testingVideo from "../assets/videos/testing.mp4";
-import testingVideo2 from "../assets/videos/testing.mp4";
-import CourseThumbnail2 from "../assets/Thumbnail.png";
 
-const CourseContent = () => {
-  const { courseName } = useParams();
-  const [video, setVideo] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [isFullscreen, setIsFullscreen] = useState(false);
-  const videoRef = useRef(null);
-  const progressBarRef = useRef(null);
-  const videoContainerRef = useRef(null);
-  const [isPlaying2, setIsPlaying2] = useState(false);
-  const [isPaused2, setIsPaused2] = useState(false);
-  const [progress2, setProgress2] = useState(0);
-  const video2Ref = useRef(null);
-  const progressBar2Ref = useRef(null);
-  const videoContainer2Ref = useRef(null);
+const courseVideos = Array(10).fill(testingVideo);
 
-  const handlePlayClick = () => {
-    setIsPlaying(true);
-    setVideo(true);
-  };
-
-  const handleVideoClick = () => {
-    if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPaused(false);
-    } else {
-      videoRef.current.pause();
-      setIsPaused(true);
-    }
-  };
-
-  const handleFullScreen = async () => {
-    try {
-      if (!document.fullscreenElement) {
-        if (videoContainerRef.current.requestFullscreen) {
-          await videoContainerRef.current.requestFullscreen();
-        } else if (videoContainerRef.current.webkitRequestFullscreen) {
-          await videoContainerRef.current.webkitRequestFullscreen();
-        } else if (videoContainerRef.current.msRequestFullscreen) {
-          await videoContainerRef.current.msRequestFullscreen();
-        }
-        setIsFullscreen(true);
-      } else {
-        if (document.exitFullscreen) {
-          await document.exitFullscreen();
-        } else if (document.webkitExitFullscreen) {
-          await document.webkitExitFullscreen();
-        } else if (document.msExitFullscreen) {
-          await document.msExitFullscreen();
-        }
-        setIsFullscreen(false);
+const courseQuizzes = { 
+  0: {
+    questions: [
+      {
+        questionText: 'What is Data Analysis?',
+        options: [
+          'Creating spreadsheets',
+          'Examining data to find insights',
+          'Writing code',
+          'Making presentations'
+        ],
+        correctAnswer: 1
+      },
+      {
+        questionText: 'Which of the following is a key step in data analysis?',
+        options: [
+          'Designing logos',
+          'Data cleaning and preparation',
+          'Website development',
+          'Social media marketing'
+        ],
+        correctAnswer: 1
+      },
+      {
+        questionText: 'What is the purpose of data visualization?',
+        options: [
+          'To make data look pretty',
+          'To confuse readers',
+          'To communicate insights effectively',
+          'To store data securely'
+        ],
+        correctAnswer: 2
+      },
+      {
+        questionText: 'Which tool is commonly used for basic data analysis?',
+        options: [
+          'Microsoft Paint',
+          'Notepad',
+          'Microsoft Excel',
+          'Windows Media Player'
+        ],
+        correctAnswer: 2
       }
-    } catch (error) {
-      console.error("Error toggling fullscreen:", error);
+    ]
+  }
+};
+
+const Quiz = ({ questions, onComplete }) => {
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [score, setScore] = useState(0);
+
+  const handleAnswer = (selectedAnswer) => {
+    const isCorrect = selectedAnswer === questions[currentQuestion].correctAnswer;
+    if (isCorrect) {
+      setScore(score + 1);
     }
-  };
 
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      const progress =
-        (videoRef.current.currentTime / videoRef.current.duration) * 100;
-      setProgress(progress);
-    }
-  };
-
-  const handleProgressBarClick = (e) => {
-    const progressBar = progressBarRef.current;
-    const rect = progressBar.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / progressBar.offsetWidth;
-    videoRef.current.currentTime = pos * videoRef.current.duration;
-  };
-
-  const handlePlayClick2 = () => {
-    setIsPlaying2(true);
-    setVideo(true);
-  };
-
-  const handleVideoClick2 = () => {
-    if (video2Ref.current.paused) {
-      video2Ref.current.play();
-      setIsPaused2(false);
+    const nextQuestion = currentQuestion + 1;
+    if (nextQuestion < questions.length) {
+      setCurrentQuestion(nextQuestion);
     } else {
-      video2Ref.current.pause();
-      setIsPaused2(true);
+      // Quiz completed
+      const passed = (score + (isCorrect ? 1 : 0)) / questions.length >= 0.7; // 70% passing score
+      alert(`Your score: ${score + (isCorrect ? 1 : 0)} out of ${questions.length}`);
+      onComplete(passed);
     }
   };
-
-  const handleTimeUpdate2 = () => {
-    if (video2Ref.current) {
-      const progress =
-        (video2Ref.current.currentTime / video2Ref.current.duration) * 100;
-      setProgress2(progress);
-    }
-  };
-
-  const handleProgressBarClick2 = (e) => {
-    const progressBar = progressBar2Ref.current;
-    const rect = progressBar.getBoundingClientRect();
-    const pos = (e.clientX - rect.left) / progressBar.offsetWidth;
-    video2Ref.current.currentTime = pos * video2Ref.current.duration;
-  };
-
-  useEffect(() => {
-    const handleFullscreenChange = () => {
-      setIsFullscreen(!!document.fullscreenElement);
-    };
-
-    document.addEventListener("fullscreenchange", handleFullscreenChange);
-    document.addEventListener("webkitfullscreenchange", handleFullscreenChange);
-    document.addEventListener("mozfullscreenchange", handleFullscreenChange);
-    document.addEventListener("MSFullscreenChange", handleFullscreenChange);
-
-    return () => {
-      document.removeEventListener("fullscreenchange", handleFullscreenChange);
-      document.removeEventListener(
-        "webkitfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "mozfullscreenchange",
-        handleFullscreenChange
-      );
-      document.removeEventListener(
-        "MSFullscreenChange",
-        handleFullscreenChange
-      );
-    };
-  }, []);
 
   return (
-    <div>
-      <div className="course-content">
-        {Array.from({ length: 10 }).map((_, index) => (
+    <div className="quiz-content">
+      <h2>Question {currentQuestion + 1} of {questions.length}</h2>
+      <p className="question-text">{questions[currentQuestion].questionText}</p>
+      <div className="options-container">
+        {questions[currentQuestion].options.map((option, index) => (
+          <button
+            key={index}
+            className="option-button"
+            onClick={() => handleAnswer(index)}
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const CourseContent = () => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  const [videoStates, setVideoStates] = useState(
+    Array(10).fill({
+      isPlaying: false,
+      isPaused: false,
+      progress: 0,
+      videoEnded: false,
+      quizCompleted: false,
+      quizPassed: false
+    })
+  );
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+
+  const videoRefs = useRef(Array(10).fill(null));
+  const progressBarRefs = useRef(Array(10).fill(null));
+  const videoContainerRefs = useRef(Array(10).fill(null));
+
+  useEffect(() => {
+    const checkAccess = () => {
+      if (!user) {
+        navigate('/login');
+        return;
+      }
+
+      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+      const userPurchases = purchasedCourses[user.uid] || {};
+      
+      if (!userPurchases['data analysis']) {
+        navigate('/course/DataAnalysis');
+        return;
+      }
+
+      setIsAuthorized(true);
+    };
+
+    checkAccess();
+  }, [user, navigate]);
+
+  useEffect(() => {
+    const loadUserProgress = async () => {
+      if (user) {
+        const progressData = await getVideoProgress(user.uid);
+        if (progressData) {
+          setVideoStates(prevStates => 
+            prevStates.map((state, index) => ({
+              ...state,
+              ...progressData[index] // Merge saved progress with current state
+            }))
+          );
+        }
+      }
+    };
+
+    loadUserProgress();
+  }, [user]);
+
+  const handleTimeUpdate = useCallback((index) => {
+    const videoRef = videoRefs.current[index];
+    if (videoRef) {
+      const progress = (videoRef.currentTime / videoRef.duration) * 100;
+      setVideoStates(prev => prev.map((state, i) => 
+        i === index ? { ...state, progress } : state
+      ));
+
+      if (user && progress % 5 < 1) {
+        const progressData = {
+          [index]: {
+            progress,
+            videoEnded: false,
+            lastPosition: videoRef.currentTime
+          }
+        };
+        saveVideoProgress(user.uid, progressData).catch(console.error);
+      }
+    }
+  }, [user]);
+
+  const handleQuizComplete = useCallback((passed) => {
+    setVideoStates(prev => prev.map((state, i) => 
+      i === currentQuizIndex ? {
+        ...state,
+        quizCompleted: true,
+        quizPassed: passed
+      } : state
+    ));
+
+    if (user) {
+      const progressData = {
+        [currentQuizIndex]: {
+          quizCompleted: true,
+          quizPassed: passed,
+          progress: 100,
+          videoEnded: true
+        }
+      };
+      saveVideoProgress(user.uid, progressData).catch(console.error);
+    }
+
+    if (!passed) {
+      const videoRef = videoRefs.current[currentQuizIndex];
+      if (videoRef) {
+        videoRef.currentTime = 0;
+      }
+    }
+    setShowQuiz(false);
+  }, [user, currentQuizIndex]);
+
+  const handlePlayClick = useCallback((index) => {
+    if (index > 0 && !videoStates[index - 1].videoEnded) {
+      return; // Don't play if previous video isn't complete
+    }
+
+    setVideoStates(prev => prev.map((state, i) => 
+      i === index ? { ...state, isPlaying: true } : state
+    ));
+
+    const videoRef = videoRefs.current[index];
+    if (videoRef) {
+      videoRef.play().catch(console.error);
+    }
+  }, [videoStates]);
+
+  const handleVideoEnd = (index) => {
+    setVideoStates(prev => prev.map((state, i) => 
+      i === index ? { ...state, videoEnded: true } : state
+    ));
+
+    // Automatically show the quiz after the video ends
+    setCurrentQuizIndex(index); // Set the current quiz index to the video index
+    setShowQuiz(true); // Show the quiz
+  };
+
+  const handleVideoClick = (index) => {
+    setVideoStates(prev => prev.map((state, i) => 
+      i === index ? { ...state, isPaused: !state.isPaused } : state
+    ));
+
+    const videoRef = videoRefs.current[index];
+    if (videoRef) {
+      if (videoStates[index].isPaused) {
+        videoRef.play().catch(console.error);
+      } else {
+        videoRef.pause();
+      }
+    }
+  };
+
+  const handleFullScreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
+  const handleProgressBarClick = useCallback((e, index) => {
+    const progressBar = progressBarRefs.current[index];
+    const video = videoRefs.current[index];
+    
+    if (progressBar && video) {
+      // Get the clicked position relative to the progress bar
+      const rect = progressBar.getBoundingClientRect();
+      const clickPosition = e.clientX - rect.left;
+      const progressBarWidth = rect.width;
+      
+      // Calculate the new time based on click position
+      const clickedTime = (clickPosition / progressBarWidth) * video.duration;
+      
+      // Update video time
+      video.currentTime = clickedTime;
+      
+      // Update progress state
+      const progress = (clickedTime / video.duration) * 100;
+      setVideoStates(prev => prev.map((state, i) => 
+        i === index ? { ...state, progress } : state
+      ));
+    }
+  }, []);
+
+  if (!isAuthorized) {
+    return (
+      <div className="loading-container">
+        <p>Loading course content...</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="course-content">
+      {Array.from({ length: 10 }).map((_, index) => {
+        const isLocked = index > 0 && !videoStates[index - 1].videoEnded;
+        const currentState = videoStates[index];
+        const isCompleted = currentState.quizCompleted && currentState.quizPassed;
+
+        return (
           <div key={index} className="video-section">
             <div className="thumbnail-container">
-              {!isPlaying ? (
+              {isLocked ? (
+                <div className="video-locked">
+                  <img 
+                    src={CourseThumbnail} 
+                    alt="Course Thumbnail" 
+                    className="locked"
+                  />
+                  <div className="lock-icon">
+                    <FaLock />
+                  </div>
+                </div>
+              ) : !currentState.isPlaying ? (
                 <>
                   <img src={CourseThumbnail} alt="Course Thumbnail" />
-                  <div className="play-icon" onClick={handlePlayClick}>
-                    <FaPlay />
-                  </div>
+                  {isCompleted ? (
+                    <div 
+                      className="play-icon completed" 
+                      onClick={() => handlePlayClick(index)}
+                    >
+                      <FaRedo />
+                    </div>
+                  ) : (
+                    <div 
+                      className="play-icon" 
+                      onClick={() => handlePlayClick(index)}
+                    >
+                      {currentState.videoEnded ? <FaRedo /> : <FaPlay />}
+                    </div>
+                  )}
                 </>
               ) : (
-                <div className="custom-video-player" ref={videoContainerRef}>
+                <div 
+                  className="custom-video-player" 
+                  ref={el => videoContainerRefs.current[index] = el}
+                >
                   <video
-                    ref={videoRef}
+                    ref={el => videoRefs.current[index] = el}
                     autoPlay
                     className="video-player"
-                    onEnded={() => setVideo(true)}
-                    onClick={handleVideoClick}
-                    onTimeUpdate={handleTimeUpdate}
+                    onEnded={() => handleVideoEnd(index)}
+                    onClick={() => handleVideoClick(index)}
+                    onTimeUpdate={() => handleTimeUpdate(index)}
                   >
-                    <source src={testingVideo} type="video/mp4" />
+                    <source src={courseVideos[index]} type="video/mp4" />
                     Your browser does not support the video tag.
                   </video>
                   <div className="video-controls">
                     <div
                       className="progress-bar"
-                      ref={progressBarRef}
-                      onClick={handleProgressBarClick}
+                      ref={el => progressBarRefs.current[index] = el}
+                      onClick={(e) => handleProgressBarClick(e, index)}
                     >
                       <div
                         className="progress-filled"
-                        style={{ width: `${progress}%` }}
+                        style={{ width: `${currentState.progress}%` }}
                       ></div>
                     </div>
                     <div className="controls-buttons">
-                      <button
-                        className="control-button"
-                        onClick={handleVideoClick}
+                      <button 
+                        className="control-button" 
+                        onClick={() => handleVideoClick(index)}
                       >
-                        {isPaused ? <FaPlay /> : <FaPause />}
+                        {currentState.videoEnded ? (
+                          <FaRedo />
+                        ) : (
+                          currentState.isPaused ? <FaPlay /> : <FaPause />
+                        )}
                       </button>
                       <button
                         className="control-button"
-                        onClick={() => handleFullScreen(videoContainerRef)}
+                        onClick={() => handleFullScreen()}
                       >
                         {isFullscreen ? <FaCompress /> : <FaExpand />}
                       </button>
@@ -195,25 +374,57 @@ const CourseContent = () => {
               )}
             </div>
             <div className="video-details">
-              <h1>Introduction to Data Science</h1>
+              <h1>Introduction to Data Analysis</h1>
               <p>
-                Data science is the process of extracting meaningful insights and
-                knowledge from data using techniques from mathematics, statistics,
-                and computer science. It involves data collection, cleaning,
-                analysis, and visualization to uncover patterns, make predictions,
-                and solve real-world problems. By leveraging tools like Python,
-                SQL, and machine learning, data science empowers individuals and
-                organizations to make informed, data-driven decisions.
+                Data analysis is the process of examining, cleaning, transforming, 
+                and modeling data to discover useful information, draw conclusions, 
+                and support decision-making. Through statistical methods and 
+                analytical tools, data analysis helps organizations understand
               </p>
-              {video ? (
-                <button className="quiz-button">Take Quiz</button>
+              {isLocked ? (
+                <button className="watch-button locked" disabled>
+                  Complete Previous Video First
+                </button>
+              ) : isCompleted ? (
+                <button 
+                  className="watch-button completed"
+                  onClick={() => handlePlayClick(index)}
+                >
+                  <FaRedo /> Watch Again
+                </button>
+              ) : currentState.videoEnded ? (
+                <button 
+                  className="quiz-button" 
+                  onClick={() => setShowQuiz(true)}
+                >
+                  Take Quiz
+                </button>
               ) : (
-                <button className="watch-button">Watch Video</button>
+                <button 
+                  className="watch-button"
+                  onClick={() => handlePlayClick(index)}
+                >
+                  Watch Video
+                </button>
               )}
             </div>
           </div>
-        ))}
-      </div>
+        );
+      })}
+      {showQuiz && (
+        <div className="quiz-overlay">
+          <div className="quiz-container">
+            {courseQuizzes[currentQuizIndex] ? (
+              <Quiz
+                questions={courseQuizzes[currentQuizIndex].questions}
+                onComplete={handleQuizComplete}
+              />
+            ) : (
+              <div>No quiz available for this section.</div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };

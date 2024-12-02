@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { courseData } from "../Data"; 
 import "./CourseDetails.css";
 import { PaystackButton } from "react-paystack";
-import { collection, addDoc } from 'firebase/firestore';
-import { db } from '../firebase/config';
+import { useAuth } from '../context/AuthContext';
 
 const CourseDetails = () => {
-  const { courseName } = useParams();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [isPurchased, setIsPurchased] = useState(false);
-  const [selectedPackage, setSelectedPackage] = useState(null);
   const userEmail = "learnwithwida@gmail.com";
 
+  // Since we only have Data Analysis course, we can directly use it
+  const courseName = "data analysis";
+  
   // Convert price string to number (remove ₦ and commas)
   const formatPrice = (priceString) => {
     if (!priceString) return 0;
@@ -31,78 +32,58 @@ const CourseDetails = () => {
     },
     onSuccess: (reference) => {
       setIsPurchased(true);
-      savePurchaseToBackend({
+      // Store purchase in localStorage with user ID
+      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+      
+      // Initialize or update user's purchases
+      if (!purchasedCourses[user.uid]) {
+        purchasedCourses[user.uid] = {};
+      }
+      
+      purchasedCourses[user.uid]['data analysis'] = {
         ...reference,
         packageType,
-        amount: formatPrice(price)
-      });
+        amount: formatPrice(price),
+        purchaseDate: new Date().toISOString()
+      };
+      
+      localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
     },
     onClose: () => {
       alert("Payment cancelled or failed. Please try again.");
     }
   });
 
-  const savePurchaseToBackend = async (reference) => {
-    try {
-      const purchaseData = {
-        courseId: courseName,
-        paymentReference: reference.reference,
-        amount: reference.amount,
-        userEmail: userEmail,
-        transactionDate: new Date().toISOString(),
-        status: 'success',
-        metadata: reference // Store full Paystack reference for records
-      };
-
-      // Add document to 'purchases' collection
-      const docRef = await addDoc(collection(db, 'purchases'), purchaseData);
-      console.log('Purchase saved with ID:', docRef.id);
-
-      // Save to localStorage for quick client-side access
-      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-      purchasedCourses[courseName.toLowerCase()] = true;
-      localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
-
-    } catch (error) {
-      console.error('Error saving purchase to Firebase:', error);
-      // Still update localStorage even if Firebase fails
-      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-      purchasedCourses[courseName.toLowerCase()] = true;
-      localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
-    }
-  };
-
   useEffect(() => {
-    const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-    setIsPurchased(!!purchasedCourses[courseName.toLowerCase()]);
-  }, [courseName]);
+    if (user) {
+      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+      const userPurchases = purchasedCourses[user.uid] || {};
+      setIsPurchased(!!userPurchases['data analysis']);
+    }
+  }, [user]);
 
   const course = courseData.find(
-    (c) => c.title.toLowerCase() === courseName.toLowerCase()
+    (c) => c.title.toLowerCase() === courseName
   );
 
-  const getPricing = (courseTitle) => {
-    switch (courseTitle.toLowerCase()) {
-      case 'data science':
-        return {
-          virtual: { original: '₦100000', current: '₦80000' },
-          physical: { original: '₦150000', current: '₦100000' }
-        };
-      case 'research analysis':
-        return {
-          virtual: { original: '₦100000', current: '₦50000' },
-          physical: { original: '₦100000', current: '₦80000' }
-        };
-      case 'data analysis':
-        return {
-          virtual: { original: null, current: '₦50000' },
-          physical: { original: null, current: '₦80000' }
-        };
-      default:
-        return {
-          virtual: { original: '₦100000', current: '₦80000' },
-          physical: { original: '₦150000', current: '₦100000' }
-        };
+  const pricing = {
+    virtual: { original: null, current: '₦50000' },
+    physical: { original: null, current: '₦80000' }
+  };
+
+  const handleGoToCourse = (e) => {
+    e.preventDefault();
+    if (user && isPurchased) {
+      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+      const userPurchases = purchasedCourses[user.uid] || {};
+      
+      if (userPurchases['data analysis']) {
+        console.log('Navigating to course content...');
+        navigate('/course/DataAnalysis/videoCourse');
+      } else {
+        console.log('Purchase verification failed');
+        setIsPurchased(false);
+      }
     }
   };
 
@@ -114,8 +95,6 @@ const CourseDetails = () => {
       </div>
     );
   }
-
-  const pricing = getPricing(course.title);
 
   return (
     <div className="course-details">
@@ -165,10 +144,19 @@ const CourseDetails = () => {
                 <li>✓ Virtual mentorship support</li>
                 <li>✓ Access to online community</li>
               </ul>
-              <PaystackButton 
-                {...getPaystackProps(pricing.virtual.current, 'virtual')}
-                className="purchase-button"
-              />
+              {!user ? (
+                <button 
+                  className="purchase-button"
+                  onClick={() => navigate('/login')}
+                >
+                  Login to Purchase
+                </button>
+              ) : (
+                <PaystackButton 
+                  {...getPaystackProps(pricing.virtual.current, 'virtual')}
+                  className="purchase-button"
+                />
+              )}
             </div>
 
             <div className="purchase-card">
@@ -204,8 +192,19 @@ const CourseDetails = () => {
           <h1>Ready to Start Learning?</h1>
           <p>Your course is ready. Click below to start your learning journey!</p>
           <button 
+            onClick={handleGoToCourse}
             className="access-course-button"
-            onClick={() => navigate(`/course-content/${courseName.toLowerCase()}`)}
+            style={{ 
+              cursor: 'pointer',
+              backgroundColor: '#ff7600',
+              color: 'white',
+              padding: '12px 24px',
+              border: 'none',
+              borderRadius: '4px',
+              fontSize: '16px',
+              display: 'inline-block',
+              margin: '20px 0'
+            }}
           >
             Go to Course
           </button>

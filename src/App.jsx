@@ -1,6 +1,6 @@
 import React from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { AuthProvider } from './context/AuthContext';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
@@ -14,24 +14,48 @@ import Instructor from './pages/Instructor';
 import About from './pages/About';
 import CourseContent from './pages/CourseContent';
 
+// Simplified Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const { user } = useAuth();
+  
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
+
+  const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+  const userPurchases = purchasedCourses[user.uid] || {};
+  
+  if (!userPurchases['data analysis']) {
+    return <Navigate to="/course/DataAnalysis" replace />;
+  }
+
+  return children;
+};
+
 export const App = () => {
 
   return (
     <AuthProvider>
-      <Router>
+      <Router basename="/">
         <div className="app-container">
           <Navbar />
           <main className="main-content">
             <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/course" element={<Course />} />
-              <Route path="/course/:courseName" element={<CourseDetails />} />
+              <Route exact path="/" element={<Home />} />
+              <Route exact path="/course/DataAnalysis" element={<CourseDetails />} />
+              <Route 
+                path="/course/DataAnalysis/videoCourse" 
+                element={
+                  <ProtectedRoute>
+                    <CourseContent />
+                  </ProtectedRoute>
+                } 
+              />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
               <Route path="/instructors" element={<Instructor />} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
               <Route path="/about" element={<About />} />
-              <Route path="/course-content/:courseName" element={<CourseContent />} />
             </Routes>
           </main>
           <Footer />

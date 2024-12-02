@@ -283,16 +283,23 @@
 }
 
 .access-course-button {
-  background-color: #FF7600;
+  background-color: #ff7600;
   color: white;
-  padding: 15px 30px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 50px;
-  font-size: 1.1rem;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 16px;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
 }
 
 .access-course-button:hover {
-  background-color: #45a049;
+  background-color: #e66a00;
+}
+
+.curriculum-section.access-course {
+  text-align: center;
+  padding: 40px;
+  margin: 20px 0;
 }

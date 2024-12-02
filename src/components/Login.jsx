@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '../firebase/config';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
 import Google from "../assets/google.png"
@@ -12,6 +14,7 @@ const Login = () => {
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleGoogleSignIn = async () => {
     try {
@@ -23,32 +26,36 @@ const Login = () => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleEmailLogin = async (e) => {
     e.preventDefault();
-    // Simulate checking if user exists
-    // In a real app, this would be an API call to your backend
-    const userExists = false; // This is just for demonstration
+    setLoading(true);
 
-    if (!userExists) {
-      toast.error(
-        <div>
-          Account not found! 
-          <span 
-            style={{cursor: 'pointer', textDecoration: 'underline'}} 
-            onClick={() => navigate('/signup')}
-          >
-            Create an account here
-          </span>
-        </div>,
-        {
-          onClick: () => navigate('/signup'),
-          closeOnClick: false
-        }
-      );
-      return;
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+      toast.success('Login successful!');
+      navigate('/'); // Redirect to home after successful login
+    } catch (error) {
+      console.error('Error signing in:', error);
+      let errorMessage = 'Failed to sign in';
+      
+      switch (error.code) {
+        case 'auth/user-not-found':
+          errorMessage = 'No account found with this email';
+          break;
+        case 'auth/wrong-password':
+          errorMessage = 'Incorrect password';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Invalid email address';
+          break;
+        default:
+          errorMessage = error.message;
+      }
+      
+      toast.error(errorMessage);
+    } finally {
+      setLoading(false);
     }
-
-    // Continue with login logic if user exists
   };
 
   return (
@@ -79,7 +86,7 @@ const Login = () => {
           <span>or</span>
         </div>
 
-        <form className="login-form" onSubmit={handleSubmit}>
+        <form className="login-form" onSubmit={handleEmailLogin}>
           <input 
             type="email" 
             placeholder="Email" 
@@ -97,7 +104,13 @@ const Login = () => {
           <div className="forgot-password">
             <span onClick={() => navigate('/forgot-password')}>Forgot Password?</span>
           </div>
-          <button type="submit" className="login-submit-btn">Login</button>
+          <button 
+            type="submit" 
+            className="login-submit-btn"
+            disabled={loading}
+          >
+            {loading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
 
         <p className="signup-link">

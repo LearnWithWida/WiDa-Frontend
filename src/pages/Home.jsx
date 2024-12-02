@@ -21,25 +21,11 @@ import { useNavigate } from "react-router-dom";
 const testimonials = [
   {
     id: 1,
-    name: "Sarah Johnson",
-    role: "Data Science Student",
-    image: "https://randomuser.me/api/portraits/women/1.jpg",
-    text: "The course structure and teaching methodology are exceptional. I've learned more in months than I did in years.",
-  },
-  {
-    id: 2,
-    name: "Michael Chen",
-    role: "Research Analyst",
-    image: "https://randomuser.me/api/portraits/men/2.jpg",
-    text: "The practical approach to learning has helped me apply these skills directly in my work. Highly recommended!",
-  },
-  {
-    id: 3,
     name: "Emma Davis",
     role: "Data Analyst",
     image: "https://randomuser.me/api/portraits/women/3.jpg",
     text: "The support from instructors is outstanding. They're always available to help and guide you through complex concepts.",
-  },
+  }
 ];
 
 const useSlider = (slideInterval = 3000) => {
@@ -136,37 +122,37 @@ const Home = () => {
       <div className="course-section">
         <img src={courseImage} alt="Course" className="course-title" />
         <div className="course-list">
-          {courseData.map((course, index) => (
-            <div
-              key={course.id}
-              className={`course-item ${index % 2 === 0 ? "left" : "right"}`}
-            >
-              <div className="course-image">
-                <img src={course.image} alt={course.title} />
+          {courseData
+            .filter(course => course.title.toLowerCase() === 'data analysis')
+            .map((course, index) => (
+              <div
+                key={course.id}
+                className={`course-item ${index % 2 === 0 ? "left" : "right"}`}
+              >
+                <div className="course-image">
+                  <img src={course.image} alt={course.title} />
+                </div>
+                <div className="course-content">
+                  <h1>{course.title}</h1>
+                  <p className="level">{course.level}</p>
+                  <p
+                    className="description"
+                    dangerouslySetInnerHTML={{
+                      __html: course.description.replace(
+                        /\*\*(.*?)\*\*/g,
+                        "<strong>$1</strong>"
+                      ),
+                    }}
+                  />
+                  <button
+                    className="learn-more-btn"
+                    onClick={() => navigate('/course/DataAnalysis')}
+                  >
+                    Learn More
+                  </button>
+                </div>
               </div>
-              <div className="course-content">
-                <h1>{course.title}</h1>
-                <p className="level">{course.level}</p>
-                <p
-                  className="description"
-                  dangerouslySetInnerHTML={{
-                    __html: course.description.replace(
-                      /\*\*(.*?)\*\*/g,
-                      "<strong>$1</strong>"
-                    ),
-                  }}
-                />
-                <button
-                  className="learn-more-btn"
-                  onClick={() =>
-                    navigate(`/course/${course.title.toLowerCase()}`)
-                  }
-                >
-                  Learn More
-                </button>
-              </div>
-            </div>
-          ))}
+            ))}
         </div>
       </div>
       <div className="tryout-section">
