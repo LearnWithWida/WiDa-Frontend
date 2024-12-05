@@ -21,6 +21,14 @@ const CourseDetails = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    // Verify Paystack configuration
+    const paystackKey = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY;
+    if (!paystackKey) {
+      console.error('Paystack public key is not configured');
+    }
+  }, []);
+
   if (!course) {
     return (
       <div className="course-not-found">
@@ -31,15 +39,30 @@ const CourseDetails = () => {
   }
 
   const getPaystackProps = (amount, packageType) => {
+    if (!user) {
+      console.error('User not authenticated');
+      return;
+    }
+
     const config = {
       reference: new Date().getTime().toString(),
-      email: user?.email || "guest@example.com",
+      email: user.email,
       amount: Number(amount) * 100, // Convert to kobo
-      publicKey: "your_paystack_public_key_here",
+      publicKey: import.meta.env.VITE_PAYSTACK_PUBLIC_KEY,
       text: "Purchase Course",
       onSuccess: (reference) => handlePaymentSuccess(reference, packageType),
-      onClose: () => console.log("Payment window closed")
+      onClose: () => console.log("Payment window closed"),
+      currency: "NGN"
     };
+
+    // Debug log
+    console.log('Paystack Config:', {
+      ...config,
+      amount: config.amount,
+      email: config.email,
+      publicKey: config.publicKey ? 'Valid Key Present' : 'Missing Key'
+    });
+
     return config;
   };
 
