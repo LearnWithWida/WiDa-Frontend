@@ -1,429 +1,416 @@
-import React, { useState, useRef, useEffect, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
-import { useAuth } from '../context/AuthContext';
-import { saveVideoProgress, getVideoProgress } from '../firebase/videoProgress';
-import './CourseContent.css';
-import { FaPlay, FaPause, FaRedo, FaLock, FaExpand, FaCompress } from 'react-icons/fa';
-import CourseThumbnail from '../assets/thumbnail.png'; 
+import React, { useState, useRef, useEffect } from "react";
+import "./CourseContent.css";
+import CourseThumbnail from "../assets/Thumbnail.png";
+import { FaPlay, FaPause, FaExpand, FaCompress, FaLock, FaRedo, FaArrowRight, FaArrowLeft, FaVideo } from "react-icons/fa";
 import testingVideo from "../assets/videos/testing.mp4";
+import QuizModal from "../components/QuizModal";
+import Certificate from "../components/Certificate";
 
-const courseVideos = Array(10).fill(testingVideo);
-
-const courseQuizzes = { 
-  0: {
-    questions: [
+// Define course sets and quizzes
+const courseSets = {
+  1: {
+    title: "Introduction to Data Analysis",
+    description: "Fundamentals and basic concepts of data analysis",
+    videos: 2,
+    quizzes: [
       {
-        questionText: 'What is Data Analysis?',
-        options: [
-          'Creating spreadsheets',
-          'Examining data to find insights',
-          'Writing code',
-          'Making presentations'
-        ],
-        correctAnswer: 1
+        questions: [
+          { question: "What is data analysis?", options: ["Process of examining data", "Writing code", "Creating websites", "None of these"], answer: "Process of examining data" },
+          { question: "Why is data analysis important?", options: ["Decision making", "Entertainment", "Exercise", "Gaming"], answer: "Decision making" },
+          { question: "What is a data set?", options: ["Collection of data", "Computer program", "Website", "Video game"], answer: "Collection of data" },
+          { question: "What is data cleaning?", options: ["Removing errors", "Washing data", "Deleting everything", "None of these"], answer: "Removing errors" }
+        ]
       },
       {
-        questionText: 'Which of the following is a key step in data analysis?',
-        options: [
-          'Designing logos',
-          'Data cleaning and preparation',
-          'Website development',
-          'Social media marketing'
-        ],
-        correctAnswer: 1
+        questions: [
+          { question: "What is a histogram?", options: ["Data visualization", "Story", "Picture", "Video"], answer: "Data visualization" },
+          { question: "What is a scatter plot?", options: ["2D visualization", "Movie plot", "Story plot", "None of these"], answer: "2D visualization" },
+          { question: "What is a bar chart?", options: ["Data representation", "Restaurant", "Drink", "None of these"], answer: "Data representation" },
+          { question: "What is a pie chart?", options: ["Circular graph", "Dessert", "Recipe", "None of these"], answer: "Circular graph" }
+        ]
+      }
+    ]
+  },
+  2: {
+    title: "Data Cleaning and Preparation",
+    description: "Learn how to clean and prepare data for analysis",
+    videos: 2,
+    quizzes: [
+      {
+        questions: [
+          { question: "What is data cleaning?", options: ["Fixing errors", "Washing data", "Deleting files", "None of these"], answer: "Fixing errors" },
+          { question: "Why is data cleaning important?", options: ["Accuracy", "Fun", "Entertainment", "None of these"], answer: "Accuracy" },
+          { question: "What is data transformation?", options: ["Converting data", "Robot transformation", "Magic trick", "None of these"], answer: "Converting data" },
+          { question: "What is data normalization?", options: ["Standardizing data", "Making normal", "Being average", "None of these"], answer: "Standardizing data" }
+        ]
       },
       {
-        questionText: 'What is the purpose of data visualization?',
-        options: [
-          'To make data look pretty',
-          'To confuse readers',
-          'To communicate insights effectively',
-          'To store data securely'
-        ],
-        correctAnswer: 2
+        questions: [
+          { question: "What is data integration?", options: ["Combining data", "Social integration", "Cultural mix", "None of these"], answer: "Combining data" },
+          { question: "What is data reduction?", options: ["Reducing size", "Price reduction", "Sales", "None of these"], answer: "Reducing size" },
+          { question: "What is data discretization?", options: ["Converting continuous", "Being discrete", "Secrets", "None of these"], answer: "Converting continuous" },
+          { question: "What is data aggregation?", options: ["Summarizing data", "Angry data", "Data fights", "None of these"], answer: "Summarizing data" }
+        ]
+      }
+    ]
+  },
+  3: {
+    title: "Statistical Analysis",
+    description: "Understanding statistical methods in data analysis",
+    videos: 2,
+    quizzes: [
+      {
+        questions: [
+          { question: "What is a mean?", options: ["Average value", "Highest value", "Lowest value", "None of these"], answer: "Average value" },
+          { question: "What is a median?", options: ["Middle value", "First value", "Last value", "None of these"], answer: "Middle value" },
+          { question: "What is a mode?", options: ["Most frequent value", "Least frequent", "Random value", "None of these"], answer: "Most frequent value" },
+          { question: "What is a standard deviation?", options: ["Measure of spread", "Measure of center", "Measure of height", "None of these"], answer: "Measure of spread" }
+        ]
       },
       {
-        questionText: 'Which tool is commonly used for basic data analysis?',
-        options: [
-          'Microsoft Paint',
-          'Notepad',
-          'Microsoft Excel',
-          'Windows Media Player'
-        ],
-        correctAnswer: 2
+        questions: [
+          { question: "What is a variance?", options: ["Measure of variability", "Measure of similarity", "Measure of difference", "None of these"], answer: "Measure of variability" },
+          { question: "What is a correlation?", options: ["Relationship between variables", "Relationship between people", "Relationship between countries", "None of these"], answer: "Relationship between variables" },
+          { question: "What is a regression?", options: ["Predictive modeling", "Going backwards", "Progression", "None of these"], answer: "Predictive modeling" },
+          { question: "What is hypothesis testing?", options: ["Testing assumptions", "Testing products", "Testing people", "None of these"], answer: "Testing assumptions" }
+        ]
+      }
+    ]
+  },
+  4: {
+    title: "Advanced Data Visualization",
+    description: "Creating compelling data visualizations",
+    videos: 2,
+    quizzes: [
+      {
+        questions: [
+          { question: "What is a line chart?", options: ["Graph of data", "Line of text", "Line of code", "None of these"], answer: "Graph of data" },
+          { question: "What is a bar chart?", options: ["Graph with bars", "Bar of chocolate", "Bar of soap", "None of these"], answer: "Graph with bars" },
+          { question: "What is a pie chart?", options: ["Circular graph", "Pie recipe", "Pie dish", "None of these"], answer: "Circular graph" },
+          { question: "What is a scatter plot?", options: ["Graph of points", "Scatter of papers", "Scatter of seeds", "None of these"], answer: "Graph of points" }
+        ]
+      },
+      {
+        questions: [
+          { question: "What is a heatmap?", options: ["Color-coded data", "Map of heat", "Map of temperature", "None of these"], answer: "Color-coded data" },
+          { question: "What is a bubble chart?", options: ["Graph with bubbles", "Bubble bath", "Bubble gum", "None of these"], answer: "Graph with bubbles" },
+          { question: "What is a radar chart?", options: ["Graph with axes", "Radar detection", "Radar signal", "None of these"], answer: "Graph with axes" },
+          { question: "What is a waterfall chart?", options: ["Graph of changes", "Waterfall scene", "Waterfall sound", "None of these"], answer: "Graph of changes" }
+        ]
       }
     ]
   }
 };
 
-const Quiz = ({ questions, onComplete }) => {
-  const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [score, setScore] = useState(0);
-
-  const handleAnswer = (selectedAnswer) => {
-    const isCorrect = selectedAnswer === questions[currentQuestion].correctAnswer;
-    if (isCorrect) {
-      setScore(score + 1);
-    }
-
-    const nextQuestion = currentQuestion + 1;
-    if (nextQuestion < questions.length) {
-      setCurrentQuestion(nextQuestion);
-    } else {
-      // Quiz completed
-      const passed = (score + (isCorrect ? 1 : 0)) / questions.length >= 0.7; // 70% passing score
-      alert(`Your score: ${score + (isCorrect ? 1 : 0)} out of ${questions.length}`);
-      onComplete(passed);
-    }
-  };
-
-  return (
-    <div className="quiz-content">
-      <h2>Question {currentQuestion + 1} of {questions.length}</h2>
-      <p className="question-text">{questions[currentQuestion].questionText}</p>
-      <div className="options-container">
-        {questions[currentQuestion].options.map((option, index) => (
-          <button
-            key={index}
-            className="option-button"
-            onClick={() => handleAnswer(index)}
-          >
-            {option}
-          </button>
-        ))}
-      </div>
-    </div>
-  );
-};
-
 const CourseContent = () => {
-  const { user } = useAuth();
-  const navigate = useNavigate();
-  const [isAuthorized, setIsAuthorized] = useState(false);
-  const [videoStates, setVideoStates] = useState(
-    Array(10).fill({
-      isPlaying: false,
-      isPaused: false,
-      progress: 0,
-      videoEnded: false,
-      quizCompleted: false,
-      quizPassed: false
-    })
-  );
+  const [currentPlayingIndex, setCurrentPlayingIndex] = useState(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [transitioning, setTransitioning] = useState(false);
+  const videoRef = useRef(null);
+  const progressBarRef = useRef(null);
+  const videoContainerRef = useRef(null);
+  const [completedVideos, setCompletedVideos] = useState([]);
+  const [videoEnded, setVideoEnded] = useState(false);
+  const [currentSet, setCurrentSet] = useState(1);
   const [showQuiz, setShowQuiz] = useState(false);
-  const [currentQuizIndex, setCurrentQuizIndex] = useState(0);
+  const [showCertificate, setShowCertificate] = useState(false);
+  const [courseCompleted, setCourseCompleted] = useState(false);
 
-  const videoRefs = useRef(Array(10).fill(null));
-  const progressBarRefs = useRef(Array(10).fill(null));
-  const videoContainerRefs = useRef(Array(10).fill(null));
-
-  useEffect(() => {
-    const checkAccess = () => {
-      if (!user) {
-        navigate('/login');
-        return;
-      }
-
-      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-      const userPurchases = purchasedCourses[user.uid] || {};
-      
-      if (!userPurchases['data analysis']) {
-        navigate('/course/DataAnalysis');
-        return;
-      }
-
-      setIsAuthorized(true);
-    };
-
-    checkAccess();
-  }, [user, navigate]);
-
-  useEffect(() => {
-    const loadUserProgress = async () => {
-      if (user) {
-        const progressData = await getVideoProgress(user.uid);
-        if (progressData) {
-          setVideoStates(prevStates => 
-            prevStates.map((state, index) => ({
-              ...state,
-              ...progressData[index] // Merge saved progress with current state
-            }))
-          );
-        }
-      }
-    };
-
-    loadUserProgress();
-  }, [user]);
-
-  const handleTimeUpdate = useCallback((index) => {
-    const videoRef = videoRefs.current[index];
-    if (videoRef) {
-      const progress = (videoRef.currentTime / videoRef.duration) * 100;
-      setVideoStates(prev => prev.map((state, i) => 
-        i === index ? { ...state, progress } : state
-      ));
-
-      if (user && progress % 5 < 1) {
-        const progressData = {
-          [index]: {
-            progress,
-            videoEnded: false,
-            lastPosition: videoRef.currentTime
-          }
-        };
-        saveVideoProgress(user.uid, progressData).catch(console.error);
-      }
+  const getGlobalIndex = (setNumber, videoIndex) => {
+    let globalIndex = videoIndex;
+    // Add up all videos from previous sets
+    for (let i = 1; i < setNumber; i++) {
+      globalIndex += courseSets[i].videos;
     }
-  }, [user]);
-
-  const handleQuizComplete = useCallback((passed) => {
-    setVideoStates(prev => prev.map((state, i) => 
-      i === currentQuizIndex ? {
-        ...state,
-        quizCompleted: true,
-        quizPassed: passed
-      } : state
-    ));
-
-    if (user) {
-      const progressData = {
-        [currentQuizIndex]: {
-          quizCompleted: true,
-          quizPassed: passed,
-          progress: 100,
-          videoEnded: true
-        }
-      };
-      saveVideoProgress(user.uid, progressData).catch(console.error);
-    }
-
-    if (!passed) {
-      const videoRef = videoRefs.current[currentQuizIndex];
-      if (videoRef) {
-        videoRef.currentTime = 0;
-      }
-    }
-    setShowQuiz(false);
-  }, [user, currentQuizIndex]);
-
-  const handlePlayClick = useCallback((index) => {
-    if (index > 0 && !videoStates[index - 1].videoEnded) {
-      return; // Don't play if previous video isn't complete
-    }
-
-    setVideoStates(prev => prev.map((state, i) => 
-      i === index ? { ...state, isPlaying: true } : state
-    ));
-
-    const videoRef = videoRefs.current[index];
-    if (videoRef) {
-      videoRef.play().catch(console.error);
-    }
-  }, [videoStates]);
-
-  const handleVideoEnd = (index) => {
-    setVideoStates(prev => prev.map((state, i) => 
-      i === index ? { ...state, videoEnded: true } : state
-    ));
-
-    // Automatically show the quiz after the video ends
-    setCurrentQuizIndex(index); // Set the current quiz index to the video index
-    setShowQuiz(true); // Show the quiz
+    return globalIndex;
   };
 
-  const handleVideoClick = (index) => {
-    setVideoStates(prev => prev.map((state, i) => 
-      i === index ? { ...state, isPaused: !state.isPaused } : state
-    ));
-
-    const videoRef = videoRefs.current[index];
-    if (videoRef) {
-      if (videoStates[index].isPaused) {
-        videoRef.play().catch(console.error);
-      } else {
-        videoRef.pause();
+  const getSetVideoIndex = (globalIndex) => {
+    let currentSetStart = 0;
+    for (let i = 1; i <= currentSet; i++) {
+      if (i === currentSet) {
+        return globalIndex - currentSetStart;
       }
+      currentSetStart += courseSets[i].videos;
     }
+    return 0;
   };
 
-  const handleFullScreen = () => {
-    setIsFullscreen(!isFullscreen);
-  };
-
-  const handleProgressBarClick = useCallback((e, index) => {
-    const progressBar = progressBarRefs.current[index];
-    const video = videoRefs.current[index];
+  const checkCourseCompletion = () => {
+    // Calculate the index of the last video in Set 4
+    const totalVideosInPreviousSets = Object.values(courseSets)
+      .slice(0, 3) // Get sets 1-3
+      .reduce((sum, set) => sum + set.videos, 0);
     
-    if (progressBar && video) {
-      // Get the clicked position relative to the progress bar
-      const rect = progressBar.getBoundingClientRect();
-      const clickPosition = e.clientX - rect.left;
-      const progressBarWidth = rect.width;
-      
-      // Calculate the new time based on click position
-      const clickedTime = (clickPosition / progressBarWidth) * video.duration;
-      
-      // Update video time
-      video.currentTime = clickedTime;
-      
-      // Update progress state
-      const progress = (clickedTime / video.duration) * 100;
-      setVideoStates(prev => prev.map((state, i) => 
-        i === index ? { ...state, progress } : state
-      ));
-    }
-  }, []);
+    const lastVideoIndex = totalVideosInPreviousSets + courseSets[4].videos - 1;
+    
+    // Check if the last video is completed
+    const isComplete = completedVideos.includes(lastVideoIndex);
+    
+    console.log('Last video index:', lastVideoIndex);
+    console.log('Completed videos:', completedVideos);
+    console.log('Is complete:', isComplete);
+    
+    setCourseCompleted(isComplete);
+  };
 
-  if (!isAuthorized) {
-    return (
-      <div className="loading-container">
-        <p>Loading course content...</p>
-      </div>
-    );
-  }
+  useEffect(() => {
+    checkCourseCompletion();
+  }, [completedVideos]);
+
+  const handlePlayClick = (index) => {
+    if (currentPlayingIndex !== null && currentPlayingIndex !== index) {
+      const prevVideo = document.querySelector(`video[data-index="${currentPlayingIndex}"]`);
+      if (prevVideo) {
+        prevVideo.pause();
+        prevVideo.currentTime = 0;
+      }
+    }
+    
+    setCurrentPlayingIndex(index);
+    setIsPlaying(true);
+    setVideoEnded(false);
+    setIsPaused(false);
+  };
+
+  const handleVideoClick = () => {
+    if (videoEnded) {
+      videoRef.current.currentTime = 0;
+      videoRef.current.play();
+      setVideoEnded(false);
+      setIsPaused(false);
+    } else if (videoRef.current.paused) {
+      videoRef.current.play();
+      setIsPaused(false);
+    } else {
+      videoRef.current.pause();
+      setIsPaused(true);
+    }
+  };
+
+  const handleFullScreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        if (videoContainerRef.current.requestFullscreen) {
+          await videoContainerRef.current.requestFullscreen();
+        } else if (videoContainerRef.current.webkitRequestFullscreen) {
+          await videoContainerRef.current.webkitRequestFullscreen();
+        }
+        setIsFullscreen(true);
+      } else {
+        if (document.exitFullscreen) {
+          await document.exitFullscreen();
+        } else if (document.webkitExitFullscreen) {
+          await document.webkitExitFullscreen();
+        }
+        setIsFullscreen(false);
+      }
+    } catch (error) {
+      console.error("Error toggling fullscreen:", error);
+    }
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const progress = (videoRef.current.currentTime / videoRef.current.duration) * 100;
+      setProgress(progress);
+    }
+  };
+
+  const handleProgressBarClick = (e) => {
+    const progressBar = progressBarRef.current;
+    const rect = progressBar.getBoundingClientRect();
+    const pos = (e.clientX - rect.left) / progressBar.offsetWidth;
+    videoRef.current.currentTime = pos * videoRef.current.duration;
+  };
+
+  const handleVideoEnd = (videoIndex) => {
+    console.log('Video Ended:', videoIndex);
+    setCompletedVideos(prev => {
+      const newCompleted = Array.from(new Set([...prev, videoIndex]));
+      console.log('New Completed Videos:', newCompleted);
+      return newCompleted;
+    });
+    
+    setCurrentPlayingIndex(videoIndex);
+    setShowQuiz(true);
+  };
+
+  const isSetCompleted = () => {
+    const videosInCurrentSet = courseSets[currentSet].videos;
+    const currentSetStartIndex = getGlobalIndex(currentSet, 0);
+    
+    // Check if all videos in the current set are completed
+    for (let i = 0; i < videosInCurrentSet; i++) {
+      const videoIndex = currentSetStartIndex + i;
+      if (!completedVideos.includes(videoIndex)) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  const handleNextSet = () => {
+    if (isSetCompleted() && currentSet < Object.keys(courseSets).length) {
+      setCurrentSet(prev => prev + 1);
+      setCurrentPlayingIndex(null);
+    }
+  };
+
+  const handlePreviousSet = () => {
+    if (currentSet > 1) {
+      setCurrentSet(prev => prev - 1);
+      setCurrentPlayingIndex(null);
+    }
+  };
 
   return (
-    <div className="course-content">
-      {Array.from({ length: 10 }).map((_, index) => {
-        const isLocked = index > 0 && !videoStates[index - 1].videoEnded;
-        const currentState = videoStates[index];
-        const isCompleted = currentState.quizCompleted && currentState.quizPassed;
+    <div className={`course-content-container ${transitioning ? 'transitioning' : ''}`}>
+      <div className="course-set-header">
+        <h1>{courseSets[currentSet].title}</h1>
+        <p>{courseSets[currentSet].description}</p>
+        <div className="course-set-navigation">
+          <span>Set {currentSet} of {Object.keys(courseSets).length}</span>
+        </div>
+      </div>
 
-        return (
-          <div key={index} className="video-section">
-            <div className="thumbnail-container">
-              {isLocked ? (
-                <div className="video-locked">
-                  <img 
-                    src={CourseThumbnail} 
-                    alt="Course Thumbnail" 
-                    className="locked"
-                  />
-                  <div className="lock-icon">
-                    <FaLock />
-                  </div>
-                </div>
-              ) : !currentState.isPlaying ? (
-                <>
-                  <img src={CourseThumbnail} alt="Course Thumbnail" />
-                  {isCompleted ? (
-                    <div 
-                      className="play-icon completed" 
-                      onClick={() => handlePlayClick(index)}
-                    >
-                      <FaRedo />
+      <div className="course-content">
+        <div className="videos-grid">
+          {Array.from({ length: courseSets[currentSet].videos }).map((_, index) => {
+            const globalIndex = (currentSet - 1) * courseSets[currentSet].videos + index;
+            const isLocked = index > 0 && !completedVideos.includes(globalIndex - 1);
+
+            return (
+              <div key={globalIndex} className="video-item">
+                <div className="thumbnail-container">
+                  {isLocked ? (
+                    <div className="video-locked">
+                      <img src={CourseThumbnail} alt="Course Thumbnail" className="locked" />
+                      <div className="lock-icon">
+                        <FaLock />
+                      </div>
                     </div>
+                  ) : !isPlaying || currentPlayingIndex !== globalIndex ? (
+                    <>
+                      <img src={CourseThumbnail} alt="Course Thumbnail" />
+                      <div className="play-icon" onClick={() => handlePlayClick(globalIndex)}>
+                        <FaPlay />
+                      </div>
+                    </>
                   ) : (
-                    <div 
-                      className="play-icon" 
-                      onClick={() => handlePlayClick(index)}
-                    >
-                      {currentState.videoEnded ? <FaRedo /> : <FaPlay />}
+                    <div className="custom-video-player" ref={videoContainerRef}>
+                      <video
+                        ref={videoRef}
+                        data-index={globalIndex}
+                        className="video-player"
+                        onEnded={() => handleVideoEnd(globalIndex)}
+                        onClick={handleVideoClick}
+                        onTimeUpdate={handleTimeUpdate}
+                      >
+                        <source src={testingVideo} type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                      
+                      <div className="video-controls">
+                        <div 
+                          className="progress-bar"
+                          ref={progressBarRef}
+                          onClick={handleProgressBarClick}
+                        >
+                          <div 
+                            className="progress-filled"
+                            style={{ width: `${progress}%` }}
+                          ></div>
+                        </div>
+                        
+                        <div className="controls-buttons">
+                          <div className="left-controls">
+                            <button 
+                              className="control-button" 
+                              onClick={handleVideoClick}
+                            >
+                              {videoEnded ? <FaRedo /> : (isPaused ? <FaPlay /> : <FaPause />)}
+                            </button>
+                          </div>
+                          <div className="right-controls">
+                            <button 
+                              className="control-button"
+                              onClick={handleFullScreen}
+                            >
+                              {isFullscreen ? <FaCompress /> : <FaExpand />}
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   )}
-                </>
-              ) : (
-                <div 
-                  className="custom-video-player" 
-                  ref={el => videoContainerRefs.current[index] = el}
-                >
-                  <video
-                    ref={el => videoRefs.current[index] = el}
-                    autoPlay
-                    className="video-player"
-                    onEnded={() => handleVideoEnd(index)}
-                    onClick={() => handleVideoClick(index)}
-                    onTimeUpdate={() => handleTimeUpdate(index)}
-                  >
-                    <source src={courseVideos[index]} type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                  <div className="video-controls">
-                    <div
-                      className="progress-bar"
-                      ref={el => progressBarRefs.current[index] = el}
-                      onClick={(e) => handleProgressBarClick(e, index)}
-                    >
-                      <div
-                        className="progress-filled"
-                        style={{ width: `${currentState.progress}%` }}
-                      ></div>
-                    </div>
-                    <div className="controls-buttons">
-                      <button 
-                        className="control-button" 
-                        onClick={() => handleVideoClick(index)}
-                      >
-                        {currentState.videoEnded ? (
-                          <FaRedo />
-                        ) : (
-                          currentState.isPaused ? <FaPlay /> : <FaPause />
-                        )}
-                      </button>
-                      <button
-                        className="control-button"
-                        onClick={() => handleFullScreen()}
-                      >
-                        {isFullscreen ? <FaCompress /> : <FaExpand />}
-                      </button>
-                    </div>
-                  </div>
                 </div>
-              )}
-            </div>
-            <div className="video-details">
-              <h1>Introduction to Data Analysis</h1>
-              <p>
-                Data analysis is the process of examining, cleaning, transforming, 
-                and modeling data to discover useful information, draw conclusions, 
-                and support decision-making. Through statistical methods and 
-                analytical tools, data analysis helps organizations understand
-              </p>
-              {isLocked ? (
-                <button className="watch-button locked" disabled>
-                  Complete Previous Video First
-                </button>
-              ) : isCompleted ? (
-                <button 
-                  className="watch-button completed"
-                  onClick={() => handlePlayClick(index)}
-                >
-                  <FaRedo /> Watch Again
-                </button>
-              ) : currentState.videoEnded ? (
-                <button 
-                  className="quiz-button" 
-                  onClick={() => setShowQuiz(true)}
-                >
-                  Take Quiz
-                </button>
-              ) : (
-                <button 
-                  className="watch-button"
-                  onClick={() => handlePlayClick(index)}
-                >
-                  Watch Video
-                </button>
-              )}
-            </div>
-          </div>
-        );
-      })}
-      {showQuiz && (
-        <div className="quiz-overlay">
-          <div className="quiz-container">
-            {courseQuizzes[currentQuizIndex] ? (
-              <Quiz
-                questions={courseQuizzes[currentQuizIndex].questions}
-                onComplete={handleQuizComplete}
-              />
-            ) : (
-              <div>No quiz available for this section.</div>
-            )}
-          </div>
+                <div className="video-details">
+                  <h1>Video {index + 1}</h1>
+                  <p>This is a description for video {index + 1} in the {courseSets[currentSet].title} set.</p>
+                  {isLocked ? (
+                    <button className="watch-button locked" disabled>
+                      Complete Previous Video First
+                    </button>
+                  ) : (
+                    <button className="watch-button" onClick={() => handlePlayClick(globalIndex)}>
+                      <FaVideo /> Watch Video
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
+      </div>
+
+      {showQuiz && currentPlayingIndex !== null && (
+        <QuizModal
+          questions={courseSets[currentSet].quizzes[getSetVideoIndex(currentPlayingIndex)].questions}
+          onSubmit={() => {
+            setCompletedVideos(prev => [...prev, currentPlayingIndex]);
+            setShowQuiz(false);
+          }}
+          onClose={() => setShowQuiz(false)}
+        />
+      )}
+
+      <div className="course-set-navigation-buttons">
+        {currentSet > 1 && (
+          <button 
+            className="nav-button previous" 
+            onClick={handlePreviousSet}
+          >
+            <FaArrowLeft /> Previous Set
+          </button>
+        )}
+        
+        {isSetCompleted() && currentSet < Object.keys(courseSets).length && (
+          <button 
+            className="nav-button next" 
+            onClick={handleNextSet}
+          >
+            Next Set <FaArrowRight />
+          </button>
+        )}
+      </div>
+
+      {courseCompleted && (
+        <div className="certificate-button-container">
+          <button 
+            className="view-certificate-btn"
+            onClick={() => setShowCertificate(true)}
+          >
+            View Certificate
+          </button>
+        </div>
+      )}
+
+      {showCertificate && (
+        <Certificate onClose={() => setShowCertificate(false)} />
       )}
     </div>
   );

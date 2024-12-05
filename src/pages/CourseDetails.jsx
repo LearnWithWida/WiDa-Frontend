@@ -1,91 +1,25 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { courseData } from "../Data"; 
+import { courseData, pricing } from "../Data";
 import "./CourseDetails.css";
 import { PaystackButton } from "react-paystack";
 import { useAuth } from '../context/AuthContext';
 
 const CourseDetails = () => {
-  const { user } = useAuth();
   const navigate = useNavigate();
   const [isPurchased, setIsPurchased] = useState(false);
-  const userEmail = "learnwithwida@gmail.com";
+  const { user } = useAuth();
 
-  // Since we only have Data Analysis course, we can directly use it
-  const courseName = "data analysis";
-  
-  // Convert price string to number (remove ₦ and commas)
-  const formatPrice = (priceString) => {
-    if (!priceString) return 0;
-    return Number(priceString.replace('₦', '').replace(/,/g, ''));
-  };
-
-  // Create separate component props for each package
-  const getPaystackProps = (price, packageType) => ({
-    email: userEmail,
-    amount: formatPrice(price) * 100, 
-    publicKey: 'pk_test_1f7f9f0abf9a2c1ac3146188bfff27ed81b78ed7',
-    text: "Purchase Now",
-    metadata: {
-      courseTitle: courseName,
-      packageType: packageType
-    },
-    onSuccess: (reference) => {
-      setIsPurchased(true);
-      // Store purchase in localStorage with user ID
-      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-      
-      // Initialize or update user's purchases
-      if (!purchasedCourses[user.uid]) {
-        purchasedCourses[user.uid] = {};
-      }
-      
-      purchasedCourses[user.uid]['data analysis'] = {
-        ...reference,
-        packageType,
-        amount: formatPrice(price),
-        purchaseDate: new Date().toISOString()
-      };
-      
-      localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
-    },
-    onClose: () => {
-      alert("Payment cancelled or failed. Please try again.");
-    }
-  });
+  // Find the Data Analysis course directly
+  const course = courseData.find(c => c.title.toLowerCase() === 'data analysis');
 
   useEffect(() => {
     if (user) {
       const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-      const userPurchases = purchasedCourses[user.uid] || {};
+      const userPurchases = purchasedCourses[user?.uid] || {};
       setIsPurchased(!!userPurchases['data analysis']);
     }
   }, [user]);
-
-  const course = courseData.find(
-    (c) => c.title.toLowerCase() === courseName
-  );
-
-  const pricing = {
-    virtual: { original: null, current: '₦50000' },
-    physical: { original: null, current: '₦80000' }
-  };
-
-  const handleGoToCourse = (e) => {
-    e.preventDefault();
-    if (user && isPurchased) {
-      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-      const userPurchases = purchasedCourses[user.uid] || {};
-      
-      if (userPurchases['data analysis']) {
-        console.log('Navigating to course content...');
-        navigate('/course/DataAnalysis/videoCourse');
-      } else {
-        console.log('Purchase verification failed');
-        setIsPurchased(false);
-      }
-    }
-  };
 
   if (!course) {
     return (
@@ -95,6 +29,42 @@ const CourseDetails = () => {
       </div>
     );
   }
+
+  const getPaystackProps = (amount, packageType) => {
+    const config = {
+      reference: new Date().getTime().toString(),
+      email: user?.email || "guest@example.com",
+      amount: Number(amount) * 100, // Convert to kobo
+      publicKey: "your_paystack_public_key_here",
+      text: "Purchase Course",
+      onSuccess: (reference) => handlePaymentSuccess(reference, packageType),
+      onClose: () => console.log("Payment window closed")
+    };
+    return config;
+  };
+
+  const handlePaymentSuccess = (reference, packageType) => {
+    if (user) {
+      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+      if (!purchasedCourses[user.uid]) {
+        purchasedCourses[user.uid] = {};
+      }
+      purchasedCourses[user.uid]['data analysis'] = {
+        purchaseDate: new Date().toISOString(),
+        packageType: packageType,
+        reference: reference
+      };
+      localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
+      setIsPurchased(true);
+    }
+  };
+
+  const handleGoToCourse = (e) => {
+    e.preventDefault();
+    if (user && isPurchased) {
+      navigate('/course/data-analysis/content', { replace: true });
+    }
+  };
 
   return (
     <div className="course-details">
@@ -131,11 +101,11 @@ const CourseDetails = () => {
               <div className="price-group">
                 {pricing.virtual.original && (
                   <span className="original-price">
-                    {pricing.virtual.original}
+                    ₦{pricing.virtual.original}
                   </span>
                 )}
                 <span className="current-price">
-                  {pricing.virtual.current}
+                  ₦{pricing.virtual.current}
                 </span>
               </div>
               <ul className="features-list">
@@ -144,19 +114,10 @@ const CourseDetails = () => {
                 <li>✓ Virtual mentorship support</li>
                 <li>✓ Access to online community</li>
               </ul>
-              {!user ? (
-                <button 
-                  className="purchase-button"
-                  onClick={() => navigate('/login')}
-                >
-                  Login to Purchase
-                </button>
-              ) : (
-                <PaystackButton 
-                  {...getPaystackProps(pricing.virtual.current, 'virtual')}
-                  className="purchase-button"
-                />
-              )}
+              <PaystackButton 
+                {...getPaystackProps(pricing.virtual.current, 'virtual')}
+                className="purchase-button"
+              />
             </div>
 
             <div className="purchase-card">
@@ -167,11 +128,11 @@ const CourseDetails = () => {
               <div className="price-group">
                 {pricing.physical.original && (
                   <span className="original-price">
-                    {pricing.physical.original}
+                    ₦{pricing.physical.original}
                   </span>
                 )}
                 <span className="current-price">
-                  {pricing.physical.current}
+                  ₦{pricing.physical.current}
                 </span>
               </div>
               <ul className="features-list">
@@ -192,19 +153,8 @@ const CourseDetails = () => {
           <h1>Ready to Start Learning?</h1>
           <p>Your course is ready. Click below to start your learning journey!</p>
           <button 
-            onClick={handleGoToCourse}
             className="access-course-button"
-            style={{ 
-              cursor: 'pointer',
-              backgroundColor: '#ff7600',
-              color: 'white',
-              padding: '12px 24px',
-              border: 'none',
-              borderRadius: '4px',
-              fontSize: '16px',
-              display: 'inline-block',
-              margin: '20px 0'
-            }}
+            onClick={handleGoToCourse}
           >
             Go to Course
           </button>

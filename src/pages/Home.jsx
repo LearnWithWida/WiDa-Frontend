@@ -146,7 +146,7 @@ const Home = () => {
                   />
                   <button
                     className="learn-more-btn"
-                    onClick={() => navigate('/course/DataAnalysis')}
+                    onClick={() => navigate('/course/data-analysis')}
                   >
                     Learn More
                   </button>
@@ -155,6 +155,7 @@ const Home = () => {
             ))}
         </div>
       </div>
+
       <div className="tryout-section">
         <div className="tryout-container">
           <div className="tryout-image-wrapper">

@@ -42,20 +42,14 @@ export const App = () => {
           <main className="main-content">
             <Routes>
               <Route exact path="/" element={<Home />} />
-              <Route exact path="/course/DataAnalysis" element={<CourseDetails />} />
-              <Route 
-                path="/course/DataAnalysis/videoCourse" 
-                element={
-                  <ProtectedRoute>
-                    <CourseContent />
-                  </ProtectedRoute>
-                } 
-              />
+              <Route exact path="/course/data-analysis" element={<CourseDetails />} />
+              <Route path="/course/data-analysis/content" element={<CourseContent />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
               <Route path="/instructors" element={<Instructor />} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
               <Route path="/about" element={<About />} />
+              <Route path="/course/:courseName" element={<CourseDetails />} />
             </Routes>
           </main>
           <Footer />

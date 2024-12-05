@@ -106,6 +106,25 @@ export const courseData = [
               correctAnswer: 0
             }
           ]
+        },
+        {
+          moduleId: 2,
+          moduleTitle: "Introduction to R",
+          videoUrl: testingVideo,
+          thumbnail: courseImg2,
+          description: "Get started with R programming for data analysis. Master basic statistical concepts and data manipulation techniques.",
+          quiz: [
+            {
+              question: "What is R primarily used for?",
+              options: [
+                "Web design",
+                "Statistical computing",
+                "Game development",
+                "Mobile app development"
+              ],
+              correctAnswer: 1
+            }
+          ]
         }
       ]
     },
@@ -123,6 +142,46 @@ export const courseData = [
         "Data Analysis with Microsoft Excel",
         "Introduction to PowerBI",
         "Basic Statistics and Forecasting"
+      ],
+      videoContent: [
+        {
+          moduleId: 1,
+          moduleTitle: "Data Analysis with Microsoft Excel",
+          videoUrl: testingVideo,
+          thumbnail: courseImg3,
+          description: "Learn how to analyze data using Excel. Master essential techniques for data manipulation, visualization, and basic statistical analysis.",
+          quiz: [
+            {
+              question: "What is the purpose of data analysis?",
+              options: [
+                "To create spreadsheets",
+                "To find insights from data",
+                "To write code",
+                "To make presentations"
+              ],
+              correctAnswer: 1
+            }
+          ]
+        },
+        {
+          moduleId: 2,
+          moduleTitle: "Introduction to PowerBI",
+          videoUrl: testingVideo,
+          thumbnail: courseImg3,
+          description: "Get introduced to PowerBI for data visualization. Learn about data visualization techniques and PowerBI features.",
+          quiz: [
+            {
+              question: "What is PowerBI used for?",
+              options: [
+                "Data visualization",
+                "Web development",
+                "Video editing",
+                "Graphic design"
+              ],
+              correctAnswer: 0
+            }
+          ]
+        }
       ]
     }
 ]
