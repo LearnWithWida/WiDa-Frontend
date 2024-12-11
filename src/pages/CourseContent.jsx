@@ -5,36 +5,135 @@ import { FaPlay, FaPause, FaExpand, FaCompress, FaLock, FaRedo, FaArrowRight, Fa
 import testingVideo from "../assets/videos/testing.mp4";
 import QuizModal from "../components/QuizModal";
 import Certificate from "../components/Certificate";
+import ExamModal from "../components/ExamModal";
+import { useAuth } from '../context/AuthContext';
+import { saveVideoProgress, getVideoProgress } from '../firebase/videoProgress';
 
 // Define course sets and quizzes
 const courseSets = {
   1: {
     title: "Introduction to Data Analysis",
-    description: "Fundamentals and basic concepts of data analysis",
-    videos: 2,
+    description: "Learn the fundamentals of data analysis",
+    videos: 10,
     quizzes: [
       {
         questions: [
-          { question: "What is data analysis?", options: ["Process of examining data", "Writing code", "Creating websites", "None of these"], answer: "Process of examining data" },
-          { question: "Why is data analysis important?", options: ["Decision making", "Entertainment", "Exercise", "Gaming"], answer: "Decision making" },
-          { question: "What is a data set?", options: ["Collection of data", "Computer program", "Website", "Video game"], answer: "Collection of data" },
-          { question: "What is data cleaning?", options: ["Removing errors", "Washing data", "Deleting everything", "None of these"], answer: "Removing errors" }
-        ]
-      },
-      {
-        questions: [
+          { question: "What is data analysis?", options: ["Process of examining data", "Writing code", "Making websites", "None of these"], answer: "Process of examining data" },
+          { question: "What is data visualization?", options: ["Visual representation", "Text document", "Audio file", "None of these"], answer: "Visual representation" },
           { question: "What is a histogram?", options: ["Data visualization", "Story", "Picture", "Video"], answer: "Data visualization" },
-          { question: "What is a scatter plot?", options: ["2D visualization", "Movie plot", "Story plot", "None of these"], answer: "2D visualization" },
-          { question: "What is a bar chart?", options: ["Data representation", "Restaurant", "Drink", "None of these"], answer: "Data representation" },
-          { question: "What is a pie chart?", options: ["Circular graph", "Dessert", "Recipe", "None of these"], answer: "Circular graph" }
+          { question: "What is a scatter plot?", options: ["2D visualization", "Movie plot", "Story plot", "None of these"], answer: "2D visualization" }
         ]
       }
-    ]
+    ],
+    exam: {
+      questions: [
+        {
+          question: "What is the primary goal of data analysis?",
+          options: [
+            "To create colorful charts",
+            "To extract meaningful insights from data to support decision-making",
+            "To store data in databases",
+            "To make presentations look better"
+          ],
+          answer: "To extract meaningful insights from data to support decision-making"
+        },
+        {
+          question: "Which combination of visualization tools is most effective for showing both distribution and correlation?",
+          options: [
+            "Pie chart and line graph",
+            "Histogram and scatter plot",
+            "Bar chart and pie chart",
+            "Line graph and radar chart"
+          ],
+          answer: "Histogram and scatter plot"
+        },
+        {
+          question: "What is the first step in the data analysis process?",
+          options: [
+            "Creating visualizations",
+            "Data collection",
+            "Writing reports",
+            "Presenting findings"
+          ],
+          answer: "Data collection"
+        },
+        {
+          question: "Which statistical measure is most appropriate for understanding the central tendency of skewed data?",
+          options: [
+            "Mean",
+            "Median",
+            "Mode",
+            "Range"
+          ],
+          answer: "Median"
+        },
+        {
+          question: "What is the purpose of exploratory data analysis (EDA)?",
+          options: [
+            "To make final conclusions",
+            "To understand patterns and relationships in data",
+            "To create presentations",
+            "To store data"
+          ],
+          answer: "To understand patterns and relationships in data"
+        },
+        {
+          question: "Which type of data visualization is best for showing trends over time?",
+          options: [
+            "Pie chart",
+            "Bar graph",
+            "Line chart",
+            "Scatter plot"
+          ],
+          answer: "Line chart"
+        },
+        {
+          question: "What is the importance of data cleaning in analysis?",
+          options: [
+            "To make data look better",
+            "To ensure accuracy and reliability of results",
+            "To reduce data size",
+            "To impress stakeholders"
+          ],
+          answer: "To ensure accuracy and reliability of results"
+        },
+        {
+          question: "What is a key characteristic of qualitative data?",
+          options: [
+            "It can be counted",
+            "It describes qualities or characteristics",
+            "It's always numerical",
+            "It's always better than quantitative"
+          ],
+          answer: "It describes qualities or characteristics"
+        },
+        {
+          question: "Which sampling method is most likely to be representative of a population?",
+          options: [
+            "Convenience sampling",
+            "Random sampling",
+            "Voluntary response",
+            "Snowball sampling"
+          ],
+          answer: "Random sampling"
+        },
+        {
+          question: "What is the purpose of data normalization?",
+          options: [
+            "To make all data positive",
+            "To bring different variables to a similar scale",
+            "To remove outliers",
+            "To create graphs"
+          ],
+          answer: "To bring different variables to a similar scale"
+        }
+      ]
+    }
   },
   2: {
     title: "Data Cleaning and Preparation",
     description: "Learn how to clean and prepare data for analysis",
-    videos: 2,
+    videos: 10,
     quizzes: [
       {
         questions: [
@@ -52,12 +151,36 @@ const courseSets = {
           { question: "What is data aggregation?", options: ["Summarizing data", "Angry data", "Data fights", "None of these"], answer: "Summarizing data" }
         ]
       }
-    ]
+    ],
+    exam: {
+      questions: [
+        {
+          question: "What is the most important step in data cleaning?",
+          options: [
+            "Making the data look pretty",
+            "Identifying and handling missing values",
+            "Converting all data to numbers",
+            "Deleting all outliers"
+          ],
+          answer: "Identifying and handling missing values"
+        },
+        {
+          question: "Which technique is best for handling outliers in a dataset?",
+          options: [
+            "Always remove them",
+            "Always keep them",
+            "Analyze their impact and make an informed decision",
+            "Ignore them completely"
+          ],
+          answer: "Analyze their impact and make an informed decision"
+        }
+      ]
+    }
   },
   3: {
     title: "Statistical Analysis",
     description: "Understanding statistical methods in data analysis",
-    videos: 2,
+    videos: 10,
     quizzes: [
       {
         questions: [
@@ -75,12 +198,36 @@ const courseSets = {
           { question: "What is hypothesis testing?", options: ["Testing assumptions", "Testing products", "Testing people", "None of these"], answer: "Testing assumptions" }
         ]
       }
-    ]
+    ],
+    exam: {
+      questions: [
+        {
+          question: "When should you use a t-test versus a z-test?",
+          options: [
+            "T-test for large samples, z-test for small samples",
+            "T-test for small samples, z-test for large samples",
+            "They are exactly the same",
+            "It depends on the data type only"
+          ],
+          answer: "T-test for small samples, z-test for large samples"
+        },
+        {
+          question: "What is the relationship between variance and standard deviation?",
+          options: [
+            "They are the same thing",
+            "Standard deviation is the square root of variance",
+            "Variance is half of standard deviation",
+            "There is no relationship"
+          ],
+          answer: "Standard deviation is the square root of variance"
+        }
+      ]
+    }
   },
   4: {
     title: "Advanced Data Visualization",
     description: "Creating compelling data visualizations",
-    videos: 2,
+    videos: 10,
     quizzes: [
       {
         questions: [
@@ -98,11 +245,36 @@ const courseSets = {
           { question: "What is a waterfall chart?", options: ["Graph of changes", "Waterfall scene", "Waterfall sound", "None of these"], answer: "Graph of changes" }
         ]
       }
-    ]
+    ],
+    exam: {
+      questions: [
+        {
+          question: "Which visualization type is best for showing part-to-whole relationships?",
+          options: [
+            "Scatter plot",
+            "Line chart",
+            "Pie chart or treemap",
+            "Box plot"
+          ],
+          answer: "Pie chart or treemap"
+        },
+        {
+          question: "What is the key consideration when choosing colors for data visualization?",
+          options: [
+            "Using as many colors as possible",
+            "Making it look artistic",
+            "Ensuring accessibility and clear data communication",
+            "Using only primary colors"
+          ],
+          answer: "Ensuring accessibility and clear data communication"
+        }
+      ]
+    }
   }
 };
 
 const CourseContent = () => {
+  const { user: currentUser } = useAuth();
   const [currentPlayingIndex, setCurrentPlayingIndex] = useState(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -118,6 +290,31 @@ const CourseContent = () => {
   const [showQuiz, setShowQuiz] = useState(false);
   const [showCertificate, setShowCertificate] = useState(false);
   const [courseCompleted, setCourseCompleted] = useState(false);
+  const [showExam, setShowExam] = useState(false);
+  const [examCompleted, setExamCompleted] = useState([]);
+  const [examFailed, setExamFailed] = useState(false);
+  const [videoProgress, setVideoProgress] = useState({});
+
+  // Add this useEffect to load saved progress
+  useEffect(() => {
+    const loadSavedProgress = async () => {
+      if (currentUser) {
+        try {
+          const savedProgress = await getVideoProgress(currentUser.uid);
+          if (savedProgress) {
+            setVideoProgress(savedProgress);
+            const completedFromProgress = Object.entries(savedProgress)
+              .filter(([_, data]) => data.completed)
+              .map(([index]) => parseInt(index));
+            setCompletedVideos(completedFromProgress);
+          }
+        } catch (error) {
+          console.error('Error loading progress:', error);
+        }
+      }
+    };
+    loadSavedProgress();
+  }, [currentUser]);
 
   const getGlobalIndex = (setNumber, videoIndex) => {
     let globalIndex = videoIndex;
@@ -162,32 +359,32 @@ const CourseContent = () => {
   }, [completedVideos]);
 
   const handlePlayClick = (index) => {
-    if (currentPlayingIndex !== null && currentPlayingIndex !== index) {
-      const prevVideo = document.querySelector(`video[data-index="${currentPlayingIndex}"]`);
-      if (prevVideo) {
-        prevVideo.pause();
-        prevVideo.currentTime = 0;
-      }
-    }
-    
     setCurrentPlayingIndex(index);
     setIsPlaying(true);
     setVideoEnded(false);
-    setIsPaused(false);
+    // Add this setTimeout to ensure video loads before playing
+    setTimeout(() => {
+      if (videoRef.current) {
+        videoRef.current.play();
+        setIsPaused(false);
+      }
+    }, 100);
   };
 
   const handleVideoClick = () => {
-    if (videoEnded) {
-      videoRef.current.currentTime = 0;
-      videoRef.current.play();
-      setVideoEnded(false);
-      setIsPaused(false);
-    } else if (videoRef.current.paused) {
-      videoRef.current.play();
-      setIsPaused(false);
-    } else {
-      videoRef.current.pause();
-      setIsPaused(true);
+    if (videoRef.current) {
+      if (videoEnded) {
+        videoRef.current.currentTime = 0;
+        videoRef.current.play();
+        setVideoEnded(false);
+        setIsPaused(false);
+      } else if (videoRef.current.paused) {
+        videoRef.current.play();
+        setIsPaused(false);
+      } else {
+        videoRef.current.pause();
+        setIsPaused(true);
+      }
     }
   };
 
@@ -229,14 +426,36 @@ const CourseContent = () => {
 
   const handleVideoEnd = (videoIndex) => {
     console.log('Video Ended:', videoIndex);
-    setCompletedVideos(prev => {
-      const newCompleted = Array.from(new Set([...prev, videoIndex]));
-      console.log('New Completed Videos:', newCompleted);
-      return newCompleted;
-    });
+    const newCompleted = Array.from(new Set([...completedVideos, videoIndex]));
+    setCompletedVideos(newCompleted);
+    
+    if (currentUser) {
+      const newProgress = {
+        ...videoProgress,
+        [videoIndex]: {
+          completed: true,
+          timestamp: new Date().toISOString()
+        }
+      };
+      setVideoProgress(newProgress);
+      saveVideoProgress(currentUser.uid, newProgress);
+    }
+    
+    // Check if this is the last video in the set
+    const currentSetVideos = courseSets[currentSet].videos;
+    const isLastVideo = getSetVideoIndex(videoIndex) === currentSetVideos - 1;
+    
+    if (isLastVideo) {
+      // Show exam for last video
+      if (!examCompleted.includes(currentSet)) {
+        setShowExam(true);
+      }
+    } else {
+      // Show quiz for all other videos
+      setShowQuiz(true);
+    }
     
     setCurrentPlayingIndex(videoIndex);
-    setShowQuiz(true);
   };
 
   const isSetCompleted = () => {
@@ -254,7 +473,7 @@ const CourseContent = () => {
   };
 
   const handleNextSet = () => {
-    if (isSetCompleted() && currentSet < Object.keys(courseSets).length) {
+    if (isSetCompleted() && !examFailed && currentSet < Object.keys(courseSets).length) {
       setCurrentSet(prev => prev + 1);
       setCurrentPlayingIndex(null);
     }
@@ -265,6 +484,36 @@ const CourseContent = () => {
       setCurrentSet(prev => prev - 1);
       setCurrentPlayingIndex(null);
     }
+  };
+
+  const checkSetCompletion = () => {
+    const videosInSet = courseSets[currentSet].videos;
+    const startIndex = getGlobalIndex(currentSet, 0);
+    const allVideosCompleted = Array.from({ length: videosInSet })
+      .every((_, i) => completedVideos.includes(startIndex + i));
+
+    if (allVideosCompleted && !examCompleted.includes(currentSet)) {
+      setShowExam(true);
+    }
+  };
+
+  useEffect(() => {
+    checkSetCompletion();
+  }, [completedVideos]);
+
+  const handleExamFailure = () => {
+    setExamFailed(true);
+    setShowExam(false);
+    // Reset all progress for current set
+    const currentSetFirstVideo = (currentSet - 1) * courseSets[currentSet].videos;
+    const currentSetLastVideo = currentSetFirstVideo + courseSets[currentSet].videos - 1;
+    
+    setCompletedVideos(prev => 
+      prev.filter(videoIndex => 
+        videoIndex < currentSetFirstVideo || videoIndex > currentSetLastVideo
+      )
+    );
+    setCurrentPlayingIndex(null);
   };
 
   return (
@@ -367,16 +616,21 @@ const CourseContent = () => {
         </div>
       </div>
 
-      {showQuiz && currentPlayingIndex !== null && (
-        <QuizModal
-          questions={courseSets[currentSet].quizzes[getSetVideoIndex(currentPlayingIndex)].questions}
-          onSubmit={() => {
-            setCompletedVideos(prev => [...prev, currentPlayingIndex]);
-            setShowQuiz(false);
-          }}
-          onClose={() => setShowQuiz(false)}
-        />
-      )}
+      {showQuiz && currentPlayingIndex !== null && 
+        getSetVideoIndex(currentPlayingIndex) !== courseSets[currentSet].videos - 1 && (
+          <QuizModal
+            questions={
+              getSetVideoIndex(currentPlayingIndex) < courseSets[currentSet].quizzes.length 
+                ? courseSets[currentSet].quizzes[getSetVideoIndex(currentPlayingIndex)].questions
+                : courseSets[currentSet].quizzes[0].questions
+            }
+            onSubmit={() => {
+              setCompletedVideos(prev => [...prev, currentPlayingIndex]);
+              setShowQuiz(false);
+            }}
+            forceComplete={true}
+          />
+        )}
 
       <div className="course-set-navigation-buttons">
         {currentSet > 1 && (
@@ -388,13 +642,24 @@ const CourseContent = () => {
           </button>
         )}
         
-        {isSetCompleted() && currentSet < Object.keys(courseSets).length && (
-          <button 
-            className="nav-button next" 
-            onClick={handleNextSet}
-          >
-            Next Set <FaArrowRight />
-          </button>
+        {isSetCompleted() && (
+          examFailed ? (
+            <button 
+              className="nav-button try-exam" 
+              onClick={() => setShowExam(true)}
+            >
+              Try Exam Again
+            </button>
+          ) : (
+            currentSet < Object.keys(courseSets).length && (
+              <button 
+                className="nav-button next" 
+                onClick={handleNextSet}
+              >
+                Next Set <FaArrowRight />
+              </button>
+            )
+          )
         )}
       </div>
 
@@ -412,8 +677,27 @@ const CourseContent = () => {
       {showCertificate && (
         <Certificate onClose={() => setShowCertificate(false)} />
       )}
+
+      {showExam && (
+        <ExamModal
+          questions={courseSets[currentSet].exam.questions}
+          onSubmit={() => {
+            setExamCompleted([...examCompleted, currentSet]);
+            setExamFailed(false);
+            setShowExam(false);
+          }}
+          onClose={() => {
+            if (!examCompleted.includes(currentSet)) {
+              handleExamFailure();
+            } else {
+              setShowExam(false);
+            }
+          }}
+        />
+      )}
     </div>
   );
 };
 
 export default CourseContent;
+

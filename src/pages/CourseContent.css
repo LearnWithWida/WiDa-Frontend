@@ -236,6 +236,20 @@
   background: linear-gradient(135deg, #FF7600, #ff8c00);
 }
 
+.nav-button.try-exam {
+  background: linear-gradient(135deg, #FF7600, #ff8c00);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-button.try-exam:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(255, 118, 0, 0.2);
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .video-item {

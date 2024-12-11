@@ -89,6 +89,36 @@ const CourseDetails = () => {
     }
   };
 
+  const renderPurchaseButton = (price, packageType) => {
+    if (!user) {
+      return (
+        <button 
+          className="purchase-button disabled"
+          onClick={() => navigate('/login')}
+          style={{
+            backgroundColor: '#ccc',
+            cursor: 'pointer',
+            padding: '12px 24px',
+            border: 'none',
+            borderRadius: '4px',
+            color: '#fff',
+            fontSize: '16px',
+            width: '100%'
+          }}
+        >
+          Login to Purchase
+        </button>
+      );
+    }
+
+    return (
+      <PaystackButton 
+        {...getPaystackProps(price, packageType)}
+        className="purchase-button"
+      />
+    );
+  };
+
   return (
     <div className="course-details">
       <div className="course-details-header">
@@ -137,10 +167,7 @@ const CourseDetails = () => {
                 <li>✓ Virtual mentorship support</li>
                 <li>✓ Access to online community</li>
               </ul>
-              <PaystackButton 
-                {...getPaystackProps(pricing.virtual.current, 'virtual')}
-                className="purchase-button"
-              />
+              {renderPurchaseButton(pricing.virtual.current, 'virtual')}
             </div>
 
             <div className="purchase-card">
@@ -164,10 +191,7 @@ const CourseDetails = () => {
                 <li>✓ Physical study materials</li>
                 <li>✓ Networking opportunities</li>
               </ul>
-              <PaystackButton 
-                {...getPaystackProps(pricing.physical.current, 'physical')}
-                className="purchase-button"
-              />
+              {renderPurchaseButton(pricing.physical.current, 'physical')}
             </div>
           </div>
         </div>

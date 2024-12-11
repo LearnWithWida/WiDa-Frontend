@@ -303,3 +303,13 @@
   padding: 40px;
   margin: 20px 0;
 }
+
+.purchase-button.disabled {
+  background-color: #ccc !important;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.purchase-button.disabled:hover {
+  opacity: 1;
+}

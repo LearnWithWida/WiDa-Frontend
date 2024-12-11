@@ -4,7 +4,7 @@ import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './pages/Home';
-import Course from './pages/Course';
+import ExamCourse from './pages/ExamCourse';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import Dashboard from './components/Dashboard';
@@ -13,6 +13,7 @@ import CourseDetails from './pages/CourseDetails';
 import Instructor from './pages/Instructor';
 import About from './pages/About';
 import CourseContent from './pages/CourseContent';
+import TestPage from './pages/TestPage';
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -46,10 +47,12 @@ export const App = () => {
               <Route path="/course/data-analysis/content" element={<CourseContent />} />
               <Route path="/signup" element={<SignUp />} />
               <Route path="/login" element={<Login />} />
+              <Route path="/ExamCourse" element={<ExamCourse />} />
               <Route path="/instructors" element={<Instructor />} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
               <Route path="/about" element={<About />} />
               <Route path="/course/:courseName" element={<CourseDetails />} />
+              <Route path="/test/:courseId" element={<TestPage />} />
             </Routes>
           </main>
           <Footer />

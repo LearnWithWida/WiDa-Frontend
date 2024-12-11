@@ -17,6 +17,7 @@ import FAQImage from "../assets/FAQ.png";
 import FAQ from "../components/Faq";
 import Feedback from "../components/Feedback";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const testimonials = [
   {
@@ -167,7 +168,9 @@ const Home = () => {
               alt="Tryout 2"
               className="tryout-image changes"
             />
+            <Link to="/ExamCourse">
             <button className="tryout-btn">Try it out</button>
+            </Link>
           </div>
         </div>
       </div>

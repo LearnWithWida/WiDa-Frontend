@@ -1,0 +1,162 @@
+.exam-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  animation: modalFadeIn 0.4s ease-out;
+  padding: 1rem;
+}
+
+.exam-modal {
+  background: linear-gradient(145deg, #ffffff, #f5f7fa);
+  padding: 1rem;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 100%;
+  height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.exam-questions-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.exam-modal h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  text-align: center;
+  font-weight: 700;
+  background: linear-gradient(45deg, #FF7600, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.exam-modal p {
+  font-size: 0.9rem;
+  text-align: center;
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.exam-question {
+  background: white;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+  height: fit-content;
+}
+
+.exam-question p {
+  font-size: 1rem;
+  color: #2c3e50;
+  margin-bottom: 0.8rem;
+  font-weight: 600;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  counter-reset: option;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+  padding: 0.8rem 1.2rem;
+  background: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #eef2f7;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.options label input[type="radio"] {
+  display: none;
+}
+
+.options label::before {
+  counter-increment: option;
+  content: counter(option, upper-alpha);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin-right: 1rem;
+  border-radius: 50%;
+  background: #f8f9fa;
+  border: 2px solid #FF7600;
+  color: #FF7600;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.options label:hover {
+  transform: translateY(-2px);
+  background: #f8f9ff;
+  border-color: #FF7600;
+}
+
+.options label input[type="radio"]:checked + span {
+  color: #FF7600;
+  font-weight: 500;
+}
+
+.options label input[type="radio"]:checked::before {
+  background: #FF7600;
+  color: white;
+}
+
+.exam-results {
+  text-align: center;
+  padding: 1rem;
+}
+
+.exam-results h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.exam-results p {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.exam-modal button {
+  background: linear-gradient(135deg, #FF7600, #ff8c00);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .exam-questions-container {
+    grid-template-columns: 1fr;
+  }
+  
+  .exam-modal {
+    height: 100vh;
+    border-radius: 0;
+  }
+} 

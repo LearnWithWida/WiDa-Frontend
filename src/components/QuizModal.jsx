@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../pages/CourseContent.css';
 
-const QuizModal = ({ questions, onSubmit, onClose }) => {
+const QuizModal = ({ questions, onSubmit, onClose, forceComplete }) => {
   const [answers, setAnswers] = useState({});
   const [result, setResult] = useState(null);
   const [showScorePopup, setShowScorePopup] = useState(false);
@@ -32,8 +32,14 @@ const QuizModal = ({ questions, onSubmit, onClose }) => {
   const answeredQuestions = Object.keys(answers).length;
   const progressPercentage = (answeredQuestions / questions.length) * 100;
 
+  const handleOverlayClick = (e) => {
+    if (!forceComplete && e.target === e.currentTarget) {
+      onClose();
+    }
+  };
+
   return (
-    <div className="quiz-modal-overlay" onClick={onClose}>
+    <div className="quiz-modal-overlay" onClick={handleOverlayClick}>
       <div className="quiz-modal" onClick={e => e.stopPropagation()}>
         <h2>Complete the Quiz</h2>
         

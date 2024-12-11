@@ -1,10 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { courseData as courses }from "../coursesData";
-import "./Course.css";
+import "./ExamCourse.css";
 import heroImage from "../assets/course-hero.png";
 
 const CoursesList = () => {
+  const navigate = useNavigate();
+
+  const handleStartExam = (courseId) => {
+    navigate(`/test/${courseId}`);
+  };
+
   return (
     <div className="course-page">
       <div className="course-hero">
@@ -44,9 +50,10 @@ const CoursesList = () => {
               <img src={heroImage} alt={course.name} />
             </div>
             <div className="course-card-right">
-              <h2 className="course-name">{course.name}</h2>
+            <h2>{course.title}</h2>
+              {/* <h2 className="course-name">{course.name}</h2> */}
               <p className="course-level">{course.level}</p>
-              <p style={{color: "#FF7600", paddingTop: "20px", paddingBottom: '#FF7600'}}>level</p>
+              {/* <p style={{color: "#FF7600", paddingTop: "20px", paddingBottom: '#FF7600'}}>level</p> */}
               <div className="course-modules">
                 <div className="modules-grid">
                   {course.modules.map((module, index) => (
@@ -54,7 +61,12 @@ const CoursesList = () => {
                   ))}
                 </div>
               </div>
-              <button className="payment-btn">Proceed to Payment</button>
+              <button
+                className="payment-btn"
+                onClick={() => handleStartExam(course.id)}
+              >
+                Start Exam
+              </button>
             </div>
           </div>
         ))}
