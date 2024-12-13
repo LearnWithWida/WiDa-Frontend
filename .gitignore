@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 .env
+kaggle.json
 save
 # Editor directories and files
 .vscode/*

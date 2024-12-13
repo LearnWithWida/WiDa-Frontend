@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useRef } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { courseData } from "../Data";
 import "./Global.css";
 import homeImage from "../assets/home.png";
 import whatWeOfferImage from "../assets/Offer.png";
@@ -11,13 +13,9 @@ import box3 from "../assets/3.png";
 import box4 from "../assets/4.png";
 import DataImg from "../assets/data.png";
 import instructor from "../assets/instructor.png";
-import { courseData } from "../Data";
-import { useState, useRef, useEffect } from "react";
 import FAQImage from "../assets/FAQ.png";
 import FAQ from "../components/Faq";
 import Feedback from "../components/Feedback";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 const testimonials = [
   {
@@ -260,7 +258,9 @@ const Home = () => {
             learning, working with data sets transforms raw information into
             actionable knowledge.
           </p>
+          <Link to='/Database'>
           <button className="learn-more-btn">Learn More →</button>
+          </Link>
         </div>
         <div className="data-image-wrapper">
           <img src={DataImg} alt="Data" className="data-image" />

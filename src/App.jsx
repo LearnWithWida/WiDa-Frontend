@@ -14,6 +14,7 @@ import Instructor from './pages/Instructor';
 import About from './pages/About';
 import CourseContent from './pages/CourseContent';
 import TestPage from './pages/TestPage';
+import Database from './pages/Database';
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -51,8 +52,9 @@ export const App = () => {
               <Route path="/instructors" element={<Instructor />} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
               <Route path="/about" element={<About />} />
+              <Route path="/Database" element={<Database />} />
               <Route path="/course/:courseName" element={<CourseDetails />} />
-              <Route path="/test/:courseId" element={<TestPage />} />
+              <Route path="/test/:courseId/:examId" element={<TestPage />} />
             </Routes>
           </main>
           <Footer />

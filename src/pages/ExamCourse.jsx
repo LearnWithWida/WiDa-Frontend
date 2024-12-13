@@ -1,14 +1,15 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { courseData as courses }from "../coursesData";
+import { useNavigate } from "react-router-dom";
+import { courseData } from "../Data";
 import "./ExamCourse.css";
 import heroImage from "../assets/course-hero.png";
 
 const CoursesList = () => {
   const navigate = useNavigate();
 
-  const handleStartExam = (courseId) => {
-    navigate(`/test/${courseId}`);
+  const handleStartExam = (courseId, examId) => {
+    console.log("Starting exam:", examId, "for course:", courseId);
+    navigate(`/test/${courseId}/${examId}`);
   };
 
   return (
@@ -44,16 +45,14 @@ const CoursesList = () => {
       </div>
 
       <div className="courses-container">
-        {courses.map((course) => (
+        {courseData.map((course) => (
           <div key={course.id} className="course-card">
             <div className="course-card-left">
-              <img src={heroImage} alt={course.name} />
+              <img src={heroImage} alt={course.title} />
             </div>
             <div className="course-card-right">
-            <h2>{course.title}</h2>
-              {/* <h2 className="course-name">{course.name}</h2> */}
+              <h2>{course.title}</h2>
               <p className="course-level">{course.level}</p>
-              {/* <p style={{color: "#FF7600", paddingTop: "20px", paddingBottom: '#FF7600'}}>level</p> */}
               <div className="course-modules">
                 <div className="modules-grid">
                   {course.modules.map((module, index) => (
@@ -63,7 +62,7 @@ const CoursesList = () => {
               </div>
               <button
                 className="payment-btn"
-                onClick={() => handleStartExam(course.id)}
+                onClick={() => handleStartExam(course.id, course.exams[0].id)}
               >
                 Start Exam
               </button>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { courseData, pricing } from "../Data";
+import { courseData } from "../Data";
+import { pricing } from "../Data";
 import "./CourseDetails.css";
 import { PaystackButton } from "react-paystack";
 import { useAuth } from '../context/AuthContext';

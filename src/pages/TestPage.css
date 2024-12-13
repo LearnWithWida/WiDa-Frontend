@@ -1,0 +1,95 @@
+.test-page {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.test-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.test-header h1 {
+  color: #FF7600;
+  font-family: 'Recoleta', serif;
+  margin-bottom: 0.5rem;
+}
+
+.test-header p {
+  color: #666;
+}
+
+.exam-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.exam-card {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.exam-card:hover {
+  transform: translateY(-5px);
+}
+
+.exam-card h3 {
+  color: #FF7600;
+  margin-bottom: 0.5rem;
+}
+
+.exam-card p {
+  color: #666;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.start-exam-btn {
+  background: #FF7600;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 100%;
+}
+
+.start-exam-btn:hover {
+  background: #e66a00;
+}
+
+.error-container {
+  text-align: center;
+  padding: 3rem;
+}
+
+.error-container h2 {
+  color: #FF7600;
+  margin-bottom: 1rem;
+}
+
+.error-container button {
+  background: #FF7600;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .test-page {
+    padding: 1rem;
+  }
+  
+  .exam-list {
+    grid-template-columns: 1fr;
+  }
+} 

@@ -8,6 +8,7 @@ import Certificate from "../components/Certificate";
 import ExamModal from "../components/ExamModal";
 import { useAuth } from '../context/AuthContext';
 import { saveVideoProgress, getVideoProgress } from '../firebase/videoProgress';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 // Define course sets and quizzes
 const courseSets = {
@@ -294,12 +295,14 @@ const CourseContent = () => {
   const [examCompleted, setExamCompleted] = useState([]);
   const [examFailed, setExamFailed] = useState(false);
   const [videoProgress, setVideoProgress] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
 
   // Add this useEffect to load saved progress
   useEffect(() => {
     const loadSavedProgress = async () => {
       if (currentUser) {
         try {
+          setIsLoading(true);
           const savedProgress = await getVideoProgress(currentUser.uid);
           if (savedProgress) {
             setVideoProgress(savedProgress);
