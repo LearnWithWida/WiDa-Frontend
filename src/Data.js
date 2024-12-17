@@ -1,7 +1,7 @@
-import courseImg1 from './assets/courseimg1.png';
-import courseImg2 from './assets/courseimg2.png';
-import courseImg3 from './assets/courseimg3.png';
-import testingVideo from './assets/videos/testing.mp4';
+import courseImg1 from "./assets/courseimg1.png";
+import courseImg2 from "./assets/courseimg2.png";
+import courseImg3 from "./assets/courseimg3.png";
+import testingVideo from "./assets/videos/testing.mp4";
 
 export const courseData = [
   {
@@ -9,14 +9,15 @@ export const courseData = [
     title: "Data Analysis",
     level: "Beginner to Advanced",
     image: "/path/to/image.jpg",
-    description: "Master the fundamentals of data analysis with our comprehensive course.",
+    description:
+      "Master the fundamentals of data analysis with our comprehensive course.",
     modules: [
       "Introduction to Data Analysis",
       "Data Collection Methods",
       "Data Cleaning and Preparation",
       "Statistical Analysis",
       "Data Visualization",
-      "Advanced Analytics"
+      "Advanced Analytics",
     ],
     exams: [
       {
@@ -24,36 +25,185 @@ export const courseData = [
         title: "Introduction to Data Analysis",
         questions: [
           {
-            question: "What is data analysis?",
+            question: "What is the best feature to use?",
             options: [
-              "The process of cleaning, transforming, and modeling data",
-              "Writing computer programs",
-              "Creating databases",
-              "Making spreadsheets"
+              "Conditional Formatting",
+              "PivotTable",
+              "VLOOKUP",
+              "Data Validation",
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
           },
           {
-            question: "Which of the following is NOT a type of data analysis?",
+            question:
+              "Your SQL database has a table named Orders with columns CustomerID and OrderID. You want to find customers who placed more than 3 orders. Which SQL query will you write?",
             options: [
-              "Descriptive Analysis",
-              "Predictive Analysis",
-              "Creative Analysis",
-              "Prescriptive Analysis"
+              "SELECT CustomerID FROM Orders WHERE OrderID > 3;",
+              "SELECT CustomerID, COUNT(OrderID) FROM Orders GROUP BY CustomerID HAVING COUNT(OrderID) > 3;",
+              "SELECT DISTINCT CustomerID FROM Orders WHERE COUNT(OrderID) > 3;",
+              "SELECT CustomerID FROM Orders GROUP BY OrderID HAVING COUNT(CustomerID) > 3;",
             ],
-            correctAnswer: 2
+            correctAnswer: 1,
           },
           {
-            question: "What is the first step in the data analysis process?",
+            question:
+              "You are asked to visualize a sales trend over time using Python. Which library will you use for creating a line chart?",
+            options: ["Matplotlib", "NumPy", "Scikit-learn", "Pandas"],
+            correctAnswer: 0,
+          },
+          {
+            question:
+              "Your Power BI dashboard includes a map visual plotting sales by city. However, some city names are duplicated in different countries. What should you do to ensure accurate visualization?",
             options: [
-              "Data Visualization",
-              "Data Collection",
-              "Data Interpretation",
-              "Data Modeling"
+              "Add a country field to the map visual.",
+              "Apply a drill-through filter.",
+              "Use the 'Region' column as the primary key.",
+              "Enable cross-filtering.",
             ],
-            correctAnswer: 1
-          }
-        ]
+            correctAnswer: 0,
+          },
+          {
+            question:
+              "You are tasked with identifying the highest sales value from a column in Excel. Which function will you use?",
+            options: ["MIN()", "MAX()", "AVERAGE()", "SUM()"],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "A table in your SQL database has duplicate rows. You want to remove duplicates in your query. Which SQL clause should you use?",
+            options: ["GROUP BY", "DISTINCT", "HAVING", "ORDER BY"],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "You are working with a Python DataFrame and need to count the number of unique values in the column ProductID. Which code snippet will you use?",
+            options: [
+              "df['ProductID'].count()",
+              "df['ProductID'].nunique()",
+              "len(df['ProductID'])",
+              "df['ProductID'].unique()",
+            ],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "Your client wants to categorize revenue in Power BI into 'High', 'Medium', and 'Low' tiers based on thresholds. Which feature should you use?",
+            options: [
+              "Power Query Editor",
+              "DAX with IF statements",
+              "Report Filters",
+              "Aggregated Measures",
+            ],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "A column in your dataset contains dates stored as text strings. You need to convert them into Python’s datetime objects for analysis. Which function will you use?",
+            options: [
+              "pd.to_datetime()",
+              "datetime()",
+              "df['date'].parse()",
+              "convert(df['date'], to='datetime')",
+            ],
+            correctAnswer: 0,
+          },
+          {
+            question:
+              "Your manager wants to see only the top 5 performing regions in your Power BI sales report. Which feature can you use to achieve this?",
+            options: ["Tooltip", "Top N Filter", "Drill-through", "Slicer"],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "In a customer segmentation project, you need to group customers based on their purchasing behavior. Which technique will you use?",
+            options: ["Classification", "Clustering", "Regression", "ETL"],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "Your sales dataset in Excel contains a column of product prices. To calculate a 15% discount on each price in a new column, what formula will you use?",
+            options: [
+              "=Price - (Price * 0.15)",
+              "=Price + 0.15",
+              "=Price / 0.85",
+              "=SUM(Price - 0.15)",
+            ],
+            correctAnswer: 0,
+          },
+          {
+            question:
+              "Your SQL table contains sales data with a Date column. Your manager asks for monthly revenue. Which function will help you group data by month?",
+            options: ["DATEPART()", "MONTH()", "GROUP BY Date", "SUM()"],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "You’re working on a Power BI report and need to calculate total revenue for the last 12 months, regardless of the current filters. Which DAX function will you use?",
+            options: [
+              "DATESINPERIOD()",
+              "TOTALYTD()",
+              "CALCULATE() with ALL()",
+              "SUMX()",
+            ],
+            correctAnswer: 0,
+          },
+          {
+            question:
+              "You are analyzing survey responses, and the comments include phrases like 'Great product!' and 'Not satisfied.' What type of data is this?",
+            options: ["Quantitative", "Ordinal", "Structured", "Qualitative"],
+            correctAnswer: 3,
+          },
+          {
+            question:
+              "You are cleaning a dataset in Python and want to drop all rows with missing values. Which Pandas method will you use?",
+            options: ["fillna()", "dropna()", "isna()", "replace()"],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "You are analyzing customer purchase data and notice significant variation in monthly revenue, as shown by a high standard deviation. What does this indicate?",
+            options: [
+              "Revenue is consistent.",
+              "There are large fluctuations in revenue.",
+              "Revenue data is normally distributed.",
+              "The mean and median are equal.",
+            ],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "You are merging two datasets in Python. You want all rows from both datasets to appear in the result, even if they don’t match. Which type of merge will you perform?",
+            options: [
+              "Inner Join",
+              "Left Join",
+              "Right Join",
+              "Full Outer Join",
+            ],
+            correctAnswer: 3,
+          },
+          {
+            question:
+              "A column in your Power BI report shows null values for some rows. What should you do to handle these missing values during the transformation stage?",
+            options: [
+              "Remove rows with null values.",
+              "Replace null values with the mean or median.",
+              "Leave the null values as they are.",
+              "Replace null values with random data.",
+            ],
+            correctAnswer: 1,
+          },
+          {
+            question:
+              "You’re tasked with tracking quarterly sales trends in Excel. You decide to display a rolling 4-quarter average alongside the data. Which formula will achieve this?",
+            options: [
+              "=AVERAGE(OFFSET([Row],-3,0,4))",
+              "=SUMIF(Sales,Quarter,-4)",
+              "=SUM(Sales)/4",
+              "=FILTER(Sales,-4)",
+            ],
+            correctAnswer: 0,
+          },
+        ],
       },
       {
         id: 2,
@@ -65,9 +215,9 @@ export const courseData = [
               "Surveys with multiple choice questions",
               "Interviews and focus groups",
               "Automated sensor data",
-              "Website analytics"
+              "Website analytics",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
             question: "What is primary data?",
@@ -75,21 +225,22 @@ export const courseData = [
               "Data collected from existing sources",
               "Data collected directly for your specific research",
               "Historical data from databases",
-              "Secondary data that has been cleaned"
+              "Secondary data that has been cleaned",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
-            question: "Which sampling method involves dividing the population into subgroups?",
+            question:
+              "Which sampling method involves dividing the population into subgroups?",
             options: [
               "Random sampling",
               "Systematic sampling",
               "Stratified sampling",
-              "Convenience sampling"
+              "Convenience sampling",
             ],
-            correctAnswer: 2
-          }
-        ]
+            correctAnswer: 2,
+          },
+        ],
       },
       {
         id: 3,
@@ -101,9 +252,9 @@ export const courseData = [
               "Creating new data",
               "Removing all data",
               "Identifying and correcting errors in data",
-              "Collecting more data"
+              "Collecting more data",
             ],
-            correctAnswer: 2
+            correctAnswer: 2,
           },
           {
             question: "Which is a common data quality issue?",
@@ -111,9 +262,9 @@ export const courseData = [
               "Missing values",
               "Too much data",
               "Data that's too clean",
-              "Data that's too organized"
+              "Data that's too organized",
             ],
-            correctAnswer: 0
+            correctAnswer: 0,
           },
           {
             question: "What is data normalization?",
@@ -121,11 +272,11 @@ export const courseData = [
               "Making data bigger",
               "Making data smaller",
               "Adjusting values to a common scale",
-              "Removing all data"
+              "Removing all data",
             ],
-            correctAnswer: 2
-          }
-        ]
+            correctAnswer: 2,
+          },
+        ],
       },
       {
         id: 4,
@@ -137,9 +288,9 @@ export const courseData = [
               "The middle value",
               "The average value",
               "The most frequent value",
-              "The largest value"
+              "The largest value",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
             question: "What does standard deviation measure?",
@@ -147,9 +298,9 @@ export const courseData = [
               "Average value",
               "Data spread",
               "Data size",
-              "Data accuracy"
+              "Data accuracy",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
             question: "What is correlation?",
@@ -157,11 +308,11 @@ export const courseData = [
               "Causation",
               "Relationship between variables",
               "Data cleaning",
-              "Data collection"
+              "Data collection",
             ],
-            correctAnswer: 1
-          }
-        ]
+            correctAnswer: 1,
+          },
+        ],
       },
       {
         id: 5,
@@ -169,13 +320,8 @@ export const courseData = [
         questions: [
           {
             question: "Which chart is best for showing trends over time?",
-            options: [
-              "Pie chart",
-              "Line chart",
-              "Bar chart",
-              "Scatter plot"
-            ],
-            correctAnswer: 1
+            options: ["Pie chart", "Line chart", "Bar chart", "Scatter plot"],
+            correctAnswer: 1,
           },
           {
             question: "What is the purpose of data visualization?",
@@ -183,9 +329,9 @@ export const courseData = [
               "To make data look pretty",
               "To hide data",
               "To communicate insights effectively",
-              "To confuse readers"
+              "To confuse readers",
             ],
-            correctAnswer: 2
+            correctAnswer: 2,
           },
           {
             question: "Which tool is NOT commonly used for data visualization?",
@@ -193,25 +339,21 @@ export const courseData = [
               "Tableau",
               "Power BI",
               "Microsoft Word",
-              "Python matplotlib"
+              "Python matplotlib",
             ],
-            correctAnswer: 2
-          }
-        ]
+            correctAnswer: 2,
+          },
+        ],
       },
       {
         id: 6,
         title: "Python for Data Analysis",
         questions: [
           {
-            question: "Which Python library is primarily used for data manipulation?",
-            options: [
-              "Matplotlib",
-              "Pandas",
-              "Seaborn",
-              "Scikit-learn"
-            ],
-            correctAnswer: 1
+            question:
+              "Which Python library is primarily used for data manipulation?",
+            options: ["Matplotlib", "Pandas", "Seaborn", "Scikit-learn"],
+            correctAnswer: 1,
           },
           {
             question: "What is NumPy?",
@@ -219,21 +361,17 @@ export const courseData = [
               "A text editor",
               "A numerical computing library",
               "A database",
-              "A visualization tool"
+              "A visualization tool",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
-            question: "Which file format is commonly used for data storage in Python?",
-            options: [
-              "CSV",
-              "DOC",
-              "PPT",
-              "EXE"
-            ],
-            correctAnswer: 0
-          }
-        ]
+            question:
+              "Which file format is commonly used for data storage in Python?",
+            options: ["CSV", "DOC", "PPT", "EXE"],
+            correctAnswer: 0,
+          },
+        ],
       },
       {
         id: 7,
@@ -245,19 +383,14 @@ export const courseData = [
               "Strong Question Language",
               "Structured Query Language",
               "Simple Query Language",
-              "System Query Language"
+              "System Query Language",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
             question: "Which SQL command is used to retrieve data?",
-            options: [
-              "INSERT",
-              "UPDATE",
-              "SELECT",
-              "DELETE"
-            ],
-            correctAnswer: 2
+            options: ["INSERT", "UPDATE", "SELECT", "DELETE"],
+            correctAnswer: 2,
           },
           {
             question: "What is a JOIN used for in SQL?",
@@ -265,11 +398,11 @@ export const courseData = [
               "To delete data",
               "To combine rows from different tables",
               "To create new tables",
-              "To update data"
+              "To update data",
             ],
-            correctAnswer: 1
-          }
-        ]
+            correctAnswer: 1,
+          },
+        ],
       },
       {
         id: 8,
@@ -281,9 +414,9 @@ export const courseData = [
               "Learning without labels",
               "Learning with labels",
               "Learning without data",
-              "Learning without supervision"
+              "Learning without supervision",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
             question: "Which is NOT a type of machine learning?",
@@ -291,9 +424,9 @@ export const courseData = [
               "Supervised learning",
               "Unsupervised learning",
               "Reinforcement learning",
-              "Manual learning"
+              "Manual learning",
             ],
-            correctAnswer: 3
+            correctAnswer: 3,
           },
           {
             question: "What is overfitting?",
@@ -301,11 +434,11 @@ export const courseData = [
               "Model performs well on training data but poorly on new data",
               "Model performs poorly on all data",
               "Model performs well on all data",
-              "Model doesn't fit the data at all"
+              "Model doesn't fit the data at all",
             ],
-            correctAnswer: 0
-          }
-        ]
+            correctAnswer: 0,
+          },
+        ],
       },
       {
         id: 9,
@@ -317,9 +450,9 @@ export const courseData = [
               "Making all data public",
               "Protecting sensitive information",
               "Deleting all data",
-              "Sharing all data"
+              "Sharing all data",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
             question: "What is GDPR?",
@@ -327,9 +460,9 @@ export const courseData = [
               "A programming language",
               "A database system",
               "A data protection regulation",
-              "A visualization tool"
+              "A visualization tool",
             ],
-            correctAnswer: 2
+            correctAnswer: 2,
           },
           {
             question: "What is data anonymization?",
@@ -337,11 +470,11 @@ export const courseData = [
               "Deleting data",
               "Removing identifying information",
               "Publishing data",
-              "Collecting more data"
+              "Collecting more data",
             ],
-            correctAnswer: 1
-          }
-        ]
+            correctAnswer: 1,
+          },
+        ],
       },
       {
         id: 10,
@@ -353,19 +486,14 @@ export const courseData = [
               "Analyzing past events",
               "Predicting future outcomes",
               "Describing current state",
-              "Organizing data"
+              "Organizing data",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
             question: "Which technique is used for time series analysis?",
-            options: [
-              "ANOVA",
-              "Chi-square test",
-              "ARIMA",
-              "t-test"
-            ],
-            correctAnswer: 2
+            options: ["ANOVA", "Chi-square test", "ARIMA", "t-test"],
+            correctAnswer: 2,
           },
           {
             question: "What is cluster analysis used for?",
@@ -373,13 +501,13 @@ export const courseData = [
               "Predicting outcomes",
               "Grouping similar data points",
               "Testing hypotheses",
-              "Visualizing data"
+              "Visualizing data",
             ],
-            correctAnswer: 1
-          }
-        ]
-      }
-    ]
+            correctAnswer: 1,
+          },
+        ],
+      },
+    ],
   },
   {
     id: "python",
@@ -393,7 +521,7 @@ export const courseData = [
       "Functions and OOP",
       "File Handling",
       "Libraries and Frameworks",
-      "Advanced Python Concepts"
+      "Advanced Python Concepts",
     ],
     exams: [
       {
@@ -406,33 +534,23 @@ export const courseData = [
               "A programming language",
               "A snake",
               "A database",
-              "An operating system"
+              "An operating system",
             ],
-            correctAnswer: 0
+            correctAnswer: 0,
           },
           {
             question: "Which of these is a valid Python variable name?",
-            options: [
-              "2variable",
-              "_variable",
-              "my-variable",
-              "class"
-            ],
-            correctAnswer: 1
+            options: ["2variable", "_variable", "my-variable", "class"],
+            correctAnswer: 1,
           },
           {
             question: "What is the output of print(2 + 2)?",
-            options: [
-              "22",
-              "4",
-              "Error",
-              "None"
-            ],
-            correctAnswer: 1
-          }
-        ]
-      }
-    ]
+            options: ["22", "4", "Error", "None"],
+            correctAnswer: 1,
+          },
+        ],
+      },
+    ],
   },
   {
     id: "excel",
@@ -446,7 +564,7 @@ export const courseData = [
       "Data Analysis Tools",
       "Pivot Tables",
       "Charts and Graphs",
-      "Macros and VBA"
+      "Macros and VBA",
     ],
     exams: [
       {
@@ -454,24 +572,15 @@ export const courseData = [
         title: "Excel Fundamentals",
         questions: [
           {
-            question: "What is the symbol for multiplication in Excel formulas?",
-            options: [
-              "x",
-              "*",
-              "×",
-              "."
-            ],
-            correctAnswer: 1
+            question:
+              "What is the symbol for multiplication in Excel formulas?",
+            options: ["x", "*", "×", "."],
+            correctAnswer: 1,
           },
           {
             question: "Which function calculates the average of a range?",
-            options: [
-              "SUM",
-              "AVERAGE",
-              "MEAN",
-              "COUNT"
-            ],
-            correctAnswer: 1
+            options: ["SUM", "AVERAGE", "MEAN", "COUNT"],
+            correctAnswer: 1,
           },
           {
             question: "What is a pivot table used for?",
@@ -479,27 +588,28 @@ export const courseData = [
               "Formatting cells",
               "Creating charts",
               "Summarizing data",
-              "Printing worksheets"
+              "Printing worksheets",
             ],
-            correctAnswer: 2
-          }
-        ]
-      }
-    ]
+            correctAnswer: 2,
+          },
+        ],
+      },
+    ],
   },
   {
     id: "power-bi",
     title: "Power BI",
     level: "Beginner to Advanced",
     image: "/path/to/powerbi-image.jpg",
-    description: "Create powerful business intelligence reports and dashboards.",
+    description:
+      "Create powerful business intelligence reports and dashboards.",
     modules: [
       "Power BI Basics",
       "Data Modeling",
       "DAX Formulas",
       "Visualizations",
       "Report Design",
-      "Data Transformation"
+      "Data Transformation",
     ],
     exams: [
       {
@@ -512,43 +622,34 @@ export const courseData = [
               "Word processing",
               "Data visualization",
               "Programming",
-              "Email management"
+              "Email management",
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
           },
           {
-            question: "What language is used for creating calculations in Power BI?",
-            options: [
-              "SQL",
-              "Python",
-              "DAX",
-              "Java"
-            ],
-            correctAnswer: 2
+            question:
+              "What language is used for creating calculations in Power BI?",
+            options: ["SQL", "Python", "DAX", "Java"],
+            correctAnswer: 2,
           },
           {
             question: "Which Power BI component is used for data cleaning?",
-            options: [
-              "Power Query",
-              "Power Pivot",
-              "Power View",
-              "Power Map"
-            ],
-            correctAnswer: 0
-          }
-        ]
-      }
-    ]
-  }
+            options: ["Power Query", "Power Pivot", "Power View", "Power Map"],
+            correctAnswer: 0,
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 export const pricing = {
   virtual: {
     original: "150,000",
-    current: "100,000"
+    current: "100,000",
   },
   physical: {
     original: "200,000",
-    current: "150,000"
-  }
+    current: "150,000",
+  },
 };

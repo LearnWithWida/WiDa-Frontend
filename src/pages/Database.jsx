@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import LoadingSpinner from '../components/LoadingSpinner';
-
+// import Netflix from "../assets/download/Netflix.csv"
 // Styled Components
 const Container = styled.div`
   padding: 20px;
@@ -15,9 +14,9 @@ const Header = styled.h1`
   font-weight: bold;
   font-family: Recoleta;
   font-size: 28px;
-font-style: normal;
-font-weight: 700;
-line-height: normal;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
 `;
 
 const SearchWrapper = styled.div`
@@ -73,6 +72,7 @@ const Card = styled.div`
   border: 1px solid orange;
   border-radius: 10px;
   background: white;
+  min-width: 320px;
   padding: 20px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   margin: 10px;
@@ -147,7 +147,7 @@ const Card = styled.div`
 
 const CarouselWrapper = styled.div`
   margin-top: 20px;
-  
+
   .slick-track {
     display: flex !important;
   }
@@ -186,57 +186,119 @@ const CardContainer = styled.div`
   }
 `;
 
-// Main App Component
 const Database = () => {
-  const [datasets, setDatasets] = useState([]);
+  // useEffect(()=> {
+  //   const fetchParseData = async ()=> {
+
+  //   }
+  //   fetchParseData()
+  // }, [])
+  const [datasets] = useState([
+    {
+      title: "Global Climate Data",
+      author: "John Doe",
+      updated: "2023-12-01",
+      usability: "4.8",
+      size: "1.2 GB",
+      files: "3 Files",
+      downloadUrl: "#",
+      description: "Detailed climate data from 2000-2023."
+    },
+    {
+      title: "World Population Data",
+      author: "Jane Smith",
+      updated: "2023-11-15",
+      usability: "4.5",
+      size: "500 MB",
+      files: "5 Files",
+      downloadUrl: "#",
+      description: "Comprehensive population statistics across the globe."
+    },
+    {
+      title: "Financial Market Analysis",
+      author: "Mark Taylor",
+      updated: "2023-10-20",
+      usability: "4.7",
+      size: "2 GB",
+      files: "10 Files",
+      downloadUrl: "#",
+      description: "Historical data and trends for financial markets."
+    },
+    {
+      title: "Global Climate Data",
+      author: "John Doe",
+      updated: "2023-12-01",
+      usability: "4.8",
+      size: "1.2 GB",
+      files: "3 Files",
+      downloadUrl: "#",
+      description: "Detailed climate data from 2000-2023."
+    },
+    {
+      title: "World Population Data",
+      author: "Jane Smith",
+      updated: "2023-11-15",
+      usability: "4.5",
+      size: "500 MB",
+      files: "5 Files",
+      downloadUrl: "#",
+      description: "Comprehensive population statistics across the globe."
+    },
+    {
+      title: "Financial Market Analysis",
+      author: "Mark Taylor",
+      updated: "2023-10-20",
+      usability: "4.7",
+      size: "2 GB",
+      files: "10 Files",
+      downloadUrl: "#",
+      description: "Historical data and trends for financial markets."
+    },
+    {
+      title: "Global Climate Data",
+      author: "John Doe",
+      updated: "2023-12-01",
+      usability: "4.8",
+      size: "1.2 GB",
+      files: "3 Files",
+      downloadUrl: "#",
+      description: "Detailed climate data from 2000-2023."
+    },
+    {
+      title: "World Population Data",
+      author: "Jane Smith",
+      updated: "2023-11-15",
+      usability: "4.5",
+      size: "500 MB",
+      files: "5 Files",
+      downloadUrl: "#",
+      description: "Comprehensive population statistics across the globe."
+    },
+    {
+      title: "Financial Market Analysis",
+      author: "Mark Taylor",
+      updated: "2023-10-20",
+      usability: "4.7",
+      size: "2 GB",
+      files: "10 Files",
+      downloadUrl: "#",
+      description: "Historical data and trends for financial markets."
+    },
+  ]);
+
   const [searchTerm, setSearchTerm] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchDatasets();
-  }, []);
-
-  const fetchDatasets = async () => {
-    try {
-      const response = await axios.get('http://localhost:5173/api/datasets');
-
-      // Transform Kaggle data to match our format
-      const transformedData = response.data.map(dataset => ({
-        title: dataset.title,
-        author: dataset.ownerName,
-        updated: new Date(dataset.lastUpdated).toLocaleDateString(),
-        usability: dataset.usabilityRating.toFixed(1),
-        size: formatSize(dataset.totalBytes),
-        files: `${dataset.files.length} Files`,
-        downloadUrl: dataset.downloadUrl,
-        description: dataset.description,
-      }));
-
-      setDatasets(transformedData);
-      setLoading(false);
-    } catch (err) {
-      console.error('Error fetching datasets:', err);
-      setError('Failed to fetch datasets');
-      setLoading(false);
-    }
-  };
-
-  const formatSize = (bytes) => {
-    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-    if (bytes === 0) return '0 Byte';
-    const i = parseInt(Math.floor(Math.log(bytes) / Math.log(1024)));
-    return Math.round(bytes / Math.pow(1024, i), 2) + ' ' + sizes[i];
-  };
+  const [loading] = useState(false);
+  const [error] = useState(null);
 
   const handleSearch = (event) => {
     const term = event.target.value.toLowerCase();
     setSearchTerm(term);
   };
 
-  const filteredDatasets = datasets.filter(dataset => 
-    dataset.title.toLowerCase().includes(searchTerm) ||
-    dataset.author.toLowerCase().includes(searchTerm)
+  const filteredDatasets = datasets.filter(
+    (dataset) =>
+      dataset.title.toLowerCase().includes(searchTerm) ||
+      dataset.author.toLowerCase().includes(searchTerm)
   );
 
   if (loading) {
@@ -245,7 +307,7 @@ const Database = () => {
 
   if (error) {
     return (
-      <div style={{ textAlign: 'center', padding: '2rem', color: 'red' }}>
+      <div style={{ textAlign: "center", padding: "2rem", color: "red" }}>
         {error}
       </div>
     );
@@ -254,11 +316,10 @@ const Database = () => {
   return (
     <Container>
       <Header>Data Set</Header>
-
       <SearchWrapper>
-        <input 
-          type="text" 
-          placeholder="Search for Data Set..." 
+        <input
+          type="text"
+          placeholder="Search for Data Set..."
           value={searchTerm}
           onChange={handleSearch}
         />
@@ -266,12 +327,14 @@ const Database = () => {
       </SearchWrapper>
 
       {filteredDatasets.length === 0 ? (
-        <div style={{ 
-          textAlign: 'center', 
-          padding: '20px', 
-          color: '#666',
-          fontFamily: 'Recoleta' 
-        }}>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "20px",
+            color: "#666",
+            fontFamily: "Recoleta",
+          }}
+        >
           No datasets found matching your search.
         </div>
       ) : (
@@ -284,153 +347,65 @@ const Database = () => {
   );
 };
 
-// Update DatasetCarousel to handle actual downloads
 const DatasetCarousel = ({ datasets }) => {
-  const [isDown, setIsDown] = React.useState(false);
-  const [startX, setStartX] = React.useState(0);
-  const [scrollLeft, setScrollLeft] = React.useState(0);
-  const containerRef = React.useRef(null);
+  const dragStartX = useRef(0);
+  const isDragging = useRef(false);
+  const containerRef = useRef(null);
 
   const handleMouseDown = (e) => {
-    setIsDown(true);
-    setStartX(e.pageX - containerRef.current.offsetLeft);
-    setScrollLeft(containerRef.current.scrollLeft);
-  };
-
-  const handleMouseLeave = () => {
-    setIsDown(false);
-  };
-
-  const handleMouseUp = () => {
-    setIsDown(false);
+    isDragging.current = true;
+    dragStartX.current = e.clientX || e.touches[0].clientX;
   };
 
   const handleMouseMove = (e) => {
-    if (!isDown) return;
-    e.preventDefault();
-    const x = e.pageX - containerRef.current.offsetLeft;
-    const walk = (x - startX) * 2; 
-    containerRef.current.scrollLeft = scrollLeft - walk;
+    if (!isDragging.current) return;
+    const moveX = (e.clientX || e.touches[0].clientX) - dragStartX.current;
+    containerRef.current.scrollLeft -= moveX;
+    dragStartX.current = e.clientX || e.touches[0].clientX;
   };
 
-  const handleTouchStart = (e) => {
-    setIsDown(true);
-    setStartX(e.touches[0].pageX - containerRef.current.offsetLeft);
-    setScrollLeft(containerRef.current.scrollLeft);
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDown) return;
-    const x = e.touches[0].pageX - containerRef.current.offsetLeft;
-    const walk = (x - startX) * 2;
-    containerRef.current.scrollLeft = scrollLeft - walk;
-  };
-
-  const handleDownload = async (dataset) => {
-    try {
-      // Create a valid reference from the dataset title
-      const safeRef = dataset.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]/g, '-')
-        .replace(/-+/g, '-')
-        .replace(/^-|-$/g, '');
-
-      console.log('Downloading dataset:', {
-        title: dataset.title,
-        ref: safeRef
-      });
-
-      // Show loading state
-      const downloadIcon = document.querySelector(`#download-${safeRef}`);
-      if (downloadIcon) {
-        downloadIcon.style.animation = 'spin 1s linear infinite';
-      }
-
-      // First, get the dataset metadata
-      const metadataResponse = await axios.get(`http://localhost:5000/api/datasets/${safeRef}`);
-      
-      if (!metadataResponse.data) {
-        throw new Error('Dataset not found');
-      }
-
-      // Then download the file
-      const response = await axios.get(
-        `http://localhost:5000/api/download/${safeRef}`,
-        {
-          responseType: 'blob'
-        }
-      );
-
-      // Create and trigger download
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement('a');
-      link.href = url;
-      link.setAttribute('download', `${dataset.title}.zip`);
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      window.URL.revokeObjectURL(url);
-
-    } catch (error) {
-      console.error('Download error details:', {
-        message: error.message,
-        response: error.response,
-        dataset: dataset
-      });
-      alert(`Failed to download dataset: ${error.message}`);
-    } finally {
-      // Reset loading state for all download icons
-      const downloadIcons = document.querySelectorAll('.download-icon');
-      downloadIcons.forEach(icon => {
-        icon.style.animation = '';
-      });
-    }
+  const handleMouseUp = () => {
+    isDragging.current = false;
   };
 
   return (
     <CardContainer
       ref={containerRef}
       onMouseDown={handleMouseDown}
-      onMouseLeave={handleMouseLeave}
-      onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
+      onMouseUp={handleMouseUp}
+      onTouchStart={handleMouseDown}
+      onTouchMove={handleMouseMove}
       onTouchEnd={handleMouseUp}
     >
-      {datasets.map((dataset, index) => {
-        // Create a safe reference for the dataset
-        const safeRef = dataset.title
-          .toLowerCase()
-          .replace(/[^a-z0-9]/g, '-')
-          .replace(/-+/g, '-')
-          .replace(/^-|-$/g, '');
-
-        return (
-          <Card key={index} style={{ minWidth: '300px', flex: '0 0 auto' }}>
-            <div className="card-content">
-              <div className="title-section">
-                <h3>{dataset.title}</h3>
-                <p>{dataset.author} · Updated {dataset.updated}</p>
-              </div>
-              <div className="details-section">
-                <p><strong>Usability {dataset.usability}</strong> · {dataset.size}</p>
-                <p>{dataset.files}</p>
-              </div>
+      {datasets.map((dataset, index) => (
+        <Card key={index}>
+          <div className="card-content">
+            <div className="title-section">
+              <h3>{dataset.title}</h3>
+              <p>{dataset.description}</p>
+              <p>Author: {dataset.author}</p>
             </div>
-            <div className="download-section">
-              <div className="download-icon-wrapper">
-                <FontAwesomeIcon 
-                  id={`download-${safeRef}`}
-                  icon={faDownload} 
+            <div className="details-section">
+              <p>Updated: {dataset.updated}</p>
+              <p>Size: {dataset.size}</p>
+              <p>Files: {dataset.files}</p>
+            </div>
+          </div>
+          <div className="download-section">
+            <div className="download-icon-wrapper">
+            {/* <a href={Netflix} target="_blank" download> */}
+                <FontAwesomeIcon
+                  icon={faDownload}
                   className="download-icon"
-                  onClick={() => handleDownload(dataset)}
-                />
-              </div>
+                  // onClick={() => window.open(dataset.downloadUrl, "_blank")}
+                  />
+                {/* </a> */}
             </div>
-          </Card>
-        );
-      })}
+            {/* <p>Download</p> */}
+          </div>
+        </Card>
+      ))}
     </CardContainer>
   );
 };

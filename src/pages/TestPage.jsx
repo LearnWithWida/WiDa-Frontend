@@ -52,12 +52,14 @@ const TestPage = () => {
     return (
       <div className="test-page">
         <div className="results-container">
-          <h2>Exam Results</h2>
+          <h2>Exam Results🎉
+
+</h2>
           <p className="score">Your Score: {score.toFixed(2)}%</p>
           <div className="answers-review">
             {exam.questions.map((question, index) => (
               <div key={index} className="question-review">
-                <p><strong>Question {index + 1}:</strong> {question.question}</p>
+                <p className="qtn"><strong className="qtn">Question {index + 1}:</strong> {question.question}</p>
                 <p className={userAnswers[index] === question.correctAnswer ? "correct" : "incorrect"}>
                   Your answer: {question.options[userAnswers[index]]}
                 </p>
@@ -85,18 +87,21 @@ const TestPage = () => {
         <div className="question">
           <h3>{exam.questions[currentQuestion].question}</h3>
           <div className="options">
-            {exam.questions[currentQuestion].options.map((option, index) => (
-              <label key={index} className="option">
-                <input
-                  type="radio"
-                  name={`question-${currentQuestion}`}
-                  checked={userAnswers[currentQuestion] === index}
-                  onChange={() => handleAnswerSelect(currentQuestion, index)}
-                />
-                {option}
-              </label>
-            ))}
-          </div>
+  {exam.questions[currentQuestion].options.map((option, index) => (
+    <label
+      key={index}
+      className={`option ${userAnswers[currentQuestion] === index ? "active" : ""}`}
+    >
+      <input
+        type="radio"
+        name={`question-${currentQuestion}`}
+        checked={userAnswers[currentQuestion] === index}
+        onChange={() => handleAnswerSelect(currentQuestion, index)}
+      />
+      {option}
+    </label>
+  ))}
+</div>
         </div>
         <div className="navigation">
           <button
