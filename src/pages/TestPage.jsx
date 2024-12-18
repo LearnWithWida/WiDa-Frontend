@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { courseData } from "../Data";
 import "./TestPage.css";
+import Lottie from 'lottie-react';
+import confettiAnimation from '../assets/confetti.json';
 
 const TestPage = () => {
   const { courseId, examId } = useParams();
@@ -9,6 +11,10 @@ const TestPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
+  const [showRules, setShowRules] = useState(true);
+  const [examStarted, setExamStarted] = useState(false);
+  const [autoSubmitReason, setAutoSubmitReason] = useState(null);
 
   // Find the course and exam
   const course = courseData.find((c) => c.id === courseId);
@@ -16,6 +22,43 @@ const TestPage = () => {
 
   console.log("Course:", course);
   console.log("Exam:", exam);
+
+  useEffect(() => {
+    // Handle visibility change
+    const handleVisibilityChange = () => {
+      if (document.hidden && !showResults) {
+        handleSubmit('tab-switch'); // Pass the reason here
+      }
+    };
+
+    // Timer countdown
+    const timer = setInterval(() => {
+      setTimeLeft((prevTime) => {
+        if (prevTime <= 0 || showResults) {
+          clearInterval(timer);
+          if (!showResults) {
+            handleSubmit('time-up'); // Pass the reason here
+          }
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      clearInterval(timer);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [showResults]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Format time for display
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+  };
 
   if (!course || !exam) {
     return (
@@ -33,8 +76,11 @@ const TestPage = () => {
     });
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = (reason = null) => {
     setShowResults(true);
+    if (reason) {
+      setAutoSubmitReason(reason);
+    }
   };
 
   const calculateScore = () => {
@@ -47,25 +93,134 @@ const TestPage = () => {
     return (correct / exam.questions.length) * 100;
   };
 
+  const startExam = () => {
+    setShowRules(false);
+    setExamStarted(true);
+  };
+
+  if (!examStarted) {
+    return (
+      <div className="test-page">
+        {showRules && (
+          <div className="rules-modal">
+            <div className="rules-content">
+              <h2>📝 Exam Rules & Instructions</h2>
+              
+              <div className="rules-section">
+                <h3>⏰ Time Limit</h3>
+                <p>• You have 10 minutes to complete this exam</p>
+                <p>• The exam will auto-submit when time expires</p>
+              </div>
+
+              <div className="rules-section">
+                <h3>⚠️ Important Rules</h3>
+                <p>• Do not switch tabs or windows during the exam</p>
+                <p>• Switching tabs/windows will result in automatic submission</p>
+                <p>• Ensure stable internet connection before starting</p>
+                <p>• Answer all questions to enable submission</p>
+              </div>
+
+              <div className="rules-section">
+                <h3>📋 Exam Format</h3>
+                <p>• Multiple choice questions</p>
+                <p>• Each question has one correct answer</p>
+                <p>• You can review and change answers before final submission</p>
+                <p>• Minimum passing score: 50%</p>
+              </div>
+
+              <div className="rules-section">
+                <h3>🎯 Tips</h3>
+                <p>• Read each question carefully</p>
+                <p>• Keep track of remaining time</p>
+                <p>• Don't spend too much time on one question</p>
+                <p>• Review your answers if time permits</p>
+              </div>
+
+              <div className="consent-section">
+                <p>By clicking "Start Exam", you agree to follow these rules and understand that breaking them may result in automatic submission.</p>
+              </div>
+
+              <button className="start-exam-btn" onClick={startExam}>
+                Start Exam
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   if (showResults) {
     const score = calculateScore();
     return (
       <div className="test-page">
         <div className="results-container">
-          <h2>Exam Results🎉
-
-</h2>
-          <p className="score">Your Score: {score.toFixed(2)}%</p>
+          {autoSubmitReason === 'tab-switch' && (
+            <div className="auto-submit-alert">
+              <p>⚠️ Your exam was automatically submitted because you switched tabs/windows.</p>
+              <p>To maintain exam integrity, switching tabs or windows is not allowed.</p>
+            </div>
+          )}
+          {autoSubmitReason === 'time-up' && (
+            <div className="auto-submit-alert">
+              <p>⏰ Your exam was automatically submitted because the time limit was reached.</p>
+            </div>
+          )}
+          {score >= 50 && (
+            <div className="confetti-animation">
+              <Lottie
+                animationData={confettiAnimation}
+                loop={true}
+                autoplay={true}
+                style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: 1000 }}
+              />
+            </div>
+          )}
+          <div className="course-title-banner">
+            <h1>{course.title} Result</h1>
+            <span className="exam-name">You score: {Math.round(score)}%</span>
+          </div>
+          {/* <h2 className="results-title">
+            Exam Results
+            <span className="emoji">🎉</span>
+          </h2> */}
+          {/* <div className="score-container"> */}
+            {/* <div className="score-circle"> */}
+              {/* <div className="score-number"></div> */}
+              {/* <div className="score-label"></div> */}
+            {/* </div> */}
+            {score >= 50 ? (
+              <div className="pass-badge">
+                <span className="badge-text">YOU PASSED!🏆</span>
+                {/* <span className="badge-icon"></span> */}
+              </div>
+            ) : (
+              <div className="fail-badge">
+                <span className="badge-text">Keep Going! 💪</span>
+                <p className="encouragement">Every attempt brings you closer to success.</p>
+                <p className="encouragement">Review your answers and try again!</p>
+              </div>
+            )}
+          {/* </div> */}
           <div className="answers-review">
             {exam.questions.map((question, index) => (
-              <div key={index} className="question-review">
-                <p className="qtn"><strong className="qtn">Question {index + 1}:</strong> {question.question}</p>
+              <div 
+                key={index} 
+                className="question-review"
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <p className="qtn">
+                  <strong>Question {index + 1}:</strong> {question.question}
+                </p>
                 <p className={userAnswers[index] === question.correctAnswer ? "correct" : "incorrect"}>
                   Your answer: {question.options[userAnswers[index]]}
+                  {userAnswers[index] === question.correctAnswer ? " ✓" : " ✗"}
                 </p>
-                <p className="correct-answer">
-                  Correct answer: {question.options[question.correctAnswer]}
-                </p>
+                {userAnswers[index] !== question.correctAnswer && (
+                  <p className="correct-answer">
+                    Correct answer: {question.options[question.correctAnswer]} ✓
+                  </p>
+                )}
               </div>
             ))}
           </div>
@@ -80,6 +235,7 @@ const TestPage = () => {
   return (
     <div className="test-page">
       <div className="question-container">
+        <div className="timer">Time Left: {formatTime(timeLeft)}</div>
         <h2>{exam.title}</h2>
         <div className="progress">
           Question {currentQuestion + 1} of {exam.questions.length}
