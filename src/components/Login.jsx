@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
@@ -31,7 +31,17 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      // Check if email is verified
+      if (!userCredential.user.emailVerified) {
+        toast.error('Please verify your email before logging in');
+        // Optionally resend verification email
+        await sendEmailVerification(userCredential.user);
+        toast.info('A new verification email has been sent');
+        return;
+      }
+
       toast.success('Login successful!');
       navigate('/'); // Redirect to home after successful login
     } catch (error) {

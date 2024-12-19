@@ -11,7 +11,7 @@ body {
   .course-card {
     display: flex;
     background: white;
-    align-items: center;
+    /* align-items: center;   */
     border-radius: 15px;
     overflow: hidden;
     margin-bottom: 30px;
@@ -258,6 +258,9 @@ body {
   }
   
   @media (max-width: 768px) {
+    .course-card{
+      flex-direction: column;
+    }
     .course-hero {
       padding: 30px 20px;
     }

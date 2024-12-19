@@ -4,6 +4,13 @@ import { courseData } from "../Data";
 import "./TestPage.css";
 import Lottie from 'lottie-react';
 import confettiAnimation from '../assets/confetti.json';
+import examService from '../services/examService';
+
+const formatTime = (seconds) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+};
 
 const TestPage = () => {
   const { courseId, examId } = useParams();
@@ -20,8 +27,8 @@ const TestPage = () => {
   const course = courseData.find((c) => c.id === courseId);
   const exam = course?.exams?.find((e) => e.id === Number(examId));
 
-  console.log("Course:", course);
-  console.log("Exam:", exam);
+  // console.log("Course:", course);
+  // console.log("Exam:", exam);
 
   useEffect(() => {
     // Handle visibility change
@@ -276,6 +283,7 @@ const TestPage = () => {
           ) : (
             <button
               onClick={() => setCurrentQuestion(curr => curr + 1)}
+              className="Next-Btn"
             >
               Next
             </button>

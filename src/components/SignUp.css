@@ -121,4 +121,22 @@
 
 .login-link span:hover {
   text-decoration: underline;
+}
+
+.verification-code-input {
+  letter-spacing: 2px;
+  font-size: 18px;
+  text-align: center;
+}
+
+.resend-code {
+  color: #FF7600;
+  cursor: pointer;
+  font-size: 14px;
+  text-align: right;
+  margin-top: 8px;
+}
+
+.resend-code:hover {
+  text-decoration: underline;
 } 

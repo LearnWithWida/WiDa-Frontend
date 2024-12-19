@@ -9,4 +9,8 @@ export default defineConfig({
     historyApiFallback: true,
   },
   base: '/',
+  define: {
+    'process.env.GOOGLE_SHEET_ID': JSON.stringify(process.env.GOOGLE_SHEET_ID),
+    'process.env.GOOGLE_API_KEY': JSON.stringify(process.env.GOOGLE_API_KEY)
+  }
 })

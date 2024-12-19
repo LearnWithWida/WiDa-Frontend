@@ -685,217 +685,247 @@ export const courseData = [
     image: "/path/to/python-image.jpg",
     description: "Learn SQL from basics to advanced concepts.",
     modules: [
-      "Python Basics",
-      "Data Structures",
-      "Functions and OOP",
-      "File Handling",
-      "Libraries and Frameworks",
-      "Advanced Python Concepts",
+      "SQL Basics",
+      "Introduction to SQL",
+      "Data Types and Operators",
+      "Data Manipulation",
+      "Joins and Subqueries",
+      "Advanced SQL Concepts",
     ],
     exams: [
       {
         id: 1,
-        title: "Python Basics",
+        title: "SQL Basics - intermediate",
         questions: [
-         {
-            question: "What does SQL stand for?",
+          {
+            question: "Scenario: You are analyzing an Orders table containing OrderID, CustomerID, and OrderDate. You want to find the total number of orders placed by each customer.",
             options: [
-              "Structured Query Language",
-              "Simple Query Language",
-              "Standard Query Language",
-              "Sequential Query Language"
+              "\nSELECT CustomerID, COUNT(OrderID)\nFROM Orders;",
+              "\nSELECT CustomerID, COUNT(OrderID)\nFROM Orders\nGROUP BY CustomerID;",
+              "\nSELECT COUNT(OrderID)\nFROM Orders\nGROUP BY CustomerID;",
+              "\nSELECT DISTINCT CustomerID, COUNT(OrderID)\nFROM Orders;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Aggregation"
           },
           {
-            question: "Which SQL statement is used to retrieve data from a database?",
+            question: "Scenario: You have a table named Sales with columns Region and Revenue. You want to filter records where the revenue is greater than $10,000.",
             options: [
-              "GET",
-              "SELECT",
-              "RETRIEVE",
-              "FETCH"
+              "\nSELECT *\nFROM Sales\nWHERE Revenue >= 10000;",
+              "\nSELECT *\nFROM Sales\nWHERE Revenue > 10000;",
+              "\nSELECT *\nFROM Sales\nHAVING Revenue > 10000;",
+              "\nSELECT *\nFROM Sales\nWHERE Revenue = 10000;"
             ],
-            correctAnswer: 1
+            correctAnswer: 1,
+            category: "Filtering"
           },
           {
-            question: "Which clause is used to filter records in SQL?",
+            question: "Scenario: You are tasked with finding duplicate entries in a Customers table based on the Email column.",
             options: [
-              "WHERE",
-              "FILTER",
-              "HAVING",
-              "SELECT"
+              "\nSELECT Email\nFROM Customers\nWHERE COUNT(*) > 1;",
+              "\nSELECT Email, COUNT(*)\nFROM Customers\nGROUP BY Email\nHAVING COUNT(*) > 1;",
+              "\nSELECT DISTINCT Email\nFROM Customers;",
+              "\nSELECT Email\nFROM Customers\nGROUP BY Email;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Data Quality"
           },
           {
-            question: "What is the purpose of the JOIN clause?",
+            question: "Scenario: You have two tables: Employees with columns EmployeeID and DepartmentID, and Departments with columns DepartmentID and DepartmentName. You want to display each employee's department name.",
             options: [
-              "To combine rows from two or more tables",
-              "To filter records",
-              "To sort records",
-              "To group records"
+              "\nSELECT *\nFROM Employees;",
+              "\nSELECT EmployeeID, DepartmentName\nFROM Employees;",
+              "\nSELECT EmployeeID, DepartmentName\nFROM Employees\nJOIN Departments ON Employees.DepartmentID = Departments.DepartmentID;",
+              "\nSELECT EmployeeID, DepartmentID\nFROM Employees;"
             ],
-            correctAnswer: 0
+            correctAnswer: 2,
+            category: "Joins"
           },
           {
-            question: "Which SQL function is used to count the number of rows in a table?",
+            question: "Scenario: You want to find the average order value from the Orders table, which has a column OrderAmount.",
             options: [
-              "COUNT()",
-              "SUM()",
-              "TOTAL()",
-              "NUM()"
+              "\nSELECT SUM(OrderAmount)\nFROM Orders;",
+              "\nSELECT AVG(OrderAmount)\nFROM Orders;",
+              "\nSELECT COUNT(OrderAmount)\nFROM Orders;",
+              "\nSELECT MAX(OrderAmount)\nFROM Orders;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Aggregation"
           },
           {
-            question: "What is the default sorting order of the ORDER BY clause?",
+            question: "Scenario: You need to fetch the names of employees who earn more than the average salary in an Employees table.",
             options: [
-              "Ascending",
-              "Descending",
-              "Random",
-              "None"
+              "\nSELECT Name\nFROM Employees\nWHERE Salary > AVG(Salary);",
+              "\nSELECT Name\nFROM Employees\nHAVING Salary > AVG(Salary);",
+              "\nSELECT Name\nFROM Employees\nWHERE Salary > (SELECT AVG(Salary) FROM Employees);",
+              "\nSELECT Name\nFROM Employees\nGROUP BY Salary > AVG(Salary);"
             ],
-            correctAnswer: 0
+            correctAnswer: 2,
+            category: "Subqueries"
           },
           {
-            question: "Which SQL statement is used to update existing records in a table?",
+            question: "Scenario: You are tasked with creating a new column in a query that calculates the profit as Revenue - Cost from a Sales table.",
             options: [
-              "UPDATE",
-              "MODIFY",
-              "SET",
-              "CHANGE"
+              "\nSELECT Revenue, Cost, Revenue - Cost\nFROM Sales;",
+              "\nSELECT Revenue, Cost, Profit\nFROM Sales;",
+              "\nSELECT Revenue, Cost, Revenue + Cost AS Profit\nFROM Sales;",
+              "\nSELECT Revenue, Cost, (Revenue - Cost) AS Profit\nFROM Sales;"
             ],
-            correctAnswer: 0
+            correctAnswer: 3,
+            category: "Calculated Columns"
           },
           {
-            question: "What is a primary key?",
+            question: "Scenario: You have a Products table and want to display all rows, sorted by Price in descending order.",
             options: [
-              "A unique identifier for a record in a table",
-              "A foreign key",
-              "A type of index",
-              "A column that can have null values"
+              "\nSELECT *\nFROM Products\nORDER BY Price ASC;",
+              "\nSELECT *\nFROM Products\nORDER BY Price;",
+              "\nSELECT *\nFROM Products\nORDER BY Price DESC;",
+              "\nSELECT *\nFROM Products\nWHERE Price DESC;"
             ],
-            correctAnswer: 0
+            correctAnswer: 2,
+            category: "Sorting"
           },
           {
-            question: "Which SQL statement is used to delete records from a table?",
+            question: "Scenario: You need to calculate the total revenue for each region, and only include regions with a total revenue greater than $50,000.",
             options: [
-              "REMOVE",
-              "DELETE",
-              "DROP",
-              "CLEAR"
+              "\nSELECT Region, SUM(Revenue)\nFROM Sales\nGROUP BY Region\nWHERE SUM(Revenue) > 50000;",
+              "\nSELECT Region, SUM(Revenue)\nFROM Sales\nHAVING SUM(Revenue) > 50000;",
+              "\nSELECT Region, SUM(Revenue)\nFROM Sales\nGROUP BY Region\nHAVING SUM(Revenue) > 50000;",
+              "\nSELECT Region\nFROM Sales\nWHERE Revenue > 50000;"
             ],
-            correctAnswer: 1
+            correctAnswer: 2,
+            category: "Aggregation with Filtering"
           },
           {
-            question: "What does the GROUP BY clause do?",
+            question: "Scenario: You want to display records from the Customers table where the City is either 'New York' or 'Chicago'.",
             options: [
-              "Groups rows that have the same values in specified columns",
-              "Filters records",
-              "Sorts records",
-              "Joins tables"
+              "\nSELECT *\nFROM Customers\nWHERE City IN ('New York', 'Chicago');",
+              "\nSELECT *\nFROM Customers\nWHERE City = 'New York' OR 'Chicago';",
+              "\nSELECT *\nFROM Customers\nWHERE City = 'New York' AND City = 'Chicago';",
+              "\nSELECT *\nFROM Customers\nHAVING City IN ('New York', 'Chicago');"
             ],
-            correctAnswer: 0
+            correctAnswer: 0,
+            category: "Filtering"
           },
           {
-            question: "Which SQL function is used to find the maximum value in a column?",
+            question: "Scenario: Your database includes an Orders table with columns OrderID, CustomerID, and OrderDate. You want to fetch the most recent order date.",
             options: [
-              "MAX()",
-              "MIN()",
-              "AVG()",
-              "SUM()"
+              "\nSELECT MIN(OrderDate)\nFROM Orders;",
+              "\nSELECT MAX(OrderDate)\nFROM Orders;",
+              "\nSELECT OrderDate\nFROM Orders\nORDER BY OrderDate DESC;",
+              "\nSELECT MAX(OrderDate)\nFROM Orders\nGROUP BY OrderDate;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Aggregation"
           },
           {
-            question: "What is the purpose of the HAVING clause?",
+            question: "Scenario: You have a Products table with columns ProductID, ProductName, and Category. You want to find the number of products in each category.",
             options: [
-              "To filter records after grouping",
-              "To filter records before grouping",
-              "To sort records",
-              "To join tables"
+              "\nSELECT Category, COUNT(ProductID)\nFROM Products;",
+              "\nSELECT Category, COUNT(ProductID)\nFROM Products\nGROUP BY Category;",
+              "\nSELECT COUNT(ProductID)\nFROM Products\nWHERE Category;",
+              "\nSELECT Category, COUNT(*)\nFROM Products;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Aggregation"
           },
           {
-            question: "Which SQL command is used to create a new table?",
+            question: "Scenario: You are tasked with updating the Status column in an Orders table to 'Completed' for all orders where the OrderDate is before '2023-01-01'.",
             options: [
-              "CREATE TABLE",
-              "NEW TABLE",
-              "ADD TABLE",
-              "MAKE TABLE"
+              "\nUPDATE Orders\nSET Status = 'Completed'\nWHERE OrderDate < '2023-01-01';",
+              "\nSELECT Status = 'Completed'\nWHERE OrderDate < '2023-01-01';",
+              "\nUPDATE Orders\nWHERE OrderDate < '2023-01-01'\nSET Status = 'Completed';",
+              "\nUPDATE Orders\nSET Status = 'Completed';"
             ],
-            correctAnswer: 0
+            correctAnswer: 0,
+            category: "Data Manipulation"
           },
           {
-            question: "What is a foreign key?",
+            question: "Scenario: You want to create a new table called ArchivedOrders by copying all the data from the Orders table.",
             options: [
-              "A key used to link two tables together",
-              "A unique identifier for a record",
-              "A type of index",
-              "A column that can have null values"
+              "\nCOPY Orders TO ArchivedOrders;",
+              "\nCREATE TABLE ArchivedOrders\nAS SELECT * FROM Orders;",
+              "\nINSERT INTO ArchivedOrders\nSELECT * FROM Orders;",
+              "\nCREATE TABLE ArchivedOrders LIKE Orders;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Data Definition"
           },
           {
-            question: "Which SQL statement is used to retrieve unique values from a column?",
+            question: "Scenario: You want to combine rows from two tables, Sales2023 and Sales2024, into a single result set.",
             options: [
-              "SELECT DISTINCT",
-              "SELECT UNIQUE",
-              "SELECT DIFFERENT",
-              "SELECT ONLY"
+              "\nSELECT *\nFROM Sales2023\nUNION ALL\nSELECT *\nFROM Sales2024;",
+              "\nSELECT *\nFROM Sales2023\nJOIN Sales2024;",
+              "\nSELECT *\nFROM Sales2023, Sales2024;",
+              "\nSELECT *\nFROM Sales2023\nUNION\nSELECT *\nFROM Sales2024;"
             ],
-            correctAnswer: 0
+            correctAnswer: 3,
+            category: "Set Operations"
           },
           {
-            question: "What does the LIMIT clause do?",
+            question: "Scenario: Your company wants to rank products based on their profit margins within each category to determine which products perform best. Which query ranks products by profit margin in each category and displays the top 2 products per category?",
             options: [
-              "Restricts the number of records returned",
-              "Filters records",
-              "Sorts records",
-              "Groups records"
+              "\nSELECT Category, ProductName, Profit,\n  RANK() OVER (PARTITION BY Category ORDER BY Profit DESC) AS Rank\nFROM Products\nWHERE Rank <= 2;",
+              "\nSELECT Category, ProductName, Profit\nFROM (\n    SELECT Category, ProductName, Profit,\n           ROW_NUMBER() OVER (PARTITION BY Category ORDER BY Profit DESC) AS Rank\n    FROM Products\n) SubQuery\nWHERE Rank <= 2;",
+              "\nSELECT Category, ProductName, Profit\nFROM Products\nWHERE ROW_NUMBER() OVER (PARTITION BY Category ORDER BY Profit DESC) <= 2;",
+              "\nSELECT Category, ProductName, Profit,\n  DENSE_RANK() OVER (PARTITION BY Category ORDER BY Profit DESC) AS Rank\nFROM Products\nWHERE Rank <= 2;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Window Functions",
+            difficulty: "Advanced",
+            explanation: "Option B is correct because window functions cannot be used directly in WHERE clauses. The subquery approach allows us to first calculate the ranks and then filter based on them."
           },
           {
-            question: "Which SQL function is used to calculate the average value in a column?",
+            question: "Scenario: You're tasked with calculating the customer retention rate by determining how many customers placed orders in both January and February 2023. Which query would correctly return customers who placed orders in both months?",
             options: [
-              "AVG()",
-              "MEAN()",
-              "MEDIAN()",
-              "SUM()"
+              "\nSELECT DISTINCT CustomerID\nFROM Orders\nWHERE MONTH(OrderDate) = 1 AND MONTH(OrderDate) = 2;",
+              "\nSELECT CustomerID\nFROM Orders\nWHERE MONTH(OrderDate) IN (1, 2)\nGROUP BY CustomerID\nHAVING COUNT(DISTINCT MONTH(OrderDate)) = 2;",
+              "\nSELECT CustomerID\nFROM Orders\nWHERE MONTH(OrderDate) BETWEEN 1 AND 2\nGROUP BY CustomerID\nHAVING COUNT(*) > 1;",
+              "\nSELECT CustomerID\nFROM Orders\nWHERE MONTH(OrderDate) IN (1, 2)\nGROUP BY CustomerID\nHAVING COUNT(*) = 2;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Data Analysis",
+            difficulty: "Intermediate",
+            explanation: "Option B correctly identifies customers who placed orders in both months by counting distinct months for each customer."
           },
           {
-            question: "What is the purpose of the ALTER TABLE statement?",
+            question: "Scenario: A logistics company wants to identify days with no recorded orders in 2023. Which query will correctly find missing dates from the Orders table?",
             options: [
-              "To modify an existing table structure",
-              "To delete a table",
-              "To create a new table",
-              "To insert data into a table"
+              "\nSELECT OrderDate\nFROM Calendar\nWHERE OrderDate NOT IN (SELECT DISTINCT OrderDate FROM Orders);",
+              "\nSELECT Calendar.Date\nFROM Calendar\nLEFT JOIN Orders ON Calendar.Date = Orders.OrderDate\nWHERE Orders.OrderDate IS NULL;",
+              "\nSELECT Calendar.Date\nFROM Calendar\nWHERE Calendar.Date NOT EXISTS (SELECT OrderDate FROM Orders);",
+              "\nSELECT Calendar.Date\nFROM Calendar\nFULL OUTER JOIN Orders ON Calendar.Date = Orders.OrderDate\nWHERE Orders.OrderDate IS NULL;"
             ],
-            correctAnswer: 0
+            correctAnswer: 1,
+            category: "Joins",
+            difficulty: "Intermediate",
+            explanation: "Option B uses a LEFT JOIN to find dates in the Calendar table that don't have corresponding entries in the Orders table."
           },
           {
-            question: "Which SQL command is used to remove a table from a database?",
+            question: "Scenario: Your manager suspects a revenue drop on certain dates and wants to identify days where total revenue was less than 10% of the average daily revenue for the last year. Which query will correctly detect these anomalous dates?",
             options: [
-              "DELETE TABLE",
-              "DROP TABLE",
-              "REMOVE TABLE",
-              "CLEAR TABLE"
+              "\nWITH AvgRevenue AS (\n    SELECT AVG(SUM(Sales)) AS AvgDailyRevenue\n    FROM Orders\n    GROUP BY OrderDate\n)\nSELECT OrderDate, SUM(Sales) AS DailyRevenue\nFROM Orders\nGROUP BY OrderDate\nHAVING SUM(Sales) < 0.1 * (SELECT AvgDailyRevenue FROM AvgRevenue);",
+              "\nWITH AvgRevenue AS (\n    SELECT AVG(DailyRevenue) AS AvgDailyRevenue\n    FROM (SELECT OrderDate, SUM(Sales) AS DailyRevenue\n          FROM Orders\n          GROUP BY OrderDate) SubQuery\n)\nSELECT OrderDate, SUM(Sales) AS DailyRevenue\nFROM Orders\nGROUP BY OrderDate\nHAVING SUM(Sales) < 0.1 * AvgDailyRevenue;",
+              "\nWITH AvgRevenue AS (\n    SELECT AVG(SUM(Sales)) AS AvgDailyRevenue\n    FROM Orders\n)\nSELECT OrderDate, SUM(Sales) AS DailyRevenue\nFROM Orders\nGROUP BY OrderDate\nHAVING SUM(Sales) < 0.1 * AvgDailyRevenue;",
+              "\nWITH AvgRevenue AS (\n    SELECT AVG(DailyRevenue) AS AvgDailyRevenue\n    FROM (SELECT OrderDate, SUM(Sales) AS DailyRevenue\n          FROM Orders\n          GROUP BY OrderDate) SubQuery\n)\nSELECT OrderDate, DailyRevenue\nFROM (SELECT OrderDate, SUM(Sales) AS DailyRevenue\n      FROM Orders\n      GROUP BY OrderDate) SubQuery\nWHERE DailyRevenue < 0.1 * (SELECT AvgDailyRevenue FROM AvgRevenue);"
             ],
-            correctAnswer: 1
+            correctAnswer: 3,
+            category: "CTEs and Complex Analysis",
+            difficulty: "Advanced",
+            explanation: "Option D correctly calculates the average daily revenue first, then compares each day's revenue against this benchmark."
           },
           {
-            question: "What is the purpose of the UNION operator?",
+            question: "Scenario: Your table contains duplicate rows. You are tasked with removing them using ROW_NUMBER(). Which query will correctly delete duplicates while retaining the first occurrence of each row?",
             options: [
-              "To combine the results of two or more SELECT statements",
-              "To filter records",
-              "To sort records",
-              "To group records"
+              "\nWITH CTE AS (\n    SELECT *, ROW_NUMBER() OVER (PARTITION BY Column1, Column2 ORDER BY ID) AS RowNum\n    FROM TableName\n)\nDELETE FROM CTE\nWHERE RowNum > 1;",
+              "\nWITH CTE AS (\n    SELECT *, ROW_NUMBER() OVER (PARTITION BY Column1, Column2 ORDER BY ID) AS RowNum\n    FROM TableName\n)\nDELETE FROM TableName\nWHERE RowNum > 1;",
+              "\nWITH CTE AS (\n    SELECT *, ROW_NUMBER() OVER (PARTITION BY Column1, Column2 ORDER BY ID) AS RowNum\n    FROM TableName\n)\nDELETE\nFROM TableName\nWHERE ID IN (SELECT ID FROM CTE WHERE RowNum > 1);",
+              "\nWITH CTE AS (\n    SELECT *, ROW_NUMBER() OVER (PARTITION BY Column1, Column2 ORDER BY ID) AS RowNum\n    FROM TableName\n)\nDELETE FROM TableName\nWHERE EXISTS (SELECT 1 FROM CTE WHERE RowNum > 1);"
             ],
-            correctAnswer: 0
+            correctAnswer: 2,
+            category: "Data Manipulation",
+            difficulty: "Advanced",
+            explanation: "Option C correctly identifies and removes duplicate rows while keeping the first occurrence by using ROW_NUMBER() in a CTE and then deleting rows with higher row numbers."
           }
         ],
       },
@@ -920,205 +950,205 @@ export const courseData = [
         id: 1,
         title: "Excel Fundamentals",
         questions: [
-           {
-            question: "Which function would you use to find the maximum value in a range?",
+          {
+            question: "Scenario: You are analyzing sales data and want to calculate the total sales for each region. Sales data includes columns for Region and Sales. Which feature will you use?",
             options: [
-              "MAX()",
-              "MIN()",
-              "SUM()",
-              "AVERAGE()"
+              "PivotTable",
+              "VLOOKUP",
+              "CONCATENATE",
+              "Data Validation"
             ],
             correctAnswer: 0
           },
           {
-            question: "What is the shortcut for creating a new worksheet in Excel?",
+            question: "Scenario: You need to create a formula that calculates the total revenue for a dataset where Quantity and Unit Price are in two different columns. Which formula will you use?",
             options: [
-              "Ctrl + N",
-              "Ctrl + W",
-              "Ctrl + Shift + N",
-              "Ctrl + T"
+              "=SUM(Quantity, Unit Price)",
+              "=SUM(Quantity * Unit Price)",
+              "=Quantity * Unit Price",
+              "=SUMPRODUCT(Quantity, Unit Price)"
+            ],
+            correctAnswer: 3
+          },
+          {
+            question: "Scenario: Your manager asks you to display only unique values from a column of customer names. Which function will you use?",
+            options: [
+              "FILTER()",
+              "UNIQUE()",
+              "SORT()",
+              "COUNTIF()"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You have a dataset with a column of sales amounts, and you want to calculate a 10% commission for each sale in a new column. Which formula should you use?",
+            options: [
+              "=Sales/0.10",
+              "=Sales*10%",
+              "=Sales+10%",
+              "=SUM(Sales*0.10)"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You are tasked with highlighting all cells where sales exceed $50,000. Which Excel feature should you use?",
+            options: [
+              "Filters",
+              "Conditional Formatting",
+              "Sort and Filter",
+              "Data Validation"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You need to calculate the number of days between two dates stored in Start Date and End Date columns. Which formula will you use?",
+            options: [
+              "=DATEDIF(Start Date, End Date, \"d\")",
+              "=NETWORKDAYS(Start Date, End Date)",
+              "=DATEDIF(Start Date, End Date)",
+              "=DATE(Start Date, End Date)"
             ],
             correctAnswer: 0
           },
           {
-            question: "Which of the following is a valid Excel formula?",
+            question: "Scenario: You are working with a dataset where product prices include tax, and you need to calculate the tax-exclusive price. The tax rate is 15%. What formula would you use?",
             options: [
-              "=SUM(A1:A10)",
-              "=SUM A1:A10",
-              "SUM(A1:A10)",
-              "=SUM(A1:A10)"
+              "=Price*15%",
+              "=Price/1.15",
+              "=Price-15%",
+              "=Price/0.85"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You want to summarize sales data in a PivotTable, but your data has blank rows. What should you do first?",
+            options: [
+              "Apply a filter to exclude blanks",
+              "Use the Remove Duplicates feature",
+              "Delete blank rows using Go To Special",
+              "Highlight blank cells with Conditional Formatting"
+            ],
+            correctAnswer: 2
+          },
+          {
+            question: "Scenario: You need to combine the first name and last name from two separate columns into one full name column. Which formula will you use?",
+            options: [
+              "=JOIN(\" \", First Name, Last Name)",
+              "=MERGE(First Name, Last Name)",
+              "=CONCATENATE(First Name, \" \", Last Name)",
+              "=CONCAT(First Name, Last Name)"
+            ],
+            correctAnswer: 2
+          },
+          {
+            question: "Scenario: You are analyzing data and want to create a dynamic dropdown list that updates automatically when new entries are added to a range. Which feature should you use?",
+            options: [
+              "Data Validation with a defined name range",
+              "Data Validation with fixed cell references",
+              "Slicers",
+              "Filters"
             ],
             correctAnswer: 0
           },
           {
-            question: "What does the VLOOKUP function do?",
+            question: "Scenario: Your boss asks you to display only the top 10 sales values from a column. Which feature should you use?",
             options: [
-              "Looks up a value in a vertical column",
-              "Looks up a value in a horizontal row",
-              "Calculates the average of a range",
-              "Counts the number of cells in a range"
+              "Sort Largest to Smallest",
+              "Top 10 Filter",
+              "Conditional Formatting",
+              "Advanced Filter"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You want to count how many times a specific product appears in a column. Which formula will you use?",
+            options: [
+              "=COUNTIF(Range, \"Product Name\")",
+              "=COUNTIF(\"Product Name\", Range)",
+              "=COUNT(Range, \"Product Name\")",
+              "=IF(COUNT(Range))"
             ],
             correctAnswer: 0
           },
           {
-            question: "How can you freeze panes in Excel?",
+            question: "Scenario: You need to extract the year from a Date column in Excel. Which formula will you use?",
             options: [
-              "View > Freeze Panes",
-              "Data > Freeze Panes",
-              "Home > Freeze Panes",
-              "Insert > Freeze Panes"
+              "=YEAR(Date)",
+              "=TEXT(Date, \"YYYY\")",
+              "=DATEVALUE(Date)",
+              "=EXTRACT(Date, \"Year\")"
             ],
             correctAnswer: 0
           },
           {
-            question: "Which chart type is best for showing proportions?",
+            question: "Scenario: You have a dataset with duplicate customer entries and want to remove duplicates while keeping the first occurrence. Which Excel feature will you use?",
+            options: [
+              "Conditional Formatting",
+              "Remove Duplicates",
+              "Sort and Filter",
+              "Data Validation"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You need to display the sales totals from one sheet on another sheet, but only if the sales region matches a specific value. Which function will you use?",
+            options: [
+              "VLOOKUP",
+              "INDEX-MATCH",
+              "FILTER",
+              "IF"
+            ],
+            correctAnswer: 2
+          },
+          {
+            question: "Scenario: You are tasked with calculating the compound interest for a loan. Which Excel function is most suitable?",
+            options: [
+              "FV()",
+              "PMT()",
+              "NPV()",
+              "PV()"
+            ],
+            correctAnswer: 0
+          },
+          {
+            question: "Scenario: You need to calculate the moving average of sales over the past 3 months. Which formula will you use?",
+            options: [
+              "=AVERAGE(Sales[Row-2]:[Row])",
+              "=AVERAGE(OFFSET([Row],-2,0,3))",
+              "=SUM(Sales)/3",
+              "=FILTER(Sales,Last3Months)"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: Your dataset includes sales data, and your manager asks for the percentage contribution of each salesperson's sales to the total sales. Which formula will you use?",
+            options: [
+              "=Sales/SUM(Sales)",
+              "=Sales/COUNT(Sales)",
+              "=Sales*100%",
+              "=SUM(Sales)/Sales"
+            ],
+            correctAnswer: 0
+          },
+          {
+            question: "Scenario: You are working with a dataset that includes sales revenue and want to display the running total of revenue. Which formula will you use?",
+            options: [
+              "=SUM(Revenue)",
+              "=SUM($Revenue$1:Revenue[Row])",
+              "=CUMULATIVE(Revenue)",
+              "=OFFSET(Revenue, Row)"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You need to create a chart to visualize the comparison of sales performance across different regions. Which chart type is most appropriate?",
             options: [
               "Line Chart",
-              "Bar Chart",
               "Pie Chart",
-              "Scatter Plot"
+              "Column Chart",
+              "Scatter Chart"
             ],
             correctAnswer: 2
-          },
-          {
-            question: "What is the purpose of conditional formatting?",
-            options: [
-              "To format cells based on their values",
-              "To create charts",
-              "To protect cells from editing",
-              "To sort data"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "Which function would you use to count the number of cells that meet a specific condition?",
-            options: [
-              "COUNT()",
-              "COUNTA()",
-              "COUNTIF()",
-              "SUMIF()"
-            ],
-            correctAnswer: 2
-          },
-          {
-            question: "What is the maximum number of rows in an Excel worksheet?",
-            options: [
-              "65,536",
-              "1,048,576",
-              "1,000,000",
-              "2,000,000"
-            ],
-            correctAnswer: 1
-          },
-          {
-            question: "Which of the following is NOT a data type in Excel?",
-            options: [
-              "Text",
-              "Number",
-              "Date",
-              "Image"
-            ],
-            correctAnswer: 3
-          },
-          {
-            question: "What does the CONCATENATE function do?",
-            options: [
-              "Joins two or more text strings together",
-              "Calculates the sum of a range",
-              "Finds the average of a range",
-              "Counts the number of characters in a string"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "How can you create a drop-down list in Excel?",
-            options: [
-              "Data Validation",
-              "Conditional Formatting",
-              "Data Table",
-              "Pivot Table"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "What is the purpose of the IF function?",
-            options: [
-              "To perform a logical test and return one value for TRUE and another for FALSE",
-              "To sum a range of cells",
-              "To find the maximum value in a range",
-              "To count the number of cells"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "Which of the following is a way to protect a worksheet?",
-            options: [
-              "File > Protect Workbook",
-              "Review > Protect Sheet",
-              "Home > Protect Sheet",
-              "Data > Protect Workbook"
-            ],
-            correctAnswer: 1
-          },
-          {
-            question: "What is the shortcut to open the Format Cells dialog box?",
-            options: [
-              "Ctrl + 1",
-              "Ctrl + Shift + 1",
-              "Alt + F1",
-              "Shift + F1"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "Which function would you use to find the average of a range of cells?",
-            options: [
-              "AVERAGE()",
-              "AVG()",
-              "MEAN()",
-              "SUM()"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "What is the purpose of a Pivot Table?",
-            options: [
-              "To summarize and analyze data",
-              "To create charts",
-              "To format cells",
-              "To protect data"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "How can you quickly sum a column of numbers in Excel?",
-            options: [
-              "Use the SUM function",
-              "Use AutoSum",
-              "Use the COUNT function",
-              "Use the AVERAGE function"
-            ],
-            correctAnswer: 1
-          },
-          {
-            question: "What does the PMT function calculate?",
-            options: [
-              "Loan payment",
-              "Interest rate",
-              "Total amount",
-              "Future value"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "Which of the following is a valid Excel formula?",
-            options: [
-              "=A1 + B1",
-              "A1 + B1",
-              "=SUM(A1, B1)",
-              "Both A and C"
-            ],
-            correctAnswer: 3
           }
         ],
       },
@@ -1144,206 +1174,206 @@ export const courseData = [
         id: 1,
         title: "Power BI Fundamentals",
         questions: [
-             {
-            question: "What is Power BI primarily used for?",
-            options: [
-              "Word processing",
-              "Data visualization",
-              "Programming",
-              "Email management"
-            ],
-            correctAnswer: 1
-          },
           {
-            question: "What language is used for creating calculations in Power BI?",
+            question: "Scenario: You are working with a dataset containing sales transactions. You need to create a measure that calculates the total sales amount for each region. Which DAX formula will you use?",
             options: [
-              "SQL",
-              "Python",
-              "DAX",
-              "Java"
+              "Total Sales = SUM(Sales[Amount])",
+              "Total Sales = SUMX(Sales, Sales[Amount])",
+              "Total Sales = CALCULATE(SUM(Sales[Amount]))",
+              "Total Sales = SUM(Sales[Amount]) BY Region"
             ],
             correctAnswer: 2
           },
           {
-            question: "Which Power BI component is used for data cleaning?",
+            question: "Scenario: You have a table with Product, SalesAmount, and SalesDate. You need to create a visual showing monthly sales trends. Which visualization type would you choose?",
             options: [
-              "Power Query",
-              "Power Pivot",
-              "Power View",
-              "Power Map"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "What is the purpose of a measure in Power BI?",
-            options: [
-              "To store data",
-              "To perform calculations on data",
-              "To visualize data",
-              "To clean data"
-            ],
-            correctAnswer: 1
-          },
-          {
-            question: "Which visualization is best for showing the relationship between two variables?",
-            options: [
-              "Bar Chart",
+              "Column Chart",
               "Line Chart",
-              "Scatter Plot",
-              "Pie Chart"
+              "Pie Chart",
+              "Matrix"
             ],
-            correctAnswer: 2
+            correctAnswer: 1
           },
           {
-            question: "What does the DAX function CALCULATE() do?",
+            question: "Scenario: You want to create a report that only shows data for the last 30 days from the Sales table, which includes a column SalesDate. Which DAX formula will you use to filter the data?",
             options: [
-              "Changes the context in which data is evaluated",
-              "Creates a new table",
-              "Filters data",
-              "Aggregates data"
+              "FILTER(Sales, Sales[SalesDate] > TODAY() - 30)",
+              "CALCULATE(Sales, Sales[SalesDate] > TODAY() - 30)",
+              "DATEADD(Sales[SalesDate], -30, DAY)",
+              "FILTER(Sales, DATEDIFF(Sales[SalesDate], TODAY(), DAY) <= 30)"
             ],
             correctAnswer: 0
           },
           {
-            question: "Which of the following is NOT a type of visualization in Power BI?",
+            question: "Scenario: You need to create a calculated column in Power BI that determines if the SalesAmount is above the average sales amount. Which DAX formula will you use?",
+            options: [
+              "IF(Sales[SalesAmount] > AVERAGE(Sales[SalesAmount]), \"Above Average\", \"Below Average\")",
+              "IF(Sales[SalesAmount] > MAX(Sales[SalesAmount]), \"Above Average\", \"Below Average\")",
+              "IF(AVERAGE(Sales[SalesAmount]) > Sales[SalesAmount], \"Above Average\", \"Below Average\")",
+              "IF(Sales[SalesAmount] < AVERAGE(Sales[SalesAmount]), \"Above Average\", \"Below Average\")"
+            ],
+            correctAnswer: 0
+          },
+          {
+            question: "Scenario: You need to create a relationship between two tables in Power BI. The Sales table has a CustomerID column, and the Customers table has a CustomerID column. Which type of relationship will you create?",
+            options: [
+              "One-to-One",
+              "One-to-Many",
+              "Many-to-One",
+              "Many-to-Many"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You want to calculate the percentage of total sales for each product in Power BI. Which DAX formula will you use?",
+            options: [
+              "Product Sales % = SUM(Sales[Amount]) / SUM(Sales[Amount])",
+              "Product Sales % = DIVIDE(SUM(Sales[Amount]), CALCULATE(SUM(Sales[Amount])))",
+              "Product Sales % = SUM(Sales[Amount]) * 100 / SUM(Sales[Amount])",
+              "Product Sales % = SUM(Sales[Amount]) * 100 / SUM(Sales[Amount]) OVERALL"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You need to create a table that shows Product, SalesAmount, and SalesDate, but the sales table contains duplicate records. Which Power BI feature will you use to remove duplicates?",
+            options: [
+              "Merge Queries",
+              "Remove Duplicates in the Query Editor",
+              "Remove Duplicates in the Data View",
+              "Remove Duplicates in the Report View"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You want to create a measure that calculates the year-over-year growth in sales. Which DAX formula will you use?",
+            options: [
+              "YoY Sales = SUM(Sales[Amount]) - SUM(Sales[Amount]) PREVIOUSYEAR(Sales[SalesDate])",
+              "YoY Sales = SUM(Sales[Amount]) - CALCULATE(SUM(Sales[Amount]), SAMEPERIODLASTYEAR(Sales[SalesDate]))",
+              "YoY Sales = SUM(Sales[Amount]) / SAMEPERIODLASTYEAR(Sales[SalesDate])",
+              "YoY Sales = CALCULATE(SUM(Sales[Amount]), YEAR(Sales[SalesDate]) = YEAR(TODAY()) - 1)"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You need to create a slicer in Power BI that filters data by Region. Which field should you place in the slicer?",
+            options: [
+              "Region",
+              "SalesAmount",
+              "Date",
+              "CustomerID"
+            ],
+            correctAnswer: 0
+          },
+          {
+            question: "Scenario: You want to create a matrix visual to display sales by Product and Region. Which type of Power BI visual should you use?",
             options: [
               "Table",
               "Matrix",
-              "Pie Chart",
-              "Text Box"
-            ],
-            correctAnswer: 3
-          },
-          {
-            question: "What is the purpose of the Power BI Service?",
-            options: [
-              "To create reports",
-              "To publish and share reports",
-              "To clean data",
-              "To model data"
+              "Clustered Column Chart",
+              "Card"
             ],
             correctAnswer: 1
           },
           {
-            question: "Which feature allows you to create interactive reports in Power BI?",
+            question: "Scenario: You have a report that includes a Sales table and a Products table. You want to show the total sales for each product in a bar chart. Which type of relationship should you use between the two tables?",
             options: [
-              "Slicers",
-              "Filters",
-              "Bookmarks",
-              "All of the above"
-            ],
-            correctAnswer: 3
-          },
-          {
-            question: "What is the purpose of a calculated column in Power BI?",
-            options: [
-              "To store static data",
-              "To perform calculations on a row-by-row basis",
-              "To aggregate data",
-              "To filter data"
+              "One-to-One",
+              "One-to-Many",
+              "Many-to-One",
+              "Many-to-Many"
             ],
             correctAnswer: 1
           },
           {
-            question: "Which of the following is a valid DAX function?",
+            question: "Scenario: You need to create a calculated column that extracts the year from the SalesDate column in the Sales table. Which DAX formula will you use?",
             options: [
-              "SUMX()",
-              "AVERAGEIF()",
-              "COUNTIF()",
-              "FILTER()"
+              "Year = YEAR(Sales[SalesDate])",
+              "Year = DATEPART(\"YEAR\", Sales[SalesDate])",
+              "Year = EXTRACT(Sales[SalesDate], YEAR)",
+              "Year = SALES[SalesDate].[Year]"
             ],
             correctAnswer: 0
           },
           {
-            question: "What is the purpose of the Power Query Editor?",
-            options: [
-              "To create visualizations",
-              "To clean and transform data",
-              "To write DAX formulas",
-              "To publish reports"
-            ],
-            correctAnswer: 1
-          },
-          {
-            question: "Which visualization is best for showing parts of a whole?",
+            question: "Scenario: You need to show sales growth compared to last year. Which visualization is best suited for this?",
             options: [
               "Line Chart",
-              "Bar Chart",
-              "Pie Chart",
-              "Scatter Plot"
-            ],
-            correctAnswer: 2
-          },
-          {
-            question: "What does the term 'data model' refer to in Power BI?",
-            options: [
-              "The structure of data in a report",
-              "The visual layout of a report",
-              "The calculations used in a report",
-              "The data sources connected to Power BI"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "Which of the following is a benefit of using Power BI?",
-            options: [
-              "Real-time data analysis",
-              "Complex programming required",
-              "Limited data sources",
-              "Static reports only"
-            ],
-            correctAnswer: 0
-          },
-          {
-            question: "What is the purpose of a dashboard in Power BI?",
-            options: [
-              "To display a single report",
-              "To provide a high-level view of key metrics",
-              "To clean data",
-              "To create new data sources"
+              "KPI Visual",
+              "Column Chart",
+              "Combo Chart"
             ],
             correctAnswer: 1
           },
           {
-            question: "Which of the following is a way to share Power BI reports?",
+            question: "Scenario: You need to filter the data for the current year in a Sales table using a DAX formula. Which DAX formula will you use?",
             options: [
-              "Emailing the .pbix file",
-              "Publishing to the Power BI Service",
-              "Exporting to PDF",
-              "All of the above"
+              "FILTER(Sales, YEAR(Sales[SalesDate]) = YEAR(TODAY()))",
+              "CALCULATE(SUM(Sales[Amount]), YEAR(Sales[SalesDate]) = YEAR(TODAY()))",
+              "FILTER(Sales, Sales[SalesDate] = TODAY())",
+              "FILTER(Sales, YEAR(Sales[SalesDate]) = YEAR(TODAY()) - 1)"
             ],
-            correctAnswer: 3
+            correctAnswer: 1
           },
           {
-            question: "What is the purpose of the 'Get Data' feature in Power BI?",
+            question: "Scenario: You want to highlight cells in a table where SalesAmount exceeds $100,000. Which Power BI feature should you use?",
             options: [
-              "To import data from various sources",
-              "To clean data",
-              "To create visualizations",
-              "To publish reports"
+              "Conditional Formatting",
+              "Data Labels",
+              "Data Colors",
+              "Formatting by Theme"
             ],
             correctAnswer: 0
           },
           {
-            question: "Which of the following is a common data source for Power BI?",
+            question: "Scenario: You are working with a sales dataset and want to visualize the top 5 products by revenue. Which DAX function can you use to rank the products?",
             options: [
-              "Excel",
-              "SQL Server",
-              "Web APIs",
-              "All of the above"
-            ],
-            correctAnswer: 3
-          },
-          {
-            question: "What is the purpose of the 'Publish to Web' feature in Power BI?",
-            options: [
-              "To share reports publicly on the internet",
-              "To create a backup of reports",
-              "To export reports to PDF",
-              "To clean data"
+              "RANKX()",
+              "RANK()",
+              "TOPN()",
+              "DENSE_RANK()"
             ],
             correctAnswer: 0
           },
+          {
+            question: "Scenario: You need to filter out records where SalesAmount is negative in Power BI. Which option will you use in the Query Editor?",
+            options: [
+              "Remove Rows",
+              "Filter Rows",
+              "Replace Values",
+              "Remove Columns"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You need to display the total sales for the top 10 performing products in a Product and Sales dataset. Which Power BI feature would you use?",
+            options: [
+              "TOPN function in DAX",
+              "Power Query Editor",
+              "Rank column",
+              "Filter pane"
+            ],
+            correctAnswer: 0
+          },
+          {
+            question: "Scenario: You want to create a drill-through report that allows users to right-click on a product and see detailed sales information for that product. What should you configure?",
+            options: [
+              "Page-level filters",
+              "Drill-through filters",
+              "Slicer",
+              "Conditional formatting"
+            ],
+            correctAnswer: 1
+          },
+          {
+            question: "Scenario: You need to create a report that includes both a bar chart for sales by region and a line chart showing sales trends over time. Which visual combination should you use?",
+            options: [
+              "Combo Chart",
+              "Line and Clustered Column Chart",
+              "KPI and Bar Chart",
+              "Stacked Area Chart"
+            ],
+            correctAnswer: 0
+          }
         ],
       },
     ],

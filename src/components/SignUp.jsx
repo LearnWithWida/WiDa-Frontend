@@ -4,10 +4,14 @@ import { useAuth } from '../context/AuthContext';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import { toast, ToastContainer } from 'react-toastify';
+import emailjs from '@emailjs/browser';
 import 'react-toastify/dist/ReactToastify.css';
 import Google from "../assets/google.png"
 import './SignUp.css';
-import defaultAvatar from '../assets/avatar.jpg'; // Add your default avatar image
+import defaultAvatar from '../assets/avatar.jpg'; 
+
+// Initialize EmailJS
+emailjs.init("eGfeOXpr2avwHqpud");
 
 const SignUp = () => {
   const { googleSignIn } = useAuth();
@@ -15,20 +19,91 @@ const SignUp = () => {
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [verificationCode, setVerificationCode] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showVerification, setShowVerification] = useState(false);
+  const [generatedCode, setGeneratedCode] = useState('');
+
+  const generateVerificationCode = () => {
+    return Math.floor(100000 + Math.random() * 900000).toString();
+  };
+
+  const sendVerificationEmail = async (userEmail, code) => {
+    try {
+      const templateParams = {
+        to_email: userEmail,
+        from_name: "LearnWithWida",
+        message: `Your verification code is: ${code}`,
+        to_name: fullName,
+        verification_code: code
+      };
+
+      await emailjs.send(
+        'service_fc05pxq',
+        'template_f5baibd',
+        templateParams,
+        'eGfeOXpr2avwHqpud'
+      );
+
+      toast.success('Verification code sent to your email!');
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast.error('Failed to send verification code');
+      throw error;
+    }
+  };
+
+  const handleInitialSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      // Basic validation
+      if (!fullName || !email || !password) {
+        toast.error('Please fill in all fields');
+        return;
+      }
+
+      if (password.length < 6) {
+        toast.error('Password should be at least 6 characters');
+        return;
+      }
+
+      // Generate verification code
+      const code = generateVerificationCode();
+      setGeneratedCode(code);
+
+      // Send verification email
+      await sendVerificationEmail(email, code);
+
+      // Show verification code input
+      setShowVerification(true);
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to start verification process');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleEmailSignUp = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
+      // Verify the code
+      if (verificationCode !== generatedCode) {
+        toast.error('Invalid verification code');
+        return;
+      }
+
       // Create user with email and password
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       
       // Update user profile with full name and default avatar
       await updateProfile(userCredential.user, {
         displayName: fullName,
-        photoURL: defaultAvatar // Add default avatar
+        photoURL: defaultAvatar
       });
 
       toast.success('Account created successfully!');
@@ -74,36 +149,58 @@ const SignUp = () => {
           <span>or</span>
         </div>
 
-        <form className="signup-form" onSubmit={handleEmailSignUp}>
-          <input 
-            type="text" 
-            placeholder="Full Name" 
-            required 
-            value={fullName}
-            onChange={(e) => setFullName(e.target.value)}
-          />
-          <input 
-            type="email" 
-            placeholder="Email" 
-            required 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input 
-            type="password" 
-            placeholder="Password" 
-            required 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button 
-            type="submit" 
-            className="signup-submit-btn"
-            disabled={loading}
-          >
-            {loading ? 'Creating Account...' : 'Create Account'}
-          </button>
-        </form>
+        {!showVerification ? (
+          <form className="signup-form" onSubmit={handleInitialSubmit}>
+            <input 
+              type="text" 
+              placeholder="Full Name" 
+              required 
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+            <input 
+              type="email" 
+              placeholder="Email" 
+              required 
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input 
+              type="password" 
+              placeholder="Password" 
+              required 
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <button 
+              type="submit" 
+              className="signup-submit-btn"
+              disabled={loading}
+            >
+              {loading ? 'Sending Code...' : 'Get Verification Code'}
+            </button>
+          </form>
+        ) : (
+          <form className="signup-form" onSubmit={handleEmailSignUp}>
+            <input 
+              type="text" 
+              placeholder="Enter Verification Code" 
+              required 
+              value={verificationCode}
+              onChange={(e) => setVerificationCode(e.target.value)}
+            />
+            <button 
+              type="submit" 
+              className="signup-submit-btn"
+              disabled={loading}
+            >
+              {loading ? 'Creating Account...' : 'Create Account'}
+            </button>
+            <p className="resend-code" onClick={handleInitialSubmit}>
+              Didn't receive the code? Send again
+            </p>
+          </form>
+        )}
 
         <p className="login-link">
           Already have an account? <span onClick={() => navigate('/login')}>Login</span>
