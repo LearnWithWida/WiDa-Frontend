@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext';
 import { examTrackingService } from '../services/examTrackingService';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import LoadingSpinner from '../components/LoadingSpinner';
 import "./ExamCourse.css";
 import heroImage from "../assets/course-hero.png";
 
@@ -76,12 +77,11 @@ const CoursesList = () => {
   };
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   return (
     <div className="course-page">
-      <ToastContainer position="top-right" autoClose={3000} />
       <div className="course-hero">
         <div className="hero-content">
           <h1>
@@ -97,7 +97,19 @@ const CoursesList = () => {
             experience and assess your readiness for real-world challenges!"
           </p>
         </div>
-        <img src={heroImage} alt="Course Hero" className="hero-image" />
+        <div className="hero-image">
+          <img src={heroImage} alt="Data Science Learning" />
+        </div>
+      </div>
+
+      <div className="course-intro">
+        <h1>Available Courses</h1>
+        <p className="course-intro-text">
+          Assess your skills with our practice exams in data science, data
+          analysis, and research analysis. These exams are designed to simulate
+          real-world challenges, helping you identify strengths, improve weak
+          areas, and build confidence for professional applications.
+        </p>
       </div>
 
       <div className="courses-container">

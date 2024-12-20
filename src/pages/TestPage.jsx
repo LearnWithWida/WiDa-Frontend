@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { courseData } from "../Data";
 import "./TestPage.css";
@@ -8,6 +8,7 @@ import { examService } from '../services/examService';
 import { examTrackingService } from '../services/examTrackingService';
 import { useAuth } from '../context/AuthContext';
 import { toast } from 'react-toastify';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
@@ -18,6 +19,7 @@ const formatTime = (seconds) => {
 const TestPage = () => {
   const { courseId, examId } = useParams();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
@@ -25,20 +27,60 @@ const TestPage = () => {
   const [showRules, setShowRules] = useState(true);
   const [examStarted, setExamStarted] = useState(false);
   const [autoSubmitReason, setAutoSubmitReason] = useState(null);
-  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   // Find the course and exam
   const course = courseData.find((c) => c.id === courseId);
   const exam = course?.exams?.find((e) => e.id === Number(examId));
 
-  // console.log("Course:", course);
-  // console.log("Exam:", exam);
+  // Define handleSubmit using useCallback
+  const handleSubmit = useCallback(async (reason = null) => {
+    if (!user) {
+      toast.error("You must be logged in to submit the exam");
+      return;
+    }
+
+    setShowResults(true);
+    if (reason) {
+      setAutoSubmitReason(reason);
+    }
+
+    const score = calculateScore();
+
+    try {
+      const saved = await examTrackingService.saveExamAttempt(
+        user.uid,
+        courseId,
+        Number(examId),
+        score
+      );
+
+      if (!saved) {
+        console.error('Failed to save exam attempt');
+        toast.error('Failed to save exam results');
+      }
+    } catch (error) {
+      console.error('Error saving exam attempt:', error);
+      toast.error('Failed to save exam results');
+    }
+  }, [user, courseId, examId]);
+
+  // Calculate score function
+  const calculateScore = useCallback(() => {
+    let correct = 0;
+    exam?.questions.forEach((question, index) => {
+      if (userAnswers[index] === question.correctAnswer) {
+        correct++;
+      }
+    });
+    return exam ? (correct / exam.questions.length) * 100 : 0;
+  }, [exam, userAnswers]);
 
   useEffect(() => {
     // Handle visibility change
     const handleVisibilityChange = () => {
       if (document.hidden && !showResults) {
-        handleSubmit('tab-switch'); // Pass the reason here
+        handleSubmit('tab-switch');
       }
     };
 
@@ -48,7 +90,7 @@ const TestPage = () => {
         if (prevTime <= 0 || showResults) {
           clearInterval(timer);
           if (!showResults) {
-            handleSubmit('time-up'); // Pass the reason here
+            handleSubmit('time-up');
           }
           return 0;
         }
@@ -62,7 +104,15 @@ const TestPage = () => {
       clearInterval(timer);
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [showResults]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [showResults, handleSubmit]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   // Format time for display
   const formatTime = (seconds) => {
@@ -70,6 +120,10 @@ const TestPage = () => {
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
 
   if (!course || !exam) {
     return (
@@ -85,47 +139,6 @@ const TestPage = () => {
       ...userAnswers,
       [questionIndex]: answerIndex,
     });
-  };
-
-  const handleSubmit = async (reason = null) => {
-    if (!user) {
-      toast.error("You must be logged in to submit the exam");
-      return;
-    }
-
-    setShowResults(true);
-    if (reason) {
-      setAutoSubmitReason(reason);
-    }
-    
-    const score = calculateScore();
-    
-    try {
-      const saved = await examTrackingService.saveExamAttempt(
-        user.uid,
-        courseId,
-        Number(examId),
-        score
-      );
-      
-      if (!saved) {
-        console.error('Failed to save exam attempt');
-        toast.error('Failed to save exam results');
-      }
-    } catch (error) {
-      console.error('Error saving exam attempt:', error);
-      toast.error('Failed to save exam results');
-    }
-  };
-
-  const calculateScore = () => {
-    let correct = 0;
-    exam.questions.forEach((question, index) => {
-      if (userAnswers[index] === question.correctAnswer) {
-        correct++;
-      }
-    });
-    return (correct / exam.questions.length) * 100;
   };
 
   const startExam = () => {

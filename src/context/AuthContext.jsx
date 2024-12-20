@@ -1,18 +1,21 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { auth, provider } from '../firebase/config';
 import { 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut, 
+  getAuth, 
   onAuthStateChanged,
-  signInWithPopup 
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  sendPasswordResetEmail
 } from 'firebase/auth';
+import { auth } from '../firebase/config';
 
 const AuthContext = createContext();
 
-export const useAuth = () => useContext(AuthContext);
+export function useAuth() {
+  return useContext(AuthContext);
+}
 
-export const AuthProvider = ({ children }) => {
+export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -25,33 +28,13 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  const login = (email, password) => {
-    return signInWithEmailAndPassword(auth, email, password);
-  };
-
-  const signup = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
-  };
-
-  const logout = () => {
-    return signOut(auth);
-  };
-
-  const googleSignIn = async () => {
-    try {
-      const result = await signInWithPopup(auth, provider);
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  };
-
   const value = {
     user,
-    login,
-    signup,
-    logout,
-    googleSignIn
+    loading,
+    signIn: (email, password) => signInWithEmailAndPassword(auth, email, password),
+    signUp: (email, password) => createUserWithEmailAndPassword(auth, email, password),
+    logout: () => signOut(auth),
+    resetPassword: (email) => sendPasswordResetEmail(auth, email),
   };
 
   return (
@@ -59,4 +42,4 @@ export const AuthProvider = ({ children }) => {
       {!loading && children}
     </AuthContext.Provider>
   );
-};
+}

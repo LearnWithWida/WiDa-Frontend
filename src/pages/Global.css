@@ -1013,21 +1013,40 @@ button{
   }
 }
 
-.tryout-btn.disabled {
-  opacity: 0.7;
-  background-color: #ccc;
-  cursor: pointer;
+/* Tour button styles */
+.tour-btn {
+  transition: transform 0.2s ease;
 }
 
-.tryout-login-prompt {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.5rem;
+.tour-btn:hover {
+  transform: scale(1.1);
 }
 
-.login-prompt-text {
-  color: #FF7600;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.tour-btn {
+  animation: pulse 2s infinite;
+}
+
+.tour-btn:hover {
+  animation: none;
+  transform: scale(1.1);
+}
+
+/* Tour overlay styles */
+.__floater {
+  z-index: 10000 !important;
+}
+
+.react-joyride__overlay {
+  z-index: 9999 !important;
+}
+
+/* Ensure tooltips are visible */
+.react-joyride__tooltip {
+  z-index: 10001 !important;
 }

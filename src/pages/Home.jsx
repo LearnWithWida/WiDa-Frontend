@@ -1,5 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useEffect } from "react";
+import Joyride, { STATUS } from 'react-joyride';
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from '../context/AuthContext';
 import { courseData } from "../Data";
 import "./Global.css";
 import homeImage from "../assets/home.png";
@@ -16,7 +18,6 @@ import instructor from "../assets/instructor.png";
 import FAQImage from "../assets/FAQ.png";
 import FAQ from "../components/Faq";
 import Feedback from "../components/Feedback";
-import { useAuth } from '../context/AuthContext';
 
 const testimonials = [
   {
@@ -45,11 +46,117 @@ const testimonials = [
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const [runTour, setRunTour] = useState(true);
+
+  const steps = [
+    {
+      target: '.home-container',
+      content: '👋 Welcome to our Data Science Learning Platform! Let us show you around.',
+      placement: 'center',
+      disableBeacon: true,
+    },
+    {
+      target: '.offer-section',
+      content: '🎯 Discover what we offer - from comprehensive courses to hands-on practice.',
+      placement: 'bottom',
+    },
+    {
+      target: '.course-section',
+      content: '📚 Explore our detailed courses designed to enhance your data science skills.',
+      placement: 'top',
+    },
+    {
+      target: '.tryout-section',
+      content: '✍️ Practice your skills with our interactive exam simulations.',
+      placement: 'top',
+    },
+    {
+      target: '.data-sec',
+      content: '👨‍🏫 Get expert mentorship from industry professionals.',
+      placement: 'left',
+    },
+    {
+      target: '.Testimonials-section',
+      content: '💬 See what our successful students have to say about their learning journey.',
+      placement: 'top',
+    },
+    {
+      target: '.FAQ',
+      content: '❓ Find answers to common questions about our platform.',
+      placement: 'top',
+    }
+  ];
+
+  const handleJoyrideCallback = (data) => {
+    const { status } = data;
+    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
+      setRunTour(false);
+      localStorage.setItem('hasSeenTour', 'true');
+    }
+  };
+
+  const startTour = () => {
+    setRunTour(true);
+  };
+
   const handleInstructorClick = () => {
     navigate("/instructors");
   };
   return (
     <>
+      <Joyride
+        steps={steps}
+        run={runTour}
+        continuous={true}
+        showProgress={true}
+        showSkipButton={true}
+        callback={handleJoyrideCallback}
+        styles={{
+          options: {
+            primaryColor: '#FF7600',
+            backgroundColor: '#ffffff',
+            textColor: '#333',
+            arrowColor: '#FF7600',
+            zIndex: 1000,
+          },
+          tooltip: {
+            padding: '20px',
+          },
+          buttonNext: {
+            backgroundColor: '#FF7600',
+          },
+          buttonBack: {
+            marginRight: 10,
+            color: '#FF7600',
+          }
+        }}
+      />
+
+      <button 
+        onClick={startTour}
+        className="tour-btn"
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 1000,
+          backgroundColor: '#FF7600',
+          color: 'white',
+          border: 'none',
+          borderRadius: '50%',
+          width: '50px',
+          height: '50px',
+          cursor: 'pointer',
+          boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+        title="Start Website Tour"
+      >
+        <i className="fas fa-question"></i>
+      </button>
+
       <div className="home-container">
         <div className="content-wrapper">
           <img src={homeImage} alt="Home" className="home-image" />
@@ -123,22 +230,9 @@ const Home = () => {
               alt="Tryout 2"
               className="tryout-image changes"
             />
-            {user ? (
-              <Link to="/ExamCourse">
-                <button className="tryout-btn">Try it out</button>
-              </Link>
-            ) : (
-              <div className="tryout-login-prompt">
-                <button 
-                  className="tryout-btn disabled" 
-                  onClick={() => navigate('/login')}
-                  title="Please login to access exams"
-                >
-                  Login to Try
-                </button>
-                <p className="login-prompt-text">Please login to access practice exams</p>
-              </div>
-            )}
+            <Link to="/ExamCourse">
+            <button className="tryout-btn">Try it out</button>
+            </Link>
           </div>
         </div>
       </div>
