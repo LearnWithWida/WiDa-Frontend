@@ -4,7 +4,10 @@ import { courseData } from "../Data";
 import "./TestPage.css";
 import Lottie from 'lottie-react';
 import confettiAnimation from '../assets/confetti.json';
-import examService from '../services/examService';
+import { examService } from '../services/examService';
+import { examTrackingService } from '../services/examTrackingService';
+import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 const formatTime = (seconds) => {
   const minutes = Math.floor(seconds / 60);
@@ -18,10 +21,11 @@ const TestPage = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(600); // 10 minutes in seconds
+  const [timeLeft, setTimeLeft] = useState(1200);
   const [showRules, setShowRules] = useState(true);
   const [examStarted, setExamStarted] = useState(false);
   const [autoSubmitReason, setAutoSubmitReason] = useState(null);
+  const { user } = useAuth();
 
   // Find the course and exam
   const course = courseData.find((c) => c.id === courseId);
@@ -83,10 +87,34 @@ const TestPage = () => {
     });
   };
 
-  const handleSubmit = (reason = null) => {
+  const handleSubmit = async (reason = null) => {
+    if (!user) {
+      toast.error("You must be logged in to submit the exam");
+      return;
+    }
+
     setShowResults(true);
     if (reason) {
       setAutoSubmitReason(reason);
+    }
+    
+    const score = calculateScore();
+    
+    try {
+      const saved = await examTrackingService.saveExamAttempt(
+        user.uid,
+        courseId,
+        Number(examId),
+        score
+      );
+      
+      if (!saved) {
+        console.error('Failed to save exam attempt');
+        toast.error('Failed to save exam results');
+      }
+    } catch (error) {
+      console.error('Error saving exam attempt:', error);
+      toast.error('Failed to save exam results');
     }
   };
 
@@ -115,7 +143,7 @@ const TestPage = () => {
               
               <div className="rules-section">
                 <h3>⏰ Time Limit</h3>
-                <p>• You have 10 minutes to complete this exam</p>
+                <p>• You have 20 minutes to complete this exam</p>
                 <p>• The exam will auto-submit when time expires</p>
               </div>
 

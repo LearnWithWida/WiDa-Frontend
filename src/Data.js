@@ -8,7 +8,7 @@ export const courseData = [
     id: "data-analysis",
     title: "Data Analysis",
     level: "Beginner to Advanced",
-    image: "/path/to/image.jpg",
+    image: courseImg1,
     description:
       "Master the fundamentals of data analysis with our comprehensive course.",
     modules: [

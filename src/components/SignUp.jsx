@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
@@ -14,8 +14,8 @@ import defaultAvatar from '../assets/avatar.jpg';
 emailjs.init("eGfeOXpr2avwHqpud");
 
 const SignUp = () => {
-  const { googleSignIn } = useAuth();
   const navigate = useNavigate();
+  const { user, googleSignIn } = useAuth();
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -23,6 +23,13 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [showVerification, setShowVerification] = useState(false);
   const [generatedCode, setGeneratedCode] = useState('');
+
+  // Redirect if user is already logged in
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const generateVerificationCode = () => {
     return Math.floor(100000 + Math.random() * 900000).toString();
@@ -33,19 +40,23 @@ const SignUp = () => {
       const templateParams = {
         to_email: userEmail,
         from_name: "LearnWithWida",
-        message: `Your verification code is: ${code}`,
         to_name: fullName,
-        verification_code: code
+        verification_code: code,
+        reply_to: userEmail
       };
 
-      await emailjs.send(
+      const response = await emailjs.send(
         'service_fc05pxq',
         'template_f5baibd',
         templateParams,
         'eGfeOXpr2avwHqpud'
       );
 
-      toast.success('Verification code sent to your email!');
+      if (response.status === 200) {
+        toast.success('Verification code sent to your email!');
+      } else {
+        throw new Error('Failed to send email');
+      }
     } catch (error) {
       console.error('Error sending email:', error);
       toast.error('Failed to send verification code');

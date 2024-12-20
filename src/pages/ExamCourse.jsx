@@ -1,19 +1,87 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { courseData } from "../Data";
+import { useAuth } from '../context/AuthContext';
+import { examTrackingService } from '../services/examTrackingService';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import "./ExamCourse.css";
 import heroImage from "../assets/course-hero.png";
 
 const CoursesList = () => {
   const navigate = useNavigate();
+  const { user } = useAuth();
+  const [attemptedExams, setAttemptedExams] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  const handleStartExam = (courseId, examId) => {
-    console.log("Starting exam:", examId, "for course:", courseId);
-    navigate(`/test/${courseId}/${examId}`);
+  useEffect(() => {
+    const loadAttemptedExams = async () => {
+      if (!user) {
+        setAttemptedExams({});
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const attempts = {};
+        for (const course of courseData) {
+          for (const exam of course.exams) {
+            const hasAttempted = await examTrackingService.hasAttemptedExam(
+              user.uid,
+              course.id,
+              exam.id
+            );
+            if (hasAttempted) {
+              console.log(`User ${user.uid} has attempted exam ${course.id}_${exam.id}`);
+            }
+            attempts[`${course.id}_${exam.id}`] = hasAttempted;
+          }
+        }
+        setAttemptedExams(attempts);
+      } catch (error) {
+        console.error('Error loading exam attempts:', error);
+        toast.error('Failed to load exam history');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadAttemptedExams();
+  }, [user]);
+
+  const handleStartExam = async (courseId, examId) => {
+    if (!user) {
+      toast.error("Please login to take the exam");
+      navigate('/login');
+      return;
+    }
+
+    try {
+      const hasAttempted = await examTrackingService.hasAttemptedExam(
+        user.uid,
+        courseId,
+        examId
+      );
+
+      if (hasAttempted) {
+        toast.warning("You have already completed this exam!");
+        return;
+      }
+
+      navigate(`/test/${courseId}/${examId}`);
+    } catch (error) {
+      console.error('Error checking exam attempt:', error);
+      toast.error('Failed to check exam status');
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="course-page">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="course-hero">
         <div className="hero-content">
           <h1>
@@ -29,19 +97,7 @@ const CoursesList = () => {
             experience and assess your readiness for real-world challenges!"
           </p>
         </div>
-        <div className="hero-image">
-          <img src={heroImage} alt="Data Science Learning" />
-        </div>
-      </div>
-
-      <div className="course-intro">
-        <h1>Available Courses</h1>
-        <p className="course-intro-text">
-          Assess your skills with our practice exams in data science, data
-          analysis, and research analysis. These exams are designed to simulate
-          real-world challenges, helping you identify strengths, improve weak
-          areas, and build confidence for professional applications.
-        </p>
+        <img src={heroImage} alt="Course Hero" className="hero-image" />
       </div>
 
       <div className="courses-container">
@@ -61,10 +117,11 @@ const CoursesList = () => {
                 </div>
               </div>
               <button
-                className="payment-btn"
+                className={`payment-btn ${attemptedExams[`${course.id}_${course.exams[0].id}`] ? 'disabled' : ''}`}
                 onClick={() => handleStartExam(course.id, course.exams[0].id)}
+                disabled={attemptedExams[`${course.id}_${course.exams[0].id}`]}
               >
-                Start Exam
+                {attemptedExams[`${course.id}_${course.exams[0].id}`] ? 'Completed' : 'Start Exam'}
               </button>
             </div>
           </div>

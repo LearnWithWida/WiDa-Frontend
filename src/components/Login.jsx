@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
-import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import 'react-toastify/dist/ReactToastify.css';
 import './Login.css';
@@ -15,11 +15,21 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      navigate('/');
+    }
+  }, [user, navigate]);
 
   const handleGoogleSignIn = async () => {
     try {
       await googleSignIn();
-      navigate('/'); // Redirect to home after successful login
+      toast.success('Login successful!');
+      setTimeout(() => {
+        navigate('/');
+      }, 1500);
     } catch (error) {
       console.error('Error signing in with Google:', error);
       toast.error('Failed to sign in with Google. Please try again.');
@@ -31,17 +41,7 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      
-      // Check if email is verified
-      if (!userCredential.user.emailVerified) {
-        toast.error('Please verify your email before logging in');
-        // Optionally resend verification email
-        await sendEmailVerification(userCredential.user);
-        toast.info('A new verification email has been sent');
-        return;
-      }
-
+      await signInWithEmailAndPassword(auth, email, password);
       toast.success('Login successful!');
       navigate('/'); // Redirect to home after successful login
     } catch (error) {
@@ -87,8 +87,12 @@ const Login = () => {
         <h2>Welcome Back!</h2>
         <p>Dive into back and keep learning.🤩</p>
         
-        <button className="google-signin-btn" onClick={handleGoogleSignIn}>
-        <img src={Google} alt="Google" />
+        <button 
+          className="google-signin-btn" 
+          onClick={handleGoogleSignIn}
+          disabled={loading}
+        >
+          <img src={Google} alt="Google" />
           Login with Google
         </button>
         

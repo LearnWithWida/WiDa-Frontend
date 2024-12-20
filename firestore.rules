@@ -13,5 +13,17 @@ service cloud.firestore {
       allow list: if request.auth != null &&
                   request.query.filters.userId == request.auth.uid;
     }
+
+    match /examAttempts/{attemptId} {
+      allow read: if request.auth != null && 
+                  attemptId.matches(request.auth.uid + ".*");
+      
+      allow write: if request.auth != null && 
+                  request.resource.data.userId == request.auth.uid;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
   }
 }

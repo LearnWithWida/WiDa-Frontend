@@ -7,6 +7,7 @@ import Home from './pages/Home';
 import ExamCourse from './pages/ExamCourse';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
+import ForgotPassword from './components/ForgotPassword';
 import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import CourseDetails from './pages/CourseDetails';
@@ -15,6 +16,7 @@ import About from './pages/About';
 import CourseContent from './pages/CourseContent';
 import TestPage from './pages/TestPage';
 import Database from './pages/Database';
+import { AuthRoute } from './components/AuthRoute';
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -46,8 +48,30 @@ export const App = () => {
               <Route exact path="/" element={<Home />} />
               <Route exact path="/course/data-analysis" element={<CourseDetails />} />
               <Route path="/course/data-analysis/content" element={<CourseContent />} />
-              <Route path="/signup" element={<SignUp />} />
-              <Route path="/login" element={<Login />} />
+              <Route 
+                path="/signup" 
+                element={
+                  <AuthRoute>
+                    <SignUp />
+                  </AuthRoute>
+                } 
+              />
+              <Route 
+                path="/login" 
+                element={
+                  <AuthRoute>
+                    <Login />
+                  </AuthRoute>
+                } 
+              />
+              <Route 
+                path="/forgot-password" 
+                element={
+                  <AuthRoute>
+                    <ForgotPassword />
+                  </AuthRoute>
+                } 
+              />
               <Route path="/ExamCourse" element={<ExamCourse />} />
               <Route path="/instructors" element={<Instructor />} />
               <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />

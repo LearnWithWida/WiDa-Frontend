@@ -16,6 +16,7 @@ import instructor from "../assets/instructor.png";
 import FAQImage from "../assets/FAQ.png";
 import FAQ from "../components/Faq";
 import Feedback from "../components/Feedback";
+import { useAuth } from '../context/AuthContext';
 
 const testimonials = [
   {
@@ -24,71 +25,26 @@ const testimonials = [
     role: "Data Analyst",
     image: "https://randomuser.me/api/portraits/women/3.jpg",
     text: "The support from instructors is outstanding. They're always available to help and guide you through complex concepts.",
+  },
+  {
+    id: 2,
+    name: "John Smith",
+    role: "Business Intelligence Analyst",
+    image: "https://randomuser.me/api/portraits/men/4.jpg",
+    text: "The practical assignments and real-world projects helped me apply what I learned immediately in my work. Highly recommended!",
+  },
+  {
+    id: 3,
+    name: "Sarah Wilson",
+    role: "Data Scientist",
+    image: "https://randomuser.me/api/portraits/women/5.jpg",
+    text: "The course structure is well-organized and the content is up-to-date with current industry standards. Great learning experience!",
   }
 ];
 
-const useSlider = (slideInterval = 3000) => {
-  const [currentSlide, setCurrentSlide] = useState(0);
-  const slideRef = useRef(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startPos, setStartPos] = useState(0);
-  const [currentTranslate, setCurrentTranslate] = useState(0);
-  const [prevTranslate, setPrevTranslate] = useState(0);
-
-  const handleDragStart = (e) => {
-    setIsDragging(true);
-    setStartPos(e.type === "mousedown" ? e.pageX : e.touches[0].clientX);
-  };
-
-  const handleDragMove = (e) => {
-    if (!isDragging) return;
-    const currentPosition =
-      e.type === "mousemove" ? e.pageX : e.touches[0].clientX;
-    const translate = prevTranslate + currentPosition - startPos;
-
-    const maxTranslate = 0;
-    const minTranslate = -(
-      slideRef.current?.scrollWidth - slideRef.current?.clientWidth
-    );
-
-    if (translate > maxTranslate) {
-      setCurrentTranslate(maxTranslate);
-    } else if (translate < minTranslate) {
-      setCurrentTranslate(minTranslate);
-    } else {
-      setCurrentTranslate(translate);
-    }
-
-    if (slideRef.current) {
-      slideRef.current.style.transform = `translateX(${translate}px)`;
-    }
-  };
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    setPrevTranslate(currentTranslate);
-  };
-
-  return {
-    currentSlide,
-    slideRef,
-    handleDragStart,
-    handleDragMove,
-    handleDragEnd,
-    setCurrentSlide,
-  };
-};
-
 const Home = () => {
   const navigate = useNavigate();
-  const {
-    currentSlide,
-    slideRef,
-    handleDragStart,
-    handleDragMove,
-    handleDragEnd,
-    setCurrentSlide,
-  } = useSlider();
+  const { user } = useAuth();
   const handleInstructorClick = () => {
     navigate("/instructors");
   };
@@ -146,6 +102,7 @@ const Home = () => {
                   <button
                     className="learn-more-btn"
                     onClick={() => navigate('/course/data-analysis')}
+                    disabled
                   >
                     Learn More
                   </button>
@@ -166,9 +123,22 @@ const Home = () => {
               alt="Tryout 2"
               className="tryout-image changes"
             />
-            <Link to="/ExamCourse">
-            <button className="tryout-btn">Try it out</button>
-            </Link>
+            {user ? (
+              <Link to="/ExamCourse">
+                <button className="tryout-btn">Try it out</button>
+              </Link>
+            ) : (
+              <div className="tryout-login-prompt">
+                <button 
+                  className="tryout-btn disabled" 
+                  onClick={() => navigate('/login')}
+                  title="Please login to access exams"
+                >
+                  Login to Try
+                </button>
+                <p className="login-prompt-text">Please login to access practice exams</p>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -199,42 +169,19 @@ const Home = () => {
       <div className="Testimonials-section">
         <h3>Testimonials</h3>
         <h1>What Are They Saying About Us</h1>
-        <div className="slider-container">
-          <div
-            className="slider-wrapper"
-            ref={slideRef}
-            onMouseDown={handleDragStart}
-            onMouseMove={handleDragMove}
-            onMouseUp={handleDragEnd}
-            onMouseLeave={handleDragEnd}
-            onTouchStart={handleDragStart}
-            onTouchMove={handleDragMove}
-            onTouchEnd={handleDragEnd}
-          >
-            {testimonials.map((testimonial, index) => (
-              <div key={testimonial.id} className="testimonial-card">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="testimonial-image"
-                />
-                <h3 className="testimonial-name">{testimonial.name}</h3>
-                <p className="testimonial-role">{testimonial.role}</p>
-                <p className="testimonial-text">"{testimonial.text}"</p>
-              </div>
-            ))}
-          </div>
-          <div className="slider-dots">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                className={`slider-dot ${
-                  currentSlide === index ? "active" : ""
-                }`}
-                onClick={() => setCurrentSlide(index)}
+        <div className="testimonials-container">
+          {testimonials.map((testimonial) => (
+            <div key={testimonial.id} className="testimonial-card">
+              <img
+                src={testimonial.image}
+                alt={testimonial.name}
+                className="testimonial-image"
               />
-            ))}
-          </div>
+              <h3 className="testimonial-name">{testimonial.name}</h3>
+              <p className="testimonial-role">{testimonial.role}</p>
+              <p className="testimonial-text">"{testimonial.text}"</p>
+            </div>
+          ))}
         </div>
       </div>
       <div className="FAQ">
