@@ -19,21 +19,28 @@ nav {
 }
 
 .nav-link {
-    color: #333;
+    color: #000;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     transition: color 0.3s ease;
     padding: 8px 0;
     position: relative;
 }
-
+.nav-right{
+    display: flex;
+    gap: 20px;
+    font-size: 15px;
+}
 .nav-link:hover {
-    color: #FF7600;
+    color: #064919;
 }
 
 .nav-link.active {
-    color: #FF7600;
+    color: #064919;
+    background: #06491914;
+    padding: 10px 20px;
+    border-radius: 10px;
 }
 
 
@@ -44,41 +51,43 @@ nav {
     margin-right: 30px;
 }
 
-.Login {
+.Login{
     background-color: transparent;
     font-weight: 500;
     border: none;
     outline: none;
     padding-top: 8px;
-    color: #FF7600;
+    color: #064919;
     cursor: pointer;
     transition: all 0.3s ease;
     border-radius: 50px;
+    text-decoration: none;
 }
 .Login:hover{
     background: transparent;    
 }
 
-.SignUp {
-    background-color: #FF7600;
+.signup-btn {
+    background-color: #064919;
     color: white;
     font-weight: 400;
     border: none;
     outline: none;
     padding: 10px 24px;
-    border-radius: 50px;
+    border-radius: 10px;
     cursor: pointer;
     transition: all 0.3s ease;
     box-shadow: 0 2px 4px rgba(255, 118, 0, 0.2);
     display: inline-block;
     min-width: 10px;
     margin-right: 25px;
+    font-size: 12px;
+    text-decoration: none;
 }
 
 .SignUp:hover {
-    background-color: #e66a00;
+    background-color: #064919d3;
     transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(255, 118, 0, 0.3);
 }
 
 .Course_btn_Login {
@@ -477,6 +486,132 @@ nav {
         font-size: 13px;
         padding: 6px 14px;
     }
+}
+
+/* Dropdown Styles */
+.nav-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  min-width: 220px;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  padding: 8px 0;
+  opacity: 0;
+  transform-origin: top center;
+  animation: dropdownAppear 0.3s ease forwards;
+  z-index: 1000;
+}
+
+@keyframes dropdownAppear {
+  from {
+    opacity: 0;
+    transform: translateY(-10px) scaleY(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scaleY(1);
+  }
+}
+
+.dropdown-link {
+  display: block;
+  padding: 12px 20px;
+  color: #333;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.dropdown-link:hover {
+  background-color: #06491914;
+  color: #064919;
+  padding-left: 24px;
+}
+
+.dropdown-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 3px;
+  background-color: #064919;
+  transform: scaleY(0);
+  transition: transform 0.2s ease;
+}
+
+.dropdown-link:hover::before {
+  transform: scaleY(1);
+}
+
+/* Add a small arrow to the dropdown */
+.dropdown-content::before {
+  content: '';
+  position: absolute;
+  top: -8px;
+  left: 20px;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid white;
+}
+
+/* Specific styling for Resources dropdown (wider) */
+.resources-dropdown {
+  min-width: 240px;
+}
+
+@media (max-width: 768px) {
+  .nav-dropdown {
+    position: static;
+  }
+
+  .dropdown-content {
+    position: static;
+    box-shadow: none;
+    animation: none;
+    padding: 0;
+    margin: 8px 0;
+  }
+
+  .dropdown-content::before {
+    display: none;
+  }
+
+  .dropdown-link {
+    padding: 12px 32px;
+  }
+}
+
+/* Arrow Styles */
+.nav-link.with-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 100px;
+}
+
+.dropdown-arrow {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+  margin-left: auto;
+  color: #333;
+}
+
+.nav-dropdown.active .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.nav-link:hover .dropdown-arrow {
+  color: #064919;
 }
 
 

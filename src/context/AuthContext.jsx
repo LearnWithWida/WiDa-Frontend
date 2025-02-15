@@ -7,7 +7,8 @@ import {
   signOut,
   sendPasswordResetEmail,
   GoogleAuthProvider,
-  signInWithPopup
+  signInWithPopup,
+  sendEmailVerification
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
 
@@ -26,20 +27,8 @@ export function AuthProvider({ children }) {
       setUser(user);
       setLoading(false);
     });
-
     return unsubscribe;
   }, []);
-
-  // Google Sign In function
-  const googleSignIn = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const result = await signInWithPopup(auth, provider);
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  };
 
   const value = {
     user,
@@ -48,7 +37,8 @@ export function AuthProvider({ children }) {
     signUp: (email, password) => createUserWithEmailAndPassword(auth, email, password),
     logout: () => signOut(auth),
     resetPassword: (email) => sendPasswordResetEmail(auth, email),
-    googleSignIn // Add this to the context value
+    googleSignIn: () => signInWithPopup(auth, new GoogleAuthProvider()),
+    verifyEmail: (user) => sendEmailVerification(user)
   };
 
   return (

@@ -1,3 +1,23 @@
+.auth-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.auth-left {
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.auth-left img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  max-height: 120vh;
+  margin-right: 100px;
+}
+
 .login-container {
     display: flex;
     justify-content: center;
@@ -96,9 +116,16 @@
   }
   
   .forgot-password {
-    text-align: right;
+    text-align: left;
+    color: #064919;
   }
-  
+  .forgot-password a {
+    color: #064919;
+    text-decoration: underline;
+  }
+  .auth-form-box{
+    padding: 30px 30px;
+  }
   .forgot-password span {
     color: #FF7600;
     cursor: pointer;

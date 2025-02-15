@@ -1,90 +1,69 @@
-import React, { useRef, useState, useEffect } from 'react';
-import emailjs from '@emailjs/browser';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import "./Feedback.css";
+import React, { useState } from 'react';
+import { toast } from 'react-toastify';
 
 const Feedback = () => {
-  const form = useRef();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    message: ''
+  });
 
-  // Initialize EmailJS
-  useEffect(() => {
-    emailjs.init("eGfeOXpr2avwHqpud"); // Replace with your actual public key
-  }, []);
-
-  const sendEmail = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
-
-    // Log form data for debugging
-    const formData = new FormData(form.current);
-    console.log('Form data:', Object.fromEntries(formData));
-
-    emailjs
-      .sendForm(
-        'service_8nl7zes',  // Your service ID
-        'template_nzkmcaw', // Your template ID
-        form.current, 
-        'eGfeOXpr2avwHqpud' // Your public key
-      )
-      .then(
-        (result) => {
-          console.log('SUCCESS!', result);
-          toast.success('Feedback submitted successfully!');
-          form.current.reset();
-        },
-        (error) => {
-          console.error('FAILED...', error);
-          toast.error(`Failed to submit feedback: ${error.text}`);
-        }
-      )
-      .finally(() => {
-        setIsSubmitting(false);
+    
+    try {
+      // Get existing feedback from localStorage
+      const existingFeedback = JSON.parse(localStorage.getItem('feedback') || '[]');
+      
+      // Add new feedback with timestamp
+      const newFeedback = {
+        ...formData,
+        timestamp: new Date().toISOString()
+      };
+      
+      // Save to localStorage
+      localStorage.setItem('feedback', JSON.stringify([...existingFeedback, newFeedback]));
+      
+      // Clear form
+      setFormData({
+        name: '',
+        email: '',
+        message: ''
       });
+      
+      toast.success('Thank you for your feedback!');
+    } catch (error) {
+      console.error('Error saving feedback:', error);
+      toast.error('Failed to save feedback. Please try again.');
+    }
   };
 
   return (
-    <div className="feedback-section">
-      <ToastContainer />
-      <div className="feedback-content">
-        <h2>
-          We'd love to hear your <span className="highlight">feedback</span> and{" "}
-          <span className="highlight">suggestions</span>
-        </h2>
-        <p>
-          We value your opinion as it is important to the improvement of this
-          product. Help thousands of students by sharing your thoughts.
-        </p>
-      </div>
-      <div className="feedback-form">
-        <h3>Input your suggestion here</h3>
-        <form ref={form} onSubmit={sendEmail}>
-          <input 
-            type="text" 
-            placeholder="Input your name" 
-            name="from_name"  // Make sure this matches your template variable
-            required 
-          />
-          <input 
-            type="email" 
-            placeholder="Enter email address" 
-            name="reply_to"  // Make sure this matches your template variable
-            required 
-          />
-          <textarea 
-            placeholder="Type suggestion here" 
-            name="message"   // Make sure this matches your template variable
-            required
-          ></textarea>
-          <button 
-            type="submit" 
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Submitting...' : 'Submit suggestion'}
-          </button>
-        </form>
-      </div>
+    <div className="feedback-container">
+      <h2>Send us your Feedback</h2>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          placeholder="Name"
+          value={formData.name}
+          onChange={(e) => setFormData({...formData, name: e.target.value})}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={(e) => setFormData({...formData, email: e.target.value})}
+          required
+        />
+        <textarea
+          placeholder="Your message"
+          value={formData.message}
+          onChange={(e) => setFormData({...formData, message: e.target.value})}
+          required
+        />
+        <button type="submit">Send Feedback</button>
+      </form>
     </div>
   );
 };

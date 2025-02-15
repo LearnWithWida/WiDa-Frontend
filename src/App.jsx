@@ -16,7 +16,6 @@ import About from './pages/About';
 import CourseContent from './pages/CourseContent';
 import TestPage from './pages/TestPage';
 import Database from './pages/Database';
-import { AuthRoute } from './components/AuthRoute';
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -37,55 +36,45 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export const App = () => {
-
   return (
     <AuthProvider>
       <Router basename="/">
         <div className="app-container">
-          <Navbar />
-          <main className="main-content">
-            <Routes>
-              <Route exact path="/" element={<Home />} />
-              <Route exact path="/course/data-analysis" element={<CourseDetails />} />
-              <Route path="/course/data-analysis/content" element={<CourseContent />} />
-              <Route 
-                path="/signup" 
-                element={
-                  <AuthRoute>
-                    <SignUp />
-                  </AuthRoute>
-                } 
-              />
-              <Route 
-                path="/login" 
-                element={
-                  <AuthRoute>
-                    <Login />
-                  </AuthRoute>
-                } 
-              />
-              <Route 
-                path="/forgot-password" 
-                element={
-                  <AuthRoute>
-                    <ForgotPassword />
-                  </AuthRoute>
-                } 
-              />
-              <Route path="/ExamCourse" element={<ExamCourse />} />
-              <Route path="/instructors" element={<Instructor />} />
-              <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
-              <Route path="/about" element={<About />} />
-              <Route path="/Database" element={<Database />} />
-              <Route path="/course/:courseName" element={<CourseDetails />} />
-              <Route path="/test/:courseId/:examId" element={<TestPage />} />
-            </Routes>
-          </main>
-          <Footer />
+          <Routes>
+            {/* Auth routes without Nav and Footer */}
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+
+            {/* Routes with Nav and Footer */}
+            <Route
+              path="/*"
+              element={
+                <>
+                  <Navbar />
+                  <main className="main-content">
+                    <Routes>
+                      <Route path="/" element={<Home />} />
+                      <Route path="/course/data-analysis" element={<CourseDetails />} />
+                      <Route path="/course/data-analysis/content" element={<CourseContent />} />
+                      <Route path="/ExamCourse" element={<ExamCourse />} />
+                      <Route path="/instructors" element={<Instructor />} />
+                      <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                      <Route path="/about" element={<About />} />
+                      <Route path="/Database" element={<Database />} />
+                      <Route path="/course/:courseName" element={<CourseDetails />} />
+                      <Route path="/test/:courseId/:examId" element={<TestPage />} />
+                    </Routes>
+                  </main>
+                  <Footer />
+                </>
+              }
+            />
+          </Routes>
         </div>
       </Router>
     </AuthProvider>
-  )
-}
+  );
+};
 
 export default App

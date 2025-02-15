@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase/config';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { toast, ToastContainer } from 'react-toastify';
-import LoadingSpinner from './LoadingSpinner';
+import { HiOutlineMail } from 'react-icons/hi';
+import dataAuth from '../assets/data-auth.png';
 import 'react-toastify/dist/ReactToastify.css';
 import './ForgotPassword.css';
 
@@ -47,57 +48,46 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-container">
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      
-      <div className="forgot-password-box">
-        <h2>Reset Password</h2>
-        <p>Enter your email to receive a password reset link</p>
-
-        <form onSubmit={handleSubmit} className="forgot-password-form">
-          <input
-            type="email"
-            placeholder="Enter your email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          
-          <button 
-            type="submit" 
-            className="reset-btn"
-            disabled={loading}
-          >
-            {loading ? (
-              <>
-                <LoadingSpinner />
-                Sending Reset Link...
-              </>
-            ) : (
-              'Send Reset Link'
-            )}
-          </button>
-        </form>
-
-        <button 
-          className="back-to-login"
-          onClick={() => navigate('/login')}
-          disabled={loading}
-        >
-          Back to Login
-        </button>
+    <div className="auth-container">
+      <div className="auth-left">
+        <img src={dataAuth} alt="Data Analytics" />
       </div>
+      <div className="auth-right">
+        <div className="auth-form-container">
+          <p className="auth-switch">
+            Remember your password? <Link to="/login">Sign in</Link>
+          </p>
+          <div className="auth-form-box">
+            <h2>Reset Password</h2>
+            <p className="auth-subtitle">Enter your email to receive a password reset link</p>
+
+            <form onSubmit={handleSubmit} className="auth-form">
+              <div className="form-group">
+                <div className="input-with-icon">
+                  <HiOutlineMail className="input-icon" />
+                  <input
+                    type="email"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="auth-input"
+                  />
+                </div>
+              </div>
+
+              <button 
+                disabled={loading} 
+                type="submit" 
+                className="auth-button"
+              >
+                {loading ? 'Sending Reset Link...' : 'Send Reset Link'}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <ToastContainer />
     </div>
   );
 };

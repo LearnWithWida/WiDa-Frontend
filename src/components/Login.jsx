@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import dataAuth from '../assets/data-auth.png';
+import Google from "../assets/google.png";
+import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
+import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import 'react-toastify/dist/ReactToastify.css';
-import './Login.css';
-import Google from "../assets/google.png"
-
+import "./Login.css";
 
 const Login = () => {
   const { googleSignIn } = useAuth();
@@ -15,6 +17,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -41,7 +44,16 @@ const Login = () => {
     setLoading(true);
 
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      
+      // Check if email is verified
+      if (!userCredential.user.emailVerified) {
+        toast.error('Please verify your email before logging in');
+        // Optionally, send another verification email
+        await sendEmailVerification(userCredential.user);
+        return;
+      }
+
       toast.success('Login successful!');
       navigate('/'); // Redirect to home after successful login
     } catch (error) {
@@ -69,68 +81,79 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <ToastContainer
-        position="top-right"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="light"
-      />
-      
-      <div className="login-box">
-        <h2>Welcome Back!</h2>
-        <p>Dive into back and keep learning.🤩</p>
-        
-        <button 
-          className="google-signin-btn" 
-          onClick={handleGoogleSignIn}
-          disabled={loading}
-        >
-          <img src={Google} alt="Google" />
-          Login with Google
-        </button>
-        
-        <div className="divider">
-          <span>or</span>
-        </div>
-
-        <form className="login-form" onSubmit={handleEmailLogin}>
-          <input 
-            type="email" 
-            placeholder="Email" 
-            required 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <input 
-            type="password" 
-            placeholder="Password" 
-            required 
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <div className="forgot-password">
-            <span onClick={() => navigate('/forgot-password')}>Forgot Password?</span>
-          </div>
-          <button 
-            type="submit" 
-            className="login-submit-btn"
-            disabled={loading}
-          >
-            {loading ? 'Logging in...' : 'Login'}
-          </button>
-        </form>
-
-        <p className="signup-link">
-          Don't have an account? <span onClick={() => navigate('/signup')}>Sign Up</span>
-        </p>
+    <div className="auth-container">
+      <div className="auth-left">
+        <img src={dataAuth} alt="Data Analytics" />
       </div>
+      <div className="auth-right">
+        <div className="auth-form-container">
+          <p className="auth-switch">
+            Don't have an account? <Link to="/signup">Sign up</Link>
+          </p>
+          <div className="auth-form-box">
+            <h2>Welcome Back!</h2>
+            <p className="auth-subtitle">Dive into back and keep learning.🤩</p>
+            
+            <button className="google-auth-btn" onClick={handleGoogleSignIn}>
+              <img src={Google} alt="Google" />
+              Sign in with Google
+            </button>
+            
+            <div className="divider">
+              <span>or</span>
+            </div>
+
+            <form onSubmit={handleEmailLogin} className="auth-form">
+              <div className="form-group">
+                <div className="input-with-icon">
+                  <HiOutlineMail className="input-icon" />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="auth-input"
+                  />
+                </div>
+              </div>
+              <div className="form-group">
+                <div className="input-with-icon">
+                  <HiOutlineLockClosed className="input-icon" />
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                    className="auth-input"
+                  />
+                  <button 
+                    type="button"
+                    className="password-toggle"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? <IoEyeOffOutline /> : <IoEyeOutline />}
+                  </button>
+                </div>
+              </div>
+              
+              <div className="forgot-password">
+                <Link to="/forgot-password">Forgot Password?</Link>
+              </div>
+
+              <button 
+                disabled={loading} 
+                type="submit" 
+                className="auth-button"
+              >
+                {loading ? 'Signing in...' : 'Sign in'}
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <ToastContainer />
     </div>
   );
 };

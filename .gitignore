@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env
+.env.local
+.env.*.local
 kaggle.json
 save
 # Editor directories and files
@@ -24,3 +26,5 @@ save
 *.njsproj
 *.sln
 *.sw?
+
+.env.production

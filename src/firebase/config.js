@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, GoogleAuthProvider } from 'firebase/auth';
+import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getFunctions } from 'firebase/functions';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAzW_wRe-yEbhhdJqhEfUTTdrLEeh1gqN4",
@@ -15,4 +16,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const provider = new GoogleAuthProvider();
+export const functions = getFunctions(app);
+
+// Configure email verification template (optional)
+auth.useDeviceLanguage(); // Use user's browser language
