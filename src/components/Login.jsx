@@ -24,6 +24,7 @@ const Login = () => {
     if (user) {
       navigate('/');
     }
+    document.title = 'Login | Wida';
   }, [user, navigate]);
 
   const handleGoogleSignIn = async () => {

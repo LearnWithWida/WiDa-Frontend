@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { auth } from '../firebase/config';
 import { sendPasswordResetEmail } from 'firebase/auth';
@@ -46,7 +46,9 @@ const ForgotPassword = () => {
       setLoading(false);
     }
   };
-
+  useEffect(() => {
+    document.title = 'Forgot Password | Wida';
+  }, []);
   return (
     <div className="auth-container">
       <div className="auth-left">
