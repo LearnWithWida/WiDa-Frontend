@@ -16,6 +16,10 @@ import About from './pages/About';
 import CourseContent from './pages/CourseContent';
 import TestPage from './pages/TestPage';
 import Database from './pages/Database';
+import Contact from "./pages/Contact";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Scholarship from "./pages/Scholarship";
+import Blog from "./pages/Blog";
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -64,6 +68,10 @@ export const App = () => {
                       <Route path="/Database" element={<Database />} />
                       <Route path="/course/:courseName" element={<CourseDetails />} />
                       <Route path="/test/:courseId/:examId" element={<TestPage />} />
+                      <Route path="/contact" element={<Contact />} />
+                      <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                      <Route path="/scholarship" element={<Scholarship />} />
+                      <Route path="/blog" element={<Blog />} />
                     </Routes>
                   </main>
                   <Footer />

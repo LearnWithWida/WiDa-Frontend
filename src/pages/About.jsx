@@ -1,102 +1,189 @@
-import React from "react";
-import whatWeOfferImage from "../assets/Offer.png";
-import connect from "../assets/connect.png";
+import React, { useEffect } from "react";
 import instructor from "../assets/instructor.jpg";
 import instructor2 from "../assets/instructor2.jpg";
-import choose from "../assets/choose.png";
-import banner from "../assets/baner.png";
 import "../pages/Global.css";
-import box1 from "../assets/1.png";
-import box2 from "../assets/2.png";
-import box3 from "../assets/3.png";
-import box4 from "../assets/4.png";
-import choose1 from "../assets/choose1.png";
-import choose2 from "../assets/choose2.png";
-import choose3 from "../assets/choose3.png";
-import choose4 from "../assets/choose4.png";
+import officeImage from "../assets/office.png";
+import logo from "../assets/WidaLogo.png";
+import { HiOutlineAdjustments } from 'react-icons/hi';
+import { BsClipboardCheck } from 'react-icons/bs';
+import { FaFacebookF, FaInstagram } from 'react-icons/fa';
+import { RiTwitterXFill } from 'react-icons/ri';
+import { HiOutlineMail } from 'react-icons/hi';
+
 const About = () => {
+
+  useEffect(() => {
+    document.title = "About Us | Wida"  ;
+  }, []);
   return (
-    <div>
-      <div className="connect-sec">
-        <div style={{ textAlign: "center" }}>
-          <img src={connect} alt="connect" className="offer-title" />
+    <div className="about-container">
+      <div className="company-overview">
+        <h1>COMPANY OVERVIEW</h1>
+        <p>
+          LearnWithWIDA is a leading provider of comprehensive data analysis and research education aimed at equipping 
+          individuals with tools and knowledge to succeed. While data plays a crucial role in guiding business decisions, 
+          bridging the gap in digital skills has never been more critical in data analytics. Through this, we provide the 
+          structure and tools needed to help students and professionals worldwide.
+        </p>
+      </div>
+
+      <div className="mission-goals">
+        <div className="goal-section">
+          <div className="goal-header">
+            <HiOutlineAdjustments className="icon" />
+            <h2>Our Goal</h2>
+          </div>
+          <p>
+            Our goal is to provide quality data analysis and research education to 
+            individuals by providing well-detailed and practical approach to data 
+            analysis and research. Our aim is to create a thriving ecosystem 
+            where students can learn and grow while making impact in their 
+            various fields on what they have learnt today.
+          </p>
         </div>
-        <div className="founder-section">
-          <div className="founder-image">
+
+        <div className="mission-section">
+          <div className="goal-header">
+            <BsClipboardCheck className="icon" />
+            <h2>Our Mission</h2>
+          </div>
+          <p>
+            To empower aspiring and professional data analysts with the 
+            knowledge and skills needed to excel in their careers and make 
+            impact. We are committed to building a community where 
+            students can learn, grow and achieve their career goals.
+          </p>
+        </div>
+      </div>
+
+      <div className="teaching-approach">
+        <div className="approach-content">
+          <h2>Our Approach To Teaching</h2>
+          <p>
+            At LearnWithWIDA, we offer structured and interactive learning to 
+            help students succeed. Our teaching style (MS, Power BI, Excel, 
+            Python, SQL, etc.) is designed to help students understand concepts 
+            and implement, ensuring students gain real-life knowledge for 
+            career prospects.
+          </p>
+          <h3>We Focus On:</h3>
+          <ul>
+            <li>Live and recorded sessions for flexible learning</li>
+            <li>Mentorship programs where students get certifications</li>
+            <li>Real world projects to build confidence and competence</li>
+            <li>Building a community of data analysts to help improve career prospects.</li>
+          </ul>
+        </div>
+        <div className="approach-image">
+          <img src={officeImage} alt="Office Environment" />
+        </div>
+      </div>
+
+      <div className="team-section">
+        <div className="team-members">
+          <div className="team-member">
             <img src={instructor} alt="Yusuf Mustapha" />
+            <h3>YUSUF MUSTAPHA</h3>
+            <p>Founder</p>
           </div>
-          <div className="founder-content">
-            <h1>Yusuf Mustapha</h1>
-            <p className="founder-title">Founder of WiDa</p>
-            <p className="founder-message">
-              As the CEO of WiDa, I am deeply committed to empowering
-              individuals with the skills and knowledge they need to thrive in
-              today's data-driven world. With a passion for innovation and
-              education, I lead our mission to bridge the gap between aspiring
-              professionals and the ever-evolving fields of data science,
-              analysis, and research. Together with my team, we are building a
-              platform that not only fosters learning but also inspires
-              transformation and growth for our global community.
+
+          <div className="team-content">
+            <h2>OUR TEAM</h2>
+            <p className="team-description">
+              LearnwithWiDa is co-founded by Yusuf Mustapha and Ibrahim Muiz, two passionate educators and 
+              data professionals committed to empowering the next generation of analysts. Today, our team 
+              consists of 5 permanent staff members and 5 interns, totaling 10 dedicated professionals 
+              working together to ensure high-quality education and mentorship.
             </p>
-            <button className="connect-btn">Connect</button>
           </div>
-        </div>
-        <div className="founder-section">
-          <div className="founder-image">
+
+          <div className="team-member">
             <img src={instructor2} alt="Ibrahim Muiz" />
-          </div>
-          <div className="founder-content">
-            <h1>Ibrahim Muiz</h1>
-            <p className="founder-title">Co-Founder of WiDa</p>
-            <p className="founder-message">
-              “ As the Co-Founder of WiDa, I am proud to have been part of
-              shaping a platform that empowers individuals and organizations to
-              unlock the potential of data science, analysis, and research. My
-              role has been driven by a vision to create accessible,
-              high-quality learning opportunities that equip learners to thrive
-              in a data-driven world. Together with our incredible team, we are
-              building a community of innovators, learners, and professionals
-              dedicated to transforming industries and solving real-world
-              challenges through data."
-            </p>
-            <button className="connect-btn">Connect</button>
+            <h3>IBRAHIM MUIZ</h3>
+            <p>Co-Founder</p>
           </div>
         </div>
       </div>
-      <div className="offer-section">
-        <img
-          src={whatWeOfferImage}
-          alt="What We Offer"
-          className="offer-title"
-        />
-        <div className="offer-boxes">
-          <img src={box1} alt="Offer 1" className="offer-box" />
-          <img src={box2} alt="Offer 2" className="offer-box" />
-          <img src={box3} alt="Offer 3" className="offer-box" />
-          <img src={box4} alt="Offer 4" className="offer-box" />
-        </div>
-      </div>
 
-      <div
-        className="banner-section"
-        style={{ backgroundImage: `url(${banner})` }}
-      >
-        <div className="banner-content">
-          <h1>
-            Ready to transform your data skills? Start your journey with us
-            today!
-          </h1>
-          <button className="get-started-btn">Get Started Now</button>
+      <div className="footer-container">
+        <div className="footer-banner">
+          <div className="banner-left">
+            <h3>Join our LearnwithWiDa's experience</h3>
+          </div>
+          <div className="banner-right">
+            <h2>We have trained over <br/> 2000 students to be <br/> tech professionals</h2>
+          </div>
         </div>
-      </div>
+        
+        <div className="footer-content">
+          <div className="footer-left">
+            <img src={logo} alt="WIDA Logo" className="footer-logo" />
+            <div className="contact-info">
+              <div className="contact-item">
+                <i className="fas fa-phone"></i>
+                <span>+2348130287334</span>
+              </div>
+              <div className="contact-item">
+                <i className="fab fa-whatsapp"></i>
+                <span>+2348130287334</span>
+              </div>
+              <div className="contact-item">
+                <i className="far fa-envelope"></i>
+                <span>Email Support</span>
+              </div>
+            </div>
+            <div className="social-icons">
+              <a href="#"><FaFacebookF /></a>
+              <a href="#"><RiTwitterXFill /></a>
+              <a href="#"><FaInstagram /></a>
+            </div>
+          </div>
 
-      <div className="offer-section choose">
-        <img src={choose} alt="What We Offer" className="offer-title" />
-        <div className="offer-boxes">
-          <img src={choose1} alt="Offer 1" className="offer-box" />
-          <img src={choose2} alt="Offer 2" className="offer-box" />
-          <img src={choose3} alt="Offer 3" className="offer-box" />
-          <img src={choose4} alt="Offer 4" className="offer-box" />
+          <div className="footer-links">
+            <div className="footer-column">
+              <h3>Company</h3>
+              <ul>
+                <li>About Us</li>
+                <li>Courses</li>
+                <li>Login</li>
+                <li>Testimonials</li>
+              </ul>
+            </div>
+
+            <div className="footer-column">
+              <h3>Resources</h3>
+              <ul>
+                <li>Blog</li>
+                <li>Scholarship</li>
+                <li>Contact Us</li>
+                <li>FAQs</li>
+                <li>Privacy Policy</li>
+                <li>Collaborate with Us</li>
+              </ul>
+            </div>
+
+            <div className="footer-column">
+              <h3>Programs</h3>
+              <ul>
+                <li>Virtual</li>
+                <li>Physical</li>
+                <li>Mentorship</li>
+                <li>One-on-One</li>
+              </ul>
+            </div>
+
+            <div className="footer-column">
+              <h3>Subscribe</h3>
+              <p>1.18k+ of our students are subscribe around the world.</p>
+              <div className="subscribe-form">
+                <div className="subscribe-input-wrapper">
+                  <HiOutlineMail className="subscribe-icon" />
+                  <input type="email" placeholder="Email" />
+                </div>
+                <button type="submit">Subscribe</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -115,9 +115,6 @@ body {
     cursor: pointer;
   }
   
-  button:hover {
-    background-color: darkorange;
-  }
   
   .course-page {
     padding: 0;

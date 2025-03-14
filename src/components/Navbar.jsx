@@ -66,9 +66,9 @@ const Navbar = () => {
           </NavLink>
           {showResourcesMenu && (
             <div className="dropdown-content resources-dropdown">
-              <Link to="/resources/scholarships" className="dropdown-link">Scholarships</Link>
+              <Link to="/scholarship" className="dropdown-link">Scholarships</Link>
+              <Link to="/blog" className="dropdown-link">Blog</Link>
               <Link to="/resources/privacy-policy" className="dropdown-link">Privacy Policy</Link>
-              <Link to="/resources/blogs" className="dropdown-link">Blogs</Link>
               <Link to="/resources/collaborate" className="dropdown-link">Collaborate with Us</Link>
               <Link to="/resources/faqs" className="dropdown-link">FAQs</Link>
             </div>
@@ -99,9 +99,11 @@ const Navbar = () => {
             )}
           </div>
         ) : (
-          <Link to="/login" className="Login">Login</Link>
+          <>
+            <Link to="/login" className="Login">Login</Link>
+            <Link to="/SignUp" className="signup-btn">Apply</Link>
+          </>
         )}
-        <Link to="/SignUp" className="signup-btn">SignUp</Link>
       </div>
     </nav>
   );

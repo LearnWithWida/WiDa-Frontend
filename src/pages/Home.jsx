@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import Joyride, { STATUS } from 'react-joyride';
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import "./Global.css";
 import heroUpgrade from "../assets/heroUpgrade.png";
-import Physical from "../assets/Physical.png";
+import Physical from "../assets/Physical.png";  
 import Virtual from "../assets/Virtual.png";
+import OneOnOne from "../assets/OneOnOne.png";
 import Mentorship from "../assets/Mentorship.png";
 import analysisOne from "../assets/analysisOne.png";
 import analysisTwo from "../assets/analysisTwo.png";
@@ -13,6 +13,17 @@ import whyData from "../assets/why-data.png";
 import studentImage from "../assets/student.png";
 import blogImage from "../assets/blog-img.png";
 import logo from "../assets/WidaLogo.png";
+import { BsBriefcase } from 'react-icons/bs';
+import { BsShield } from 'react-icons/bs';
+import { BsGraphUp } from 'react-icons/bs';
+import { BsCurrencyDollar } from 'react-icons/bs';
+import { HiAcademicCap } from 'react-icons/hi';
+import { BsCheckCircle } from 'react-icons/bs';
+import { RiUserStarLine } from 'react-icons/ri';
+import { TbCertificate } from 'react-icons/tb';
+import { HiOutlineMail } from 'react-icons/hi';
+import { FaFacebookF, FaInstagram } from 'react-icons/fa';
+import { RiTwitterXFill } from 'react-icons/ri';
 
 const testimonials = [
   {
@@ -24,7 +35,7 @@ const testimonials = [
   },
   {
     id: 2,
-    name: "John Smith",
+    name: "John Smith", 
     role: "Business Intelligence Analyst",
     image: "https://randomuser.me/api/portraits/men/4.jpg",
     text: "The practical assignments and real-world projects helped me apply what I learned immediately in my work. Highly recommended!",
@@ -91,184 +102,83 @@ const faqData = [
   }
 ];
 
+const programsData = [
+  {
+    id: 1,
+    title: "Physical Program",
+    image: Physical,
+    description: "Our in-person data analytics program offers hands-on training, expert-led workshops, and collaborative learning experiences.",
+    link: "/programs/physical"
+  },
+  {
+    id: 2,
+    title: "Virtual Program",
+    image: Virtual,
+    description: "Learn data analytics from anywhere with our virtual program. Gain hands-on experience with real-world projects and develop industry-relevant skills through guidance from the comfort of your home.",
+    link: "/programs/virtual"
+  },
+  {
+    id: 3,
+    title: "One-on-One Program",
+    image: OneOnOne,
+    description: "Learn data analytics at your own pace with our personalized one-on-one program. Get customized guidance and lessons tailored just for you.",
+    link: "/programs/one-on-one"
+  },
+  {
+    id: 4,
+    title: "Mentorship",
+    image: Mentorship,
+    description: "Accelerate your data analytics journey with our mentorship program. Get guidance from industry experts, experienced analysts, receive career advice, and work on real projects to build your portfolio and boost your confidence in the field.",
+    link: "/programs/mentorship"
+  }
+];
+
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [runTour, setRunTour] = useState(true);
 
-  const steps = [
-    {
-      target: '.home-container',
-      content: '👋 Welcome to our Data Science Learning Platform! Let us show you around.',
-      placement: 'center',
-      disableBeacon: true,
-    },
-    {
-      target: '.offer-section',
-      content: '🎯 Discover what we offer - from comprehensive courses to hands-on practice.',
-      placement: 'bottom',
-    },
-    {
-      target: '.course-section',
-      content: '📚 Explore our detailed courses designed to enhance your data science skills.',
-      placement: 'top',
-    },
-    {
-      target: '.tryout-section',
-      content: '✍️ Practice your skills with our interactive exam simulations.',
-      placement: 'top',
-    },
-    {
-      target: '.data-sec',
-      content: '👨‍🏫 Get expert mentorship from industry professionals.',
-      placement: 'left',
-    },
-    {
-      target: '.Testimonials-section',
-      content: '💬 See what our successful students have to say about their learning journey.',
-      placement: 'top',
-    },
-    {
-      target: '.FAQ',
-      content: '❓ Find answers to common questions about our platform.',
-      placement: 'top',
-    }
-  ];
-
-  const handleJoyrideCallback = (data) => {
-    const { status } = data;
-    if ([STATUS.FINISHED, STATUS.SKIPPED].includes(status)) {
-      setRunTour(false);
-      localStorage.setItem('hasSeenTour', 'true');
-    }
-  };
-
-  const startTour = () => {
-    setRunTour(true);
-  };
-
   const handleInstructorClick = () => {
     navigate("/instructors");
   };
   return (
-    <>
-      <Joyride
-        steps={steps}
-        run={runTour}
-        continuous={true}
-        showProgress={true}
-        showSkipButton={true}
-        callback={handleJoyrideCallback}
-        styles={{
-          options: {
-            primaryColor: '#FF7600',
-            backgroundColor: '#ffffff',
-            textColor: '#333',
-            arrowColor: '#FF7600',
-            zIndex: 1000,
-          },
-          tooltip: {
-            padding: '20px',
-          },
-          buttonNext: {
-            backgroundColor: '#FF7600',
-          },
-          buttonBack: {
-            marginRight: 10,
-            color: '#FF7600',
-          }
-        }}
-      />
-
-      <button 
-        onClick={startTour}
-        className="tour-btn"
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          zIndex: 1000,
-          backgroundColor: '#FF7600',
-          color: 'white',
-          border: 'none',
-          borderRadius: '50%',
-          width: '50px',
-          height: '50px',
-          cursor: 'pointer',
-          boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-        title="Start Website Tour"
-      >
-        <i className="fas fa-question"></i>
-      </button>
-
-      <div className="home-container">
-        <div className="content-wrapper">
-          <div className="hero-left">
-            <h1>
-              <span className="highlight">Data</span> is the <span className="highlight">Future</span> and the future is <span className="highlight">NOW!</span>
-            </h1>
-            <p>
-              Dive into our comprehensive suite of tools designed to help you uncover valuable insights, visualize trends, and make informed decisions. Whether you're a novice or an expert, our platform provides intuitive features and robust functionality to support your data exploration journey. Join our community of data enthusiasts today and embark on a voyage of discovery with us!
-            </p>
-            <div className="button-group">
-              <button className="primary-btn">Join Us Now</button>
-              <button className="secondary-btn">Explore Course</button>
-            </div>
+    <div className="home-container">
+      <div className="content-wrapper">
+        <div className="hero-left">
+          <h1>
+            <span className="highlight">Data</span> is the <span className="highlight">Future</span> and the future is <span className="highlight">NOW!</span>
+          </h1>
+          <p>
+            Dive into our comprehensive suite of tools designed to help you uncover valuable insights, visualize trends, and make informed decisions. Whether you're a novice or an expert, our platform provides intuitive features and robust functionality to support your data exploration journey. Join our community of data enthusiasts today and embark on a voyage of discovery with us!
+          </p>
+          <div className="button-group">
+            <button className="primary-btn">Join Us Now</button>
+            <button className="secondary-btn">Explore Course</button>
           </div>
-          <div className="hero-right">
-            <img src={heroUpgrade} alt="Hero" className="hero-image" />
-          </div>
+        </div>
+        <div className="hero-right">
+          <img src={heroUpgrade} alt="Hero" className="hero-image" />
         </div>
       </div>
 
-      <div className="offer-section">
-        <div className="offer-header">
-          <h1>Physical, virtual or Mentorship? Beginner or intermediate?</h1>
-          <p>Our courses are tailored to your specific skill level and learning preferences, offering both in-person and online options to suit your needs and lifestyle.</p>
-        </div>
-        
-        <div className="offer-cards">
-          {/* First Card */}
-          <div className="offer-card">
-            <div className="offer-content">
-              <h1>Explore Our Physical Courses</h1>
-              <p>Experience Immersive Learning: Our In-Person Training Programs Seamlessly Blend Expert Instruction with Practical, Hands-On Experience in a Dynamic and Engaging Classroom Environment.</p>
-              <button className="offer-btn">Explore Course</button>
-            </div>
-            <div className="offer-image">
-              <img src={Physical} alt="Physical Course" />
-            </div>
-          </div>
+      <section className="program-section">
+        <h2 className="section-title">Perfect Program for Your Learning Journey</h2>
+        <p className="section-subtitle">
+          Flexible programs tailored to your journey. From Physical classes to virtual learning and one-on-one mentorship,
+          our programs are designed to fit your needs and help you achieve your goals
+        </p>
 
-          {/* Second Card - Reverse */}
-          <div className="offer-card reverse">
-            <div className="offer-content">
-              <h1>Explore Our Virtual Courses</h1>
-              <p>Experience Immersive Learning: Our Virtual Training Programs Seamlessly Blend Expert Instruction with Practical, Hands-On Experience in a Dynamic and Engaging Classroom Environment.</p>
-              <button className="offer-btn">Explore Course</button>
+        <div className="program-cards">
+          {programsData.map((program) => (
+            <div key={program.id} className="program-card">
+              <img src={program.image} alt={program.title} />
+              <h3>{program.title}</h3>
+              <p>{program.description}</p>
+              <Link to={program.link} className="learn-more">Learn More →</Link>
             </div>
-            <div className="offer-image">
-              <img src={Virtual} alt="Virtual Course" />
-            </div>
-          </div>
-
-          {/* Third Card */}
-          <div className="offer-card">
-            <div className="offer-content">
-              <h1>Explore Our Mentorship Program</h1>
-              <p>Experience Immersive Learning: Our Virtual Training Programs Seamlessly Blend Expert Instruction with Practical, Hands-On Experience in a Dynamic and Engaging Classroom Environment.</p>
-              <button className="offer-btn">Explore Course</button>
-            </div>
-            <div className="offer-image">
-              <img src={Mentorship} alt="Mentorship Program" />
-            </div>
-          </div>
+          ))}
         </div>
-      </div>
+      </section>
 
       <div className="course-section">
         <div className="course-header">
@@ -330,15 +240,96 @@ const Home = () => {
             </div>
           </div>
           <div className="tryout-content">
-            <h1>Why Data?</h1>
-            <p>Data science is a broad field focused on extracting insights from data using techniques like machine learning, programming, and statistics. Data analysis is a key part of data science, involving the collection, cleaning, and interpretation of data to identify trends and support decision-making. Together, they turn raw data into actionable knowledge.</p>
+            <h1>Why Learn a Tech Skill?</h1>
+            <p className="tryout-subtitle">
+              Technology drives decision-making, innovation, and growth across every industry. It's about collecting real-world data, uncovering patterns, and enabling impactful decisions.
+            </p>
+            <div className="tech-benefits">
+              <div className="benefit-item">
+                <div className="benefit-icon">
+                  <BsBriefcase />
+                </div>
+                <div className="benefit-text">
+                  <h3>Diverse Career Paths</h3>
+                  <p>A career in Tech opens doors to various industries, including healthcare, finance, e-commerce, marketing, sales and more.</p>
+                </div>
+              </div>
+              <div className="benefit-item">
+                <div className="benefit-icon">
+                  <BsShield />
+                </div>
+                <div className="benefit-text">
+                  <h3>Growing Industry with Job Security</h3>
+                  <p>Tech careers offer a steady expanding marketplace with job security and long-term career prospects.</p>
+                </div>
+              </div>
+              <div className="benefit-item">
+                <div className="benefit-icon">
+                  <BsGraphUp />
+                </div>
+                <div className="benefit-text">
+                  <h3>Making an Impact</h3>
+                  <p>Help organizations make informed decisions that can improve products, services, and customer experiences.</p>
+                </div>
+              </div>
+              <div className="benefit-item">
+                <div className="benefit-icon">
+                  <BsCurrencyDollar />
+                </div>
+                <div className="benefit-text">
+                  <h3>Attractive Salaries and Benefits</h3>
+                  <p>Tech professionals command some of the highest-paying job salaries. Roles such as data analyst, cyber security & virtual assistant rank among the highest-paying jobs.</p>
+                </div>
+              </div>
+            </div>
             <Link to="/ExamCourse">
-              <button className="tryout-btn">Explore Course</button>
+              <button className="tryout-btn">Explore Courses</button>
             </Link>
           </div>
         </div>
       </div>
       
+      <section className="why-study-section">
+        <h2>Why Study with Us</h2>
+        <p className="study-subtitle">
+          Gain cutting-edge tech skills, hands-on experience, and expert guidance. Stay ahead in the digital world with industry-driven learning! 🚀
+        </p>
+        
+        <div className="study-grid">
+          <div className="study-card">
+            <div className="study-icon">
+              <HiAcademicCap />
+            </div>
+            <h3>Project-based Learning Approach</h3>
+            <p>We don't just teach theory—we emphasize real-world applications using industry-standard projects, case studies and solving business problems that mirror industry challenges.</p>
+          </div>
+          
+          <div className="study-card">
+            <div className="study-icon">
+              <BsCheckCircle />
+            </div>
+            <h3>Job Readiness Focus</h3>
+            <p>Our courses are designed to equip students with the exact skills employers look for, making them job-ready upon completion.</p>
+          </div>
+          
+          <div className="study-card">
+            <div className="study-icon">
+              <RiUserStarLine />
+            </div>
+            <h3>Personalized Mentorship</h3>
+            <p>Unlike many other platforms, we offer one-on-one mentorship, guiding our students through their learning journey.</p>
+          </div>
+          
+          <div className="study-card">
+            <div className="study-icon">
+              <TbCertificate />
+            </div>
+            <h3>Comprehensive Exam & Certification Platform</h3>
+            <p>We provide practice exams and professional assessments to help students test their knowledge and showcase their expertise.</p>
+          </div>
+        </div>
+      </section>
+
       <div className="testimonials-section">
         <h1>What Our Students have to say</h1>
         <p className="testimonial-subtitle">
@@ -356,8 +347,8 @@ const Home = () => {
               alt="Student" 
               className="student-image"
             />
-            <h3 className="student-name">Abdurrazzaq Abdulmuhsin B.</h3>
-            <p className="student-course">Data Science</p>
+            <h3 className="student-name">Ajetunbomi Abdulwasiu</h3>
+            <p className="student-course">Data Analysis</p>
             <div className="rating">
               <i className="fas fa-star"></i>
               <i className="fas fa-star"></i>
@@ -366,7 +357,8 @@ const Home = () => {
               <i className="fas fa-star"></i>
             </div>
             <p className="testimonial-text">
-              The data science course exceeded my expectations. The instructors were knowledgeable and supportive, and the content was both challenging and rewarding. I've already started applying what I learned in my job!
+            The best I did for myself was learn from WiDA Analytics. In September last year, I enrolled for the 3rd cohort of WiDa Analytics to learn Data Analysis. this was the best decision for me as I was exposed to the practical way of using ; Excel, SQL, PowerBI, and Python. After rigorous learning coupled with hand-on assignments and project work, I successfully built my personal project thanks to our tutor's effective way of teaching
+            I recommend learning data analysis from WiDa Analytics for anyone who wants to take up the journey of Data Analysis, and definitely you will not regret it. 
             </p>
           </div>
 
@@ -394,7 +386,7 @@ const Home = () => {
         
         <div className="blog-grid">
           {/* First Blog Post */}
-          <div className="blog-post">
+          <div className="blog-post">   
             <div className="blog-content">
               <span className="blog-date">01 Feb 2025</span>
               <h2>Data Analysis vs. Data Science: What's the Difference?</h2>
@@ -418,59 +410,103 @@ const Home = () => {
               <img src={blogImage} alt="Data Analysis Tools" />
             </div>
           </div>
+
+          {/* Third Blog Post */}
+          <div className="blog-post">
+            <div className="blog-content">
+              <span className="blog-date">01 Feb 2025</span>
+              <h2>Data Analysis vs. Data Science: What's the Difference?</h2>
+              <p>Clarify the distinction between data analysis (focused on interpreting existing data) and data science (broader, including predictive modeling and machine learning).</p>
+              <button className="view-more-btn">View More</button>
+            </div>
+            <div className="blog-image">
+              <img src={heroUpgrade} alt="Data Analysis vs Science" />
+            </div>
+          </div>
         </div>
       </div>
-      <div className="footer-section">
-        <div className="footer-left">
-          <img src={logo} alt="IDA Logo" className="footer-logo" />
-          <div className="contact-info">
-            <div className="contact-item">
-              <i className="fas fa-phone"></i>
-              <span>+2348130287334</span>
-            </div>
-            <div className="contact-item">
-              <i className="fab fa-whatsapp"></i>
-              <span>+2348130287334</span>
-            </div>
-            <div className="contact-item">
-              <i className="far fa-envelope"></i>
-              <span>Email Support</span>
-            </div>
+      <div className="footer-container">
+        <div className="footer-banner">
+          <div className="banner-left">
+            <h3>Join our LearnwithWiDa's experience</h3>
+          </div>
+          <div className="banner-right">
+            <h2>We have trained over <br/> 2000 students to be <br/> tech professionals</h2>
           </div>
         </div>
         
-        <div className="footer-links">
-          <div className="footer-column">
-            <h3>Quick Links</h3>
-            <ul>
-              <li>About</li>
-              <li>Courses</li>
-              <li>Blog</li>
-              <li>FAQ</li>
-            </ul>
+        <div className="footer-content">
+          <div className="footer-left">
+            <img src={logo} alt="WIDA Logo" className="footer-logo" />
+            <div className="contact-info">
+              <div className="contact-item">
+                <i className="fas fa-phone"></i>
+                <span>+2348130287334</span>
+              </div>
+              <div className="contact-item">
+                <i className="fab fa-whatsapp"></i>
+                <span>+2348130287334</span>
+              </div>
+              <div className="contact-item">
+                <i className="far fa-envelope"></i>
+                <span>Email Support</span>
+              </div>
+            </div>
+            <div className="social-icons">
+              <a href="#"><FaFacebookF /></a>
+              <a href="#"><RiTwitterXFill /></a>
+              <a href="#"><FaInstagram /></a>
+            </div>
           </div>
-          
-          <div className="footer-column">
-            <h3>Quick Links</h3>
-            <ul>
-              <li>Login</li>
-              <li>Scholarship</li>
-              <li>Contact Us</li>
-              <li>Testimonials</li>
-            </ul>
-          </div>
-          
-          <div className="footer-column">
-            <h3>Programs</h3>
-            <ul>
-              <li>Virtual</li>
-              <li>Physical</li>
-              <li>Mentorship</li>
-            </ul>
+
+          <div className="footer-links">
+            <div className="footer-column">
+              <h3>Company</h3>
+              <ul>
+                <li>About Us</li>
+                <li>Courses</li>
+                <li>Login</li>
+                <li>Testimonials</li>
+              </ul>
+            </div>
+
+            <div className="footer-column">
+              <h3>Resources</h3>
+              <ul>
+                <li>Blog</li>
+                <li>Scholarship</li>
+                <li>Contact Us</li>
+                <li>FAQs</li>
+                <li><Link to="/privacy-policy">Privacy Policy</Link></li>
+                <li>Collaborate with Us</li>
+              </ul>
+            </div>
+
+            <div className="footer-column">
+              <h3>Programs</h3>
+              <ul>
+                <li>Virtual</li>
+                <li>Physical</li>
+                <li>Mentorship</li>
+                <li>One-on-One</li>
+              </ul>
+            </div>
+
+            <div className="footer-column">
+              <h3>Subscribe</h3>
+              <p>1.18k+ of our students are subscribe around the world.</p>
+              <div className="subscribe-form">
+                <div className="subscribe-input-wrapper">
+                  <HiOutlineMail className="subscribe-icon" />
+                  <input type="email" placeholder="Email" />
+                </div>
+                <button type="submit">Subscribe</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

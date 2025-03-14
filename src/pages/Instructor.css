@@ -156,9 +156,7 @@
   
   .form-group textarea {
     padding: 12px;
-    border: 1px solid #FF7600;
     border-radius: 8px;
-    background: #FFF7F0;
     font-size: 14px;
     resize: none;
   }
@@ -166,12 +164,12 @@
   .submit-btn {
     position: relative;
     width: 100%;
-    padding: 12px;
-    background: #FF7600;
+    padding: 8px;
+    background: #064919;
     color: white;
     border: none;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 4px;
+    font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s ease;
   }
