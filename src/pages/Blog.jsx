@@ -5,77 +5,124 @@ import { RiTwitterXFill } from 'react-icons/ri';
 import { HiOutlineMail } from 'react-icons/hi';
 import { Link } from 'react-router-dom';
 import blogImage from "../assets/blog-img.png";
+import heroUpgrade from "../assets/heroUpgrade.png";
 
 const Blog = () => {
   useEffect(() => {
     document.title = "Blog | Wida";
   }, []);
 
+ 
+
   return (
     <div className="blog-container">
       <div className="blog-header">
-        <h1>The LearnWithWiDa Blog</h1>
+        <h1>The <span style={{color: '#064919', fontFamily: 'Recoleta', fontWeight: '500'}}>LearnWithWiDa</span> Blog</h1>
+        <p>Updates and announcements from Team WiDa</p>
         <div className="search-container">
-          <input type="text" placeholder="Search articles..." />
-          <button className="search-btn">Search</button>
+          <input type="text" placeholder="Email Address" />
+          <button className="search-btn">Subscribe</button>
         </div>
+          <p>You can unsubscribe at any time. Learn more about our <span style={{color: '#064919', fontFamily: 'Recoleta', fontWeight: '500'}}><Link to="/privacy-policy" style={{textDecoration: 'none',color: '#064919'}}>Privacy Policy</Link></span></p>
       </div>
-
-      <section className="blog-section">
-        <div className="section-header">
-          <h2>Latest Articles</h2>
-          <p>Explore our latest insights and learning resources</p>
-        </div>
-        <div className="blog-posts">
-          <div className="blog-post">
-            <img src={blogImage} alt="Blog post" />
-            <div className="post-content">
-              <h3>Data Analysis vs Data Science: What's the Difference?</h3>
-              <p>Discover the key differences between Data Analysis and Data Science, including their roles, responsibilities, and career paths.</p>
-              <div className="post-footer">
-                <span>Mar 19, 2024</span>
-                <button>Read More</button>
-              </div>
+      <div className="feedback-container">
+        
+      <div className="blog-grid">
+          {/* First Blog Post */}
+          <div className="blog-post">   
+            <div className="blog-content">
+              <span className="blog-date">01 Feb 2025</span>
+              <h2>Data Analysis vs. Data Science: What's the Difference?</h2>
+              <p>Clarify the distinction between data analysis (focused on interpreting existing data) and data science (broader, including predictive modeling and machine learning).</p>
+              <Link to={`/blog/${1}`}>
+                <button className="view-more-btn">View More</button>
+              </Link>
+            </div>
+            <div className="blog-image">
+              <img src={heroUpgrade} alt="Data Analysis vs Science" />
             </div>
           </div>
 
-          <div className="blog-post">
-            <img src={blogImage} alt="Blog post" />
-            <div className="post-content">
-              <h3>Top 5 Tools Every Aspiring Data Analyst Should Master</h3>
-              <p>Learn about essential tools like SQL, Python, Excel, Tableau, and Power BI to jumpstart your data career.</p>
-              <div className="post-footer">
-                <span>Mar 19, 2024</span>
-                <button>Read More</button>
-              </div>
+           {/* Second Blog Post */}
+           <div className="blog-post reverse">
+            <div className="blog-content">
+              <span className="blog-date">01 Feb 2025</span>
+              <h2>Top 5 Tools Every Aspiring Data Analyst Should Master</h2>
+              <p>Introduce essential tools like Excel, SQL, Tableau, Python, and Power BI, explaining their role in cleaning, analyzing, and visualizing data.</p>
+              <Link to={`/blog/${2}`}>
+                <button className="view-more-btn">View More</button>
+              </Link>
+            </div>
+            <div className="blog-image">
+              <img src={blogImage} alt="Data Analysis Tools" />
             </div>
           </div>
 
-          <div className="blog-post">
-            <img src={blogImage} alt="Blog post" />
-            <div className="post-content">
-              <h3>Data Analysis vs Data Science: What's the Difference?</h3>
-              <p>Discover the key differences between Data Analysis and Data Science, including their roles, responsibilities, and career paths.</p>
-              <div className="post-footer">
-                <span>Mar 19, 2024</span>
-                <button>Read More</button>
-              </div>
+          {/* First Blog Post */}
+          <div className="blog-post">   
+            <div className="blog-content">
+              <span className="blog-date">01 Feb 2025</span>
+              <h2>Data Analysis vs. Data Science: What's the Difference?</h2>
+              <p>Clarify the distinction between data analysis (focused on interpreting existing data) and data science (broader, including predictive modeling and machine learning).</p>
+              <Link to={`/blog/${3}`}>
+                <button className="view-more-btn">View More</button>
+              </Link>
+            </div>
+            <div className="blog-image">
+              <img src={heroUpgrade} alt="Data Analysis vs Science" />
             </div>
           </div>
 
-          <div className="blog-post">
-            <img src={blogImage} alt="Blog post" />
-            <div className="post-content">
-              <h3>Top 5 Tools Every Aspiring Data Analyst Should Master</h3>
-              <p>Learn about essential tools like SQL, Python, Excel, Tableau, and Power BI to jumpstart your data career.</p>
-              <div className="post-footer">
-                <span>Mar 19, 2024</span>
-                <button>Read More</button>
-              </div>
+           {/* Second Blog Post */}
+           <div className="blog-post reverse">
+            <div className="blog-content">
+              <span className="blog-date">01 Feb 2025</span>
+              <h2>Top 5 Tools Every Aspiring Data Analyst Should Master</h2>
+              <p>Introduce essential tools like Excel, SQL, Tableau, Python, and Power BI, explaining their role in cleaning, analyzing, and visualizing data.</p>
+              <Link to={`/blog/${4}`}>
+                <button className="view-more-btn">View More</button>
+              </Link>
+            </div>
+            <div className="blog-image">
+              <img src={blogImage} alt="Data Analysis Tools" />
             </div>
           </div>
-        </div>
-      </section>
+
+
+  {/* First Blog Post */}
+  <div className="blog-post">   
+            <div className="blog-content">
+              <span className="blog-date">01 Feb 2025</span>
+              <h2>Data Analysis vs. Data Science: What's the Difference?</h2>
+              <p>Clarify the distinction between data analysis (focused on interpreting existing data) and data science (broader, including predictive modeling and machine learning).</p>
+              <Link to={`/blog/${5}`}>
+                <button className="view-more-btn">View More</button>
+              </Link>
+            </div>
+            <div className="blog-image">
+              <img src={heroUpgrade} alt="Data Analysis vs Science" />
+            </div>
+          </div>
+
+           {/* Second Blog Post */}
+           <div className="blog-post reverse">
+            <div className="blog-content">
+              <span className="blog-date">01 Feb 2025</span>
+              <h2>Top 5 Tools Every Aspiring Data Analyst Should Master</h2>
+              <p>Introduce essential tools like Excel, SQL, Tableau, Python, and Power BI, explaining their role in cleaning, analyzing, and visualizing data.</p>
+              <Link to={`/blog/${6}`}>
+                <button className="view-more-btn">View More</button>
+              </Link>
+            </div>
+            <div className="blog-image">
+              <img src={blogImage} alt="Data Analysis Tools" />
+            </div>
+          </div>
+
+
+          </div>
+
+      </div>
 
       <div className="footer-content">
         <div className="footer-left">

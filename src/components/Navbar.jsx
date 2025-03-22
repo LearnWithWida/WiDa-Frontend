@@ -25,6 +25,10 @@ const Navbar = () => {
   };
 
   return (
+    <>
+    <div className="navtop">
+    <p>Unlock your potentials with LearnwithWIDA</p>
+    </div>  
     <nav className="navbar">
       <div className="nav-left">
         <Link to="/" className="nav-logo">
@@ -49,6 +53,7 @@ const Navbar = () => {
             <div className="dropdown-content programs-dropdown">
               <Link to="/programs/virtual" className="dropdown-link">Virtual Program</Link>
               <Link to="/programs/physical" className="dropdown-link">Physical Program</Link>
+              <Link to="/programs/one-on-one" className="dropdown-link">One-on-One Program</Link>
               <Link to="/programs/mentorship" className="dropdown-link">Mentorship Program</Link>
             </div>
           )}
@@ -68,9 +73,9 @@ const Navbar = () => {
             <div className="dropdown-content resources-dropdown">
               <Link to="/scholarship" className="dropdown-link">Scholarships</Link>
               <Link to="/blog" className="dropdown-link">Blog</Link>
-              <Link to="/resources/privacy-policy" className="dropdown-link">Privacy Policy</Link>
-              <Link to="/resources/collaborate" className="dropdown-link">Collaborate with Us</Link>
-              <Link to="/resources/faqs" className="dropdown-link">FAQs</Link>
+              <Link to="/privacy-policy" className="dropdown-link">Privacy Policy</Link>
+              <Link to="/collaborate" className="dropdown-link">Collaborate with Us</Link>
+              <Link to="/faqs" className="dropdown-link">FAQs</Link>
             </div>
           )}
         </div>
@@ -106,6 +111,7 @@ const Navbar = () => {
         )}
       </div>
     </nav>
+    </>
   );
 };
 

@@ -2,7 +2,13 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
-import { signInWithEmailAndPassword, sendEmailVerification } from 'firebase/auth';
+import { 
+  signInWithRedirect, 
+  GoogleAuthProvider, 
+  getRedirectResult,
+  signInWithEmailAndPassword,
+  sendEmailVerification
+} from 'firebase/auth';
 import { auth } from '../firebase/config';
 import dataAuth from '../assets/data-auth.png';
 import Google from "../assets/google.png";
@@ -21,22 +27,44 @@ const Login = () => {
   const { user } = useAuth();
 
   useEffect(() => {
+    // Check for redirect result when component mounts
+    const handleRedirectResult = async () => {
+      try {
+        const result = await getRedirectResult(auth);
+        if (result?.user) {
+          toast.success('Login successful!');
+          navigate('/dashboard');
+        }
+      } catch (error) {
+        console.error('Redirect error:', error);
+        toast.error('Failed to complete sign-in. Please try again.');
+      }
+    };
+
+    handleRedirectResult();
+  }, [navigate]);
+
+  useEffect(() => {
     if (user) {
-      navigate('/');
+      navigate('/dashboard');
     }
     document.title = 'Login | Wida';
   }, [user, navigate]);
 
-  const handleGoogleSignIn = async () => {
+  const handleGoogleSignIn = async (e) => {
+    e.preventDefault();
+    if (loading) return;
+
     try {
-      await googleSignIn();
-      toast.success('Login successful!');
-      setTimeout(() => {
-        navigate('/');
-      }, 1500);
+      setLoading(true);
+      const provider = new GoogleAuthProvider();
+      // Use redirect instead of popup
+      await signInWithRedirect(auth, provider);
+      // The page will redirect to Google sign-in
     } catch (error) {
-      console.error('Error signing in with Google:', error);
-      toast.error('Failed to sign in with Google. Please try again.');
+      console.error('Sign-in error:', error);
+      toast.error('Failed to start sign-in process. Please try again.');
+      setLoading(false);
     }
   };
 
@@ -56,7 +84,7 @@ const Login = () => {
       }
 
       toast.success('Login successful!');
-      navigate('/'); // Redirect to home after successful login
+      navigate('/dashboard'); // Redirect to home after successful login
     } catch (error) {
       console.error('Error signing in:', error);
       let errorMessage = 'Failed to sign in';
@@ -95,9 +123,13 @@ const Login = () => {
             <h2>Welcome Back!</h2>
             <p className="auth-subtitle">Dive into back and keep learning.🤩</p>
             
-            <button className="google-auth-btn" onClick={handleGoogleSignIn}>
+            <button 
+              className={`google-auth-btn ${loading ? 'disabled' : ''}`}
+              onClick={handleGoogleSignIn}
+              disabled={loading}
+            >
               <img src={Google} alt="Google" />
-              Sign in with Google
+              {loading ? 'Please wait...' : 'Sign in with Google'}
             </button>
             
             <div className="divider">

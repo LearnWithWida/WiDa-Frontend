@@ -24,7 +24,7 @@ import { TbCertificate } from 'react-icons/tb';
 import { HiOutlineMail } from 'react-icons/hi';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { RiTwitterXFill } from 'react-icons/ri';
-
+import '../styles/CourseCards.css';
 const testimonials = [
   {
     id: 1,
@@ -106,9 +106,9 @@ const programsData = [
   {
     id: 1,
     title: "Physical Program",
+    description: "Learn in a traditional classroom setting with direct instructor interaction.",
     image: Physical,
-    description: "Our in-person data analytics program offers hands-on training, expert-led workshops, and collaborative learning experiences.",
-    link: "/programs/physical"
+    link: "/physical-program"
   },
   {
     id: 2,
@@ -137,16 +137,65 @@ const Home = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [runTour, setRunTour] = useState(true);
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
 
   const handleInstructorClick = () => {
     navigate("/instructors");
   };
+
+  const checkScrollPosition = (container) => {
+    const isStart = container.scrollLeft === 0;
+    const isEnd = container.scrollLeft + container.offsetWidth >= container.scrollWidth;
+    
+    setIsAtStart(isStart);
+    setIsAtEnd(isEnd);
+  };
+
+  const handleScroll = (direction) => {
+    const container = document.querySelector('.course-cards');
+    const scrollAmount = container.offsetWidth;
+    
+    if (direction === 'left') {
+      container.scrollBy({
+        left: -scrollAmount,
+        behavior: 'smooth'
+      });
+    } else {
+      container.scrollBy({
+        left: scrollAmount,
+        behavior: 'smooth'
+      });
+    }
+
+    // Check position after scroll animation
+    setTimeout(() => checkScrollPosition(container), 500);
+  };
+
+  useEffect(() => {
+    const container = document.querySelector('.course-cards');
+    checkScrollPosition(container);
+    
+    // Add scroll event listener
+    container.addEventListener('scroll', () => checkScrollPosition(container));
+    
+    return () => {
+      container.removeEventListener('scroll', () => checkScrollPosition(container));
+    };
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      navigate('/dashboard');
+    }
+  }, [user, navigate]);
+
   return (
     <div className="home-container">
       <div className="content-wrapper">
         <div className="hero-left">
           <h1>
-            <span className="highlight">Data</span> is the <span className="highlight">Future</span> and the future is <span className="highlight">NOW!</span>
+            Unlock Limitless <span className="highlight">Learning</span> - Learn a <span className="highlight">Tech Skill</span> & Transform your Future.
           </h1>
           <p>
             Dive into our comprehensive suite of tools designed to help you uncover valuable insights, visualize trends, and make informed decisions. Whether you're a novice or an expert, our platform provides intuitive features and robust functionality to support your data exploration journey. Join our community of data enthusiasts today and embark on a voyage of discovery with us!
@@ -184,6 +233,22 @@ const Home = () => {
         <div className="course-header">
           <h1>Browse Our Top Courses <br />
           Elevate your skills today!</h1>
+          <div className="course-navigation">
+            <button 
+              className="nav-arrow prev" 
+              onClick={() => handleScroll('left')}
+              disabled={isAtStart}
+            >
+              <i className="fas fa-chevron-left"></i>
+            </button>
+            <button 
+              className="nav-arrow next" 
+              onClick={() => handleScroll('right')}
+              disabled={isAtEnd}
+            >
+              <i className="fas fa-chevron-right"></i>
+            </button>
+          </div>
         </div>
         
         <div className="course-cards">
@@ -202,7 +267,7 @@ const Home = () => {
                 </div>
               </div>
               <h2>Data Analysis</h2>
-              <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software to uncover patterns and trends, turning raw data into actionable insights. Strong analytical, statistical, and communication skills are essential for success in this field.</p>
+              <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software.</p>
               <button className="learn-more">Learn More</button>
             </div>
           </div>
@@ -222,10 +287,31 @@ const Home = () => {
                 </div>
               </div>
               <h2>Data Science</h2>
-              <p>Data science is the field of using programming, statistics, and machine learning to analyze and interpret large datasets. It focuses on extracting valuable insights and solving problems by turning raw data into actionable knowledge.</p>
+              <p>Data science is the field of using programming, statistics, and machine learning to analyze and interpret large datasets. Perfect for those interested in AI and ML.</p>
               <button className="learn-more">Learn More</button>
             </div>
           </div>
+
+          {/* Cyber Security Card */}
+          <div className="course-card">
+            <img src={analysisOne} alt="Cyber Security" className="course-image" />
+            <div className="course-info">
+              <div className="course-type">
+                <div className="type-item">
+                  <i className="fas fa-map-marker-alt"></i>
+                  <span>Physical/Online Lecture</span>
+                </div>
+                <div className="type-item">
+                  <i className="far fa-clock"></i>
+                  <span>4 months (Installments allowed)</span>
+                </div>
+              </div>
+              <h2>Cyber Security</h2>
+              <p>Master cybersecurity fundamentals and advanced techniques. Learn to protect systems, networks, and data from cyber threats. Develop skills in security protocols.</p>
+              <button className="learn-more">Learn More</button>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -286,7 +372,7 @@ const Home = () => {
               <button className="tryout-btn">Explore Courses</button>
             </Link>
           </div>
-        </div>
+        </div>  
       </div>
       
       <section className="why-study-section">
@@ -367,6 +453,7 @@ const Home = () => {
           </button>
         </div>
       </div>
+      
       <div className="faq-section">
         <h1>Frequently Asked Questions (FAQs)</h1>
         <div className="faq-grid">

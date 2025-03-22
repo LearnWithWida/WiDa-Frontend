@@ -1,11 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
+import { 
+  signInWithPopup,
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  updateProfile
+} from 'firebase/auth';
+import { auth } from '../firebase/config';
 import dataAuth from '../assets/data-auth.png';
 import Google from "../assets/google.png";
 import { HiOutlineUser, HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import "../components/SignUp.css";
+
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -13,30 +22,84 @@ const SignUp = () => {
   const [fullName, setFullName] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
-  const { signup } = useAuth();
+  const { signup, user } = useAuth();
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [agreeToTerms, setAgreeToTerms] = useState(false);
 
+  useEffect(() => {
+    if (user) {
+      console.log("User detected, navigating to dashboard");
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, navigate]);
+
+  const handleGoogleSignUp = async (e) => {
+    e.preventDefault();
+    if (loading) return;
+
+    try {
+      setLoading(true);
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      console.log("Google sign in successful", result);
+      toast.success('Account created successfully!');
+      navigate('/dashboard', { replace: true });
+    } catch (error) {
+      console.error('Sign-up error:', error);
+      toast.error('Failed to sign up with Google. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   async function handleSubmit(e) {
     e.preventDefault();
     if (password !== confirmPassword) {
-      return setError('Passwords do not match');
+      toast.error('Passwords do not match');
+      return;
     }
+    if (!agreeToTerms) {
+      toast.error('Please agree to the Terms and Conditions');
+      return;
+    }
+
     try {
       setError('');
       setLoading(true);
-      await signup(email, password, fullName);
-      navigate('/');
-    } catch {
-      setError('Failed to create an account');
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(userCredential.user, {
+        displayName: fullName
+      });
+      console.log("Email sign up successful");
+      toast.success('Account created successfully!');
+      navigate('/dashboard', { replace: true });
+    } catch (error) {
+      console.error('Signup error:', error);
+      let errorMessage = 'Failed to create an account';
+      
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage = 'Email already in use';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Invalid email address';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Password should be at least 6 characters';
+          break;
+        default:
+          errorMessage = error.message;
+      }
+      
+      toast.error(errorMessage);
+      setError(errorMessage);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   }
-  useEffect(() => {
-    document.title = 'Sign Up | Wida';
-  }, []);
+
   return (
     <div className="auth-container">
       <div className="auth-left">
@@ -51,9 +114,13 @@ const SignUp = () => {
             <h2>Create your account</h2>
             <p className="auth-subtitle">Master data analysis with expert-led courses.</p>
             
-            <button className="google-auth-btn">
+            <button 
+              className={`google-auth-btn ${loading ? 'disabled' : ''}`}
+              onClick={handleGoogleSignUp}
+              disabled={loading}
+            >
               <img src={Google} alt="Google" />
-              Sign up with Google
+              {loading ? 'Please wait...' : 'Sign up with Google'}
             </button>
             
             <div className="divider">

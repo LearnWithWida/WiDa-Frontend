@@ -613,6 +613,15 @@ nav {
 .nav-link:hover .dropdown-arrow {
   color: #064919;
 }
-
+.navtop{
+  background-color: #0FAF8333;
+}
+.navtop p{
+  color: #064919;
+  font-weight: bold;
+  font-family: "Recoleta";
+  padding: 10px 0px;
+  text-align: center;
+}
 
 

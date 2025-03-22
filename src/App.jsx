@@ -3,12 +3,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import { AuthRoute } from './components/AuthRoute';
 import Home from './pages/Home';
 import ExamCourse from './pages/ExamCourse';
 import SignUp from './components/SignUp';
 import Login from './components/Login';
 import ForgotPassword from './components/ForgotPassword';
-import Dashboard from './components/Dashboard';
+import Dashboard from './pages/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
 import CourseDetails from './pages/CourseDetails';
 import Instructor from './pages/Instructor';
@@ -20,6 +21,12 @@ import Contact from "./pages/Contact";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Scholarship from "./pages/Scholarship";
 import Blog from "./pages/Blog";
+import Collaborate from "./pages/Collaborate";
+import BlogPost from "./pages/BlogPost";
+import PhysicalProgram from './pages/PhysicalProgram';
+import VirtualProgram from './pages/VirtualProgram';
+import MentorshipProgram from './pages/MentorshipProgram';
+import OneOnOneProgram from './pages/OneOnOneProgram';
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -29,11 +36,14 @@ const ProtectedRoute = ({ children }) => {
     return <Navigate to="/login" replace />;
   }
 
-  const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-  const userPurchases = purchasedCourses[user.uid] || {};
-  
-  if (!userPurchases['data analysis']) {
-    return <Navigate to="/course/DataAnalysis" replace />;
+  // Only check for course purchase if trying to access course content
+  if (window.location.pathname.includes('/course/data-analysis/content')) {
+    const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+    const userPurchases = purchasedCourses[user.uid] || {};
+    
+    if (!userPurchases['data analysis']) {
+      return <Navigate to="/course/DataAnalysis" replace />;
+    }
   }
 
   return children;
@@ -46,9 +56,21 @@ export const App = () => {
         <div className="app-container">
           <Routes>
             {/* Auth routes without Nav and Footer */}
-            <Route path="/signup" element={<SignUp />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/signup" element={
+              <AuthRoute>
+                <SignUp />
+              </AuthRoute>
+            } />
+            <Route path="/login" element={
+              <AuthRoute>
+                <Login />
+              </AuthRoute>
+            } />
+            <Route path="/forgot-password" element={
+              <AuthRoute>
+                <ForgotPassword />
+              </AuthRoute>
+            } />
 
             {/* Routes with Nav and Footer */}
             <Route
@@ -59,11 +81,20 @@ export const App = () => {
                   <main className="main-content">
                     <Routes>
                       <Route path="/" element={<Home />} />
+                      <Route path="/dashboard" element={
+                        <ProtectedRoute>
+                          <Dashboard />
+                        </ProtectedRoute>
+                      } />
                       <Route path="/course/data-analysis" element={<CourseDetails />} />
-                      <Route path="/course/data-analysis/content" element={<CourseContent />} />
+                      <Route path="/course/data-analysis/content" element={
+                        <ProtectedRoute>
+                          <CourseContent />
+                        </ProtectedRoute>
+                      } />
+                      {/* Other public routes */}
                       <Route path="/ExamCourse" element={<ExamCourse />} />
                       <Route path="/instructors" element={<Instructor />} />
-                      <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
                       <Route path="/about" element={<About />} />
                       <Route path="/Database" element={<Database />} />
                       <Route path="/course/:courseName" element={<CourseDetails />} />
@@ -72,6 +103,12 @@ export const App = () => {
                       <Route path="/privacy-policy" element={<PrivacyPolicy />} />
                       <Route path="/scholarship" element={<Scholarship />} />
                       <Route path="/blog" element={<Blog />} />
+                      <Route path="/collaborate" element={<Collaborate />} />
+                      <Route path="/blog/:id" element={<BlogPost />} />
+                      <Route path="/programs/physical" element={<PhysicalProgram />} />
+                      <Route path="/programs/virtual" element={<VirtualProgram />} />
+                      <Route path="/programs/mentorship" element={<MentorshipProgram />} />
+                      <Route path="/programs/one-on-one" element={<OneOnOneProgram />} />
                     </Routes>
                   </main>
                   <Footer />
