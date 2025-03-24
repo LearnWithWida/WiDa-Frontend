@@ -11,6 +11,7 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import dataAuth from '../assets/data-auth.png';
+import PersonOne from "../assets/personOne.png"
 import Google from "../assets/google.png";
 import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
@@ -112,7 +113,7 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="auth-left">
-        <img src={dataAuth} alt="Data Analytics" />
+        <img src={PersonOne} alt="Data Analytics" />
       </div>
       <div className="auth-right">
         <div className="auth-form-container">

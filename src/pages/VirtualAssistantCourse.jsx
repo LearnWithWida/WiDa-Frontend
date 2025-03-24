@@ -11,101 +11,94 @@ import "./VirtualAssistantCourse.css";
 const VirtualAssistantCourse = () => {
     const weekTopic = [
         {
-          week: "Week 1",
+          week: "Week 1; Introduction to Virtual Assistance",
           topics: [
-            "Introduction to Data Analytics",
-            "Introduction to excel",
-            "Editing Options",
-            "Formatting",
-            "Conditional Formatting",
-            "Copy and Fill Options",
-            "Basic Formulas",
-            "Basic Functions",
+            "1.1 Understanding the VA Role",
+            "Who is a Virtual Assistant?",
+            "Different Types of Virtual Assistant",
+            "The Benefits & Challenges of Being a VA",
+            "1.2 Essential Skills for a Virtual Assistant",
+            "Time Management & Organization",
+            "Strong communication Skills",
+            "Basic Tech Knowledge (Cloud-Based Tools, CRMs, Automation)",
+            "Problem-Solving and Critical Thinking",
+            "1.3 Understanding Client Needs & Business Structure",
+            "Identifying Business Needs as a VA",
+            "Defining your VA Niche",
+            "Setting up your Business (Freelance vs. Agency)",
+            "Pricing your services & Payment Methods",
           ],
         },
         {
-          week: "Week 2",
+          week: "Week 2-3; Productivity & Task Management",
           topics: [
-            "Conditional Functions",
-            "String Functions",
-            "Date Functions",
-            "Logical Functions",
-            "Sorting and Filtering",
-            "Cell Referencing",
-            "Absolute and Relative referencing",
-            "index and Match",
+            "2.1 Task & Project Management Tools",
+            "Google calendar, Outlook Calendar -> Scheduling Meetings & Appointments",
+            "Asana, Trello, Notion -> Organizing Tasks & Workflows",
+            "Trello for Beginners -> Creating Boards, Lists, and Cards",
+            "Asana for Teamwork -> Task Assignments, Workflow Automation",
+            "2.2 Calendar & Scheduling Mastery",
+            "Google Calendar vs. Outlook Calendar -> Scheduling Meetings & Appointments",
+            "Setting Up Recurring Events, Time Blocks, & Reminders",
+            "Syncing Calendars with Task Management Tools",
+            "2.3 Documentation & Note-Taking Systems",
+            "Notion for Documentation -> Creating knowledge Basses & Client SOPs",
+            "Google Docs vs. Notion -> When to use Each Tools",
           ],
         },
         {
-          week: "Week 3",
+          week: "Week 4-5; Communication & Collaboration Tools",
           topics: [
-            "Vlook, Hlook up, Xlook up",
-            "Nested Lookup",
-            "Introduction to power query",
-            "Data Import and connections",
-            "Data clearing and transformation",
-            "Advanced Data transformation",
-            "Merging and Appending Queries",
+            "3.1 Professional Email & Chat Management",
+            "Google Workspace (Gmail, Drive, Meet) vs. Outlook -> Best Practices for Email Management",
+            "Managing Inbox Overload -> Using Filters, Labels, and Priority Emails",
+            "Drafting & Automating Emails for Clients",
+            "3.2 Virtual Meetings & Video Conferencing",
+            "Using Google Meet, Zoom, Microsoft Teams for Client Meetings",
+            "Setting Up Calendar invites for Calls & Follow-ups",
           ],
         },
         {
-          week: "Week 4",
+          week: "Week 6-7; Website & Content Management",
           topics: [
-            "Fundamental of Data Visualization",
-            "Charts and Graphs",
-            "Advanced visualization techniques",
-            "Data storytelling",
-            "Formatting charts",
+            "4.1 WordPress Basics for VAs",
+            "Setting Up a WordPress Website",
+            "Managing Blog Posts & Pages",
+            "Basic SEO for Content Management",
+            "4.2 Email Marketing & Campaign Management",
+            "Zoho Campaigns -> Creating & Managing Email Campaigns",
+            "Understanding Email Sequences & Automations", 
           ],
         },
         {
-          week: "Week 5; Introduction to SQL",
+          week: "Week 8-9; CRM & Lead Generations",
           topics: [
-            "What is SQL?",
-            "Databases and Relational Database Management Systems (RDBMS)",
-            "SQL syntax and structure",
-            "Types of SQL commands: DDL, DML, DQL, DCL, TCL.",
-            "Setting up a SQL environment (PostgreSQL, MySQL, or SQL Server)",
-            "Data Retrieval Using SELECT",
-            "SELECT statement basics",
-            "Filtering with WHERE",
-            "Sorting data with ORDER BY",
-            "Using DISTINCT to remove duplicates",
-            "Column aliasing with AS",
+            "5.1 Introduction to CRM & Lead management",
+            "Apollo.io, HubSpot, Zoho CRM -> Finding & managing Leads]",
+            "Automating Outreach & Email Follow-ups",
           ],
         },
         {
-          week: "Week 6; Working with SQL Functions",
+          week: "Week 10-11; Social Media & Marketing Support",
           topics: [
-            "String functions (LOWER)(), UPPER(), SUBSTRING(), TRIM(), e.t.c",
-            "Numeric functions (ROUND(), CEIL(), FLOOR(), e.t.c",
-            "Date and time functions (NOW(), DATEADD(), DATEDIFF(), e.t.c)",
-            "Aggregation and Grouping",
-            "Aggregate functions (COUNT(), SUM(), AVG(), MIN(), MAX())",
-            "GROUP BY and HAVING clauses",
-            "Combining filters with HAVING and WHERE",
-            "Joins and Subqueries",
-            "Understanding relationships in databases",
-            "Types of joins: INNER JOIN, LEFT JOIN. RIGHT JOIN, FULL OUTER JOIN, CROSS JOIN",
-            "Using subqueries (EXISTS, IN, NOT IN)",
-            "Correlated subqueries",
+            "6.1 Social Media Management for Clients",
+            "Planning & Scheduling Content Using Trello & Asana",
+            "Scheduling Tools Overview: Hootsuite, Buffer, Meta Business Suite",
+            "6.2 Zoho Campaigns for Email & Social Media",
+            "Integrating Email & Social Campaigns for Clients",
+            "Managing Multiple Platforms Efficiently",
           ],
         },
         {
           week: "Week 7; Data Modification Commands",
           topics: [
-            "Inserting data (INSERT INTO)",
-            "Updating records (UPDATE)",
-            "Deleting records (DELETE)",
-            "Truncating vs. Deleting data",
-            "Window Function & CTEs",
-            "Introduction to window functions (ROW_NUMBER(), RANK(), DENSE_RANK(), NTILE())",
-            "Using PARTITION BY for advanced analytics",
-            "Common Table Expressions (CTEs) vs. Subqueries",
+            "7.1 Finding VA Jobs & clients",
+            "Freelance Platforms ( Upwork, Fiverr, PeoplePerHour)",
+            "Cold Outreach & Networking Strategies",
           ],
         },
         {
-          week: "Week 8; Advanced SQL Concepts",
+          week: "Week 14-15; Advanced Automation & AI for VAs",
           topics: [
             "Using CASE statements",
             "Recursive CTEs",
@@ -123,76 +116,18 @@ const VirtualAssistantCourse = () => {
         {
           week: "Week 9; Introduction to power BI",
           topics: [
-            "Overview of Power BI and its components",
-            "Power BI Desktop vs. Power BI Service vs. Power BI Mobile",
-            "Installing and setting up Power BI",
-            "Connecting to different data sources",
-            "Data Preparation & Transformation (Power Query)",
-            "Importing dat from Excel, SQL, and Web",
-            "Data cleaning and transformation techniques",
-            "Merging and appending queries",
-            "Handling missing and duplicate data",
-            "Column splitting and grouping",
+            "8.1 Automating Workflows with Zapier & IFTTT",
+            "Connecting Apps & Automating Repetitive Tasks",
+            "8.2 AI Tools for Virtual Assistants",
+            "AI-Powered Scheduling & Email Drafting",
+            "Using Chatbots & AI-driven CRM Tools",
           ],
         },
         {
-          week: "Week 10; Data Modeling in Power BI",
+          week: "Final Project & Certification",
           topics: [
-            "Understanding relationships between tables",
-            "Star and Snowflake schema concepts",
-            "Creating calculated columns and measures",
-            "Optimizing model performance DAX (Data Analysis Expressions)",
-            "Introduction to DAX",
-            "Basic functions: SUM, AVERAGE, COUNT, DISTINCT",
-            "Logical functions: IF, SWITCH",
-            "Time intelligence functions: TOTALYTD, SAMEPERIODLASTYEAR",
-            "Advanced DAX: Variables, CALCULATE, FILTER",
-          ],
-        },
-        {
-          week: "Week 11; Maps, KPI cards, and custom visuals",
-          topics: [
-            "Conditional formatting and tooltips",
-            "Power BI Service & Sharing Reports",
-            "Publishing reports to Power BI Service",
-            "Creating dashboards",
-            "Row-Level Security (RLS)",
-            "Power BI Workspaces and sharing reports",
-          ],
-        },
-        {
-          week: "Week 12; Automation & Performance Optimization",
-          topics: [
-            "Scheduled data refresh",
-            "Performance tuning techniques",
-            "Query folding and optimizing DAX querie",
-            "Power BI Integration and Advanced Features",
-            "Integrating Power BI with Excel, power Automate, and Power Apps",
-            "Embedding Power BI reports in websites",
-            "AI features in Power BI (Cognitive Services, Smart Narratives)",
-          ],
-        },
-        {
-          week: "Week 13; Python Fundamentals for Data Analysis",
-          topics: [
-            "Setting up Python and Jupyter Notebook",
-            "Python basics: variables, data types, and basic operations",
-            "Control structures: Conditional statements and loops",
-            "Functions and list comprehensions",
-            "Introduction to NumPy: Arrays, indexing, slicing, and basic operations",
-            "Introduction to Pandas: Series and DataFrames, loading data from CSV/Excel",
-            "Basic data manipulation: Filtering, sorting, and aggregations",
-          ],
-        },
-        {
-          week: "Week 14; Data Wrangling, Visualization, and Exploration",
-          topics: [
-            "Advanced Pandas: Handling missing data, merging, and groupby operations",
-            "Data visualization with Matplotlib & Seaborn: Line plots, bar charts, histograms, scatter plots",
-            "Exploratory Data Analysis (EDA) techniques",
-            "File handling: Reading/writing CSV and excel files",
-            "Introduction to SQL in Python (using SQLite or Pandas)",
-            "Mini data analysis project (real-world dataset)",
+            "Real-world client simulation",
+            "Final assessment & Certification",
           ],
         },
       ];
@@ -205,29 +140,13 @@ const VirtualAssistantCourse = () => {
           <div className="data-analysis-content">
             <h1>About this course</h1>
             <p>
-              Data analytics is the process of examining and interpreting data to
-              uncover valuable insights, identify patterns, and support informed
-              decision-making. It involves a range of techniques and tools to
-              collect, clean, and analyze data, helping organizations optimize
-              processes, enhance performance, and forecast future trends based on
-              historical information. By leveraging data analytics, businesses can
-              make data-driven decisions, improve efficiency, and maintain a
-              competitive edge.
+            Virtual learning is transforming education, making knowledge accessible anytime, anywhere. This course provides a comprehensive understanding of online learning strategies, digital tools, and interactive teaching methods that enhance engagement and effectiveness. From self-paced modules to live virtual sessions, learners will explore the flexibility and convenience of digital education while developing essential skills for success in an online learning environment.
             </p>
             <p>
-              The primary goal of data analytics is to enhance decision-making by
-              providing actionable insights and recommendations. Organizations can
-              use these insights to streamline operations, enhance customer
-              experiences, identify new opportunities, and mitigate potential risks.
+            Virtual learning is widely used in various fields, including higher education, corporate training, skill development, and professional certifications. It enables students, educators, and professionals to access high-quality content, collaborate remotely, and leverage technology-driven learning solutions. This course covers best practices in virtual instruction, student engagement techniques, and the integration of multimedia and AI-driven learning tools to create a dynamic educational experience.
             </p>
             <p>
-              Data analytics is widely used across industries such as finance,
-              healthcare, marketing, retail, and sports. Companies apply it to
-              understand customer behavior, improve efficiency, manage risks, and
-              drive strategic initiatives. Ultimately, data analytics transforms raw
-              data into meaningful insights, empowering organizations to maximize
-              the value of their data, stay ahead of the competition, and achieve
-              their objectives.
+            The goal of this course is to equip learners with the knowledge and skills needed to navigate and excel in virtual learning environments. Whether you are an educator looking to enhance your online teaching methods, a student seeking to maximize your digital learning experience, or a professional aiming to upskill remotely, this course will help you adapt to the evolving world of online education.
             </p>
             <button className="register-button">Register</button>
           </div>
