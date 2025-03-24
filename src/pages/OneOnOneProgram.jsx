@@ -38,7 +38,9 @@ const OneOnOneProgram = () => {
               <h2>Data Analysis</h2>
               <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software to uncover patterns and trends, turning raw data into actionable insights. Strong analytical, statistical, and communication skills are essential for success in this field.</p>
               <h3>₦100,000</h3>
-              <button className="Reg">Register</button>
+              <Link to="/data-analysis">
+                <button className="Reg">Register</button>
+              </Link>
             </div>
           </div>
 
@@ -52,7 +54,9 @@ const OneOnOneProgram = () => {
               <h2>Cyber Security</h2>
               <p>Cybersecurity is the defense against digital threats, protecting data, networks, and systems from hacking, malware, and breaches. It ensures privacy, integrity, and reliability through encryption, firewalls, AI-driven security, and proactive threat detection, keeping the digital world safe and resilient.</p>
               <h3>₦100,000</h3>
-              <button className="Reg">Register</button>
+              <Link to="/cyber-security">
+                <button className="Reg">Register</button>
+              </Link>
             </div>
           </div>
 
@@ -66,7 +70,9 @@ const OneOnOneProgram = () => {
               <h2>Virtual Assistant</h2>
               <p>A virtual assistant is an AI-powered or human-based service that helps with tasks like scheduling, customer support, data management, and more. It enhances productivity by automating repetitive tasks, providing real-time assistance, and streamlining workflows, making operations more efficient in both personal and business settings.</p>
               <h3>₦100,000</h3>
-              <button className="Reg">Register</button>
+              <Link to="/virtual-assistant">
+                <button className="Reg">Register</button>
+              </Link>
             </div>
           </div>
 

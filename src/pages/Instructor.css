@@ -174,10 +174,6 @@
     transition: background-color 0.3s ease;
   }
   
-  .submit-btn:hover:not(:disabled) {
-    background: #e66a00;
-  }
-  
   .submit-btn:disabled {
     background: #ccc;
     cursor: not-allowed;

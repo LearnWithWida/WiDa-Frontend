@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FaUserCircle } from 'react-icons/fa';
-import { IoIosArrowDown } from 'react-icons/io';
+import { IoNotificationsOutline, IoArrowDown } from 'react-icons/io5';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import './Navbar.css';
 import WidaLogo from '../assets/WidaLogo.png';
@@ -13,6 +13,21 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [showProgramsMenu, setShowProgramsMenu] = useState(false);
   const [showResourcesMenu, setShowResourcesMenu] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState([
+    {
+      id: 1,
+      message: "New course content available",
+      time: "2 hours ago",
+      unread: true
+    },
+    {
+      id: 2,
+      message: "Your progress has been updated",
+      time: "5 hours ago",
+      unread: true
+    }
+  ]);
 
   const handleLogout = async () => {
     try {
@@ -84,22 +99,32 @@ const Navbar = () => {
       </div>
       <div className="nav-right">
         {user ? (
-          <div className="user-profile">
-            <div 
-              className="user-info" 
-              onClick={() => setShowDropdown(!showDropdown)}
-            >
-              <FaUserCircle className="user-icon" />
-              <span className="user-name">
-                {user?.displayName || 'User'}
-              </span>
+          <div className="notification-wrapper">
+            <div className="notification-icon" onClick={() => setShowNotifications(!showNotifications)}>
+              <IoNotificationsOutline size={24} />
+              {notifications.filter(n => n.unread).length > 0 && (
+                <span className="notification-badge">{notifications.filter(n => n.unread).length}</span>
+              )}
             </div>
             
-            {showDropdown && (
-              <div className="dropdown-menu">
-                <button onClick={handleLogout} className="dropdown-item">
-                  Sign Out
-                </button>
+            {showNotifications && (
+              <div className="notifications-dropdown">
+                <div className="notifications-header">
+                  <h3>Notifications</h3>
+                  <button className="mark-all-read" onClick={() => {
+                    setNotifications(notifications.map(n => ({...n, unread: false})))
+                  }}>
+                    Mark all as read
+                  </button>
+                </div>
+                <div className="notifications-list">
+                  {notifications.map(notification => (
+                    <div key={notification.id} className={`notification-item ${notification.unread ? 'unread' : ''}`}>
+                      <p className="notification-message">{notification.message}</p>
+                      <span className="notification-time">{notification.time}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
             )}
           </div>
@@ -108,6 +133,22 @@ const Navbar = () => {
             <Link to="/login" className="Login">Login</Link>
             <Link to="/SignUp" className="signup-btn">Apply</Link>
           </>
+        )}
+
+        {user && (
+          <div className="user-profile" onClick={() => setShowDropdown(!showDropdown)}>
+            <div className="user-info">
+              <FaUserCircle className="user-icon" />
+              <span className="user-name">{user.displayName}</span>
+            </div>
+            {showDropdown && (
+              <div className="dropdown-menu">
+                <button onClick={handleLogout} className="dropdown-item">
+                  Sign Out
+                </button>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </nav>

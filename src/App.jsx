@@ -27,6 +27,9 @@ import PhysicalProgram from './pages/PhysicalProgram';
 import VirtualProgram from './pages/VirtualProgram';
 import MentorshipProgram from './pages/MentorshipProgram';
 import OneOnOneProgram from './pages/OneOnOneProgram';
+import DataAnalysisCourse from './pages/DataAnalysisCourse';
+import CyberSecurityCourse from './pages/CyberSecurityCourse';
+import VirtualAssistantCourse from './pages/VirtualAssistantCourse';
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -109,6 +112,9 @@ export const App = () => {
                       <Route path="/programs/virtual" element={<VirtualProgram />} />
                       <Route path="/programs/mentorship" element={<MentorshipProgram />} />
                       <Route path="/programs/one-on-one" element={<OneOnOneProgram />} />
+                      <Route path="/courses/data-analysis" element={<DataAnalysisCourse />} />
+                      <Route path="/cyber-security" element={<CyberSecurityCourse />} />
+                      <Route path="/virtual-assistant" element={<VirtualAssistantCourse />} />
                     </Routes>
                   </main>
                   <Footer />

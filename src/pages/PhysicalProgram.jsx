@@ -41,7 +41,9 @@ const PhysicalProgram = () => {
               <h2>Data Analysis</h2>
               <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software to uncover patterns and trends, turning raw data into actionable insights. Strong analytical, statistical, and communication skills are essential for success in this field.</p>
               <h3>₦100,000</h3>
-              <button className="Reg">Register</button>
+              <Link to="/data-analysis">
+                <button className="Reg">Register</button>
+              </Link>
             </div>
           </div>
 
@@ -56,7 +58,9 @@ const PhysicalProgram = () => {
               <h2>Cyber Security</h2>
               <p>Cybersecurity is the defense against digital threats, protecting data, networks, and systems from hacking, malware, and breaches. It ensures privacy, integrity, and reliability through encryption, firewalls, AI-driven security, and proactive threat detection, keeping the digital world safe and resilient.</p>
               <h3>₦100,000</h3>
-              <button className="Reg">Register</button>
+              <Link to="/cyber-security">
+                <button className="Reg">Register</button>
+              </Link>
             </div>
           </div>
 

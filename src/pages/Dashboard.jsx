@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import CourseThumb from "../assets/CourseThumb.png";
 import OnlineClass from "../assets/OnlineClass.png";
 import { FaUserCircle } from 'react-icons/fa';
@@ -49,36 +49,44 @@ const Dashboard = () => {
         </div>
       </section>
 
-      <section className="explore-courses">
-        <h3>Explore Other Courses</h3>
-        <div className="courses-grid">
-          <div className="course-card">
-            <img src={OnlineClass} alt="Virtual Assistant" />
-            <div className="course-info">
-              <h4>Virtual Assistant</h4>
-              <div className="course-meta">
-                <BiTime className="time-icon" />
-                <span>8 weeks • 3 certifications planned</span>
-              </div>
-              <p>A virtual assistant is an advanced or trained person who can work from anywhere in the world providing various business and personal assistance services like administrative support, technical, creative...</p>
-              <button className="start-btn">Start Now</button>
+      <div className='course-cont'> 
+        <h1 style={{fontFamily: 'Recoleta', fontSize: '1.4rem', color: '#333', marginBottom: '1.5rem'}}>Explore Other Courses</h1>
+        <div className="course-card-container">
+          {/* Data Analysis Card */}
+          <div className="course-card-wrapper">
+            <img src={CourseThumb} alt="Data Analysis" />
+            <div className="metas">
+              <p><i className="far fa-calendar"></i>3 months (12 Weeks)</p>
+              <p><i className="far fa-clock"></i>Mon, Tues & Fri.</p>
+            </div>
+            <div className="course-infomation">
+              <h2>Data Analysis</h2>
+              <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software to uncover patterns and trends, turning raw data into actionable insights. Strong analytical, statistical, and communication skills are essential for success in this field.</p>
+              <Link to="/cyber-security">
+                <button className="Reg">Register</button>
+              </Link>
             </div>
           </div>
 
-          <div className="course-card">
-            <img src={OnlineClass} alt="Cyber Security" />
-            <div className="course-info">
-              <h4>Cyber Security</h4>
-              <div className="course-meta">
-                <BiTime className="time-icon" />
-                <span>12 weeks • 2 certifications planned</span>
-              </div>
-              <p>Cybersecurity is the defense against digital threats, protecting computer systems and networks from unauthorized access...</p>
-              <button className="start-btn">Start Now</button>
+          {/* Data Science Card */}
+          <div className="course-card-wrapper">
+            <img src={OnlineClass} alt="Data Science" />
+            <div className="metas">
+              <p><i className="far fa-calendar"></i>4 months (16 Weeks)</p>
+              <p><i className="far fa-clock"></i>Mon, Wed & Fri.</p>
+            </div>
+            <div className="course-infomation">
+              <h2>Cyber Security</h2>
+              <p>Cybersecurity is the defense against digital threats, protecting data, networks, and systems from hacking, malware, and breaches. It ensures privacy, integrity, and reliability through encryption, firewalls, AI-driven security, and proactive threat detection, keeping the digital world safe and resilient.</p>
+              <Link to="/cyber-security">
+                <button className="Reg">Register</button>
+              </Link>
             </div>
           </div>
+
         </div>
-      </section>
+      </div>
+
 
       <footer className="dashboard-footer">
         <div className="footer-section">

@@ -254,7 +254,7 @@ const Home = () => {
         <div className="course-cards">
           {/* Data Analysis Card */}
           <div className="course-card">
-            <img src={analysisOne} alt="Data Analysis" className="course-image" />
+            <img src={analysisTwo} alt="Data Analysis" className="course-image" />
             <div className="course-info">
               <div className="course-type">
                 <div className="type-item">
@@ -267,28 +267,8 @@ const Home = () => {
                 </div>
               </div>
               <h2>Data Analysis</h2>
-              <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software.</p>
-              <button className="learn-more">Learn More</button>
-            </div>
-          </div>
-
-          {/* Data Science Card */}
-          <div className="course-card">
-            <img src={analysisTwo} alt="Data Science" className="course-image" />
-            <div className="course-info">
-              <div className="course-type">
-                <div className="type-item">
-                  <i className="fas fa-map-marker-alt"></i>
-                  <span>Physical/Online Lecture</span>
-                </div>
-                <div className="type-item">
-                  <i className="far fa-clock"></i>
-                  <span>3 months (Installments allowed)</span>
-                </div>
-              </div>
-              <h2>Data Science</h2>
-              <p>Data science is the field of using programming, statistics, and machine learning to analyze and interpret large datasets. Perfect for those interested in AI and ML.</p>
-              <button className="learn-more">Learn More</button>
+              <p>Master data analysis using Excel, SQL, Python, and Power BI. Learn to transform raw data into actionable insights for informed business decisions.</p>
+              <Link to="/data-analysis"><button className="learn-more">Learn More</button></Link>
             </div>
           </div>
 
@@ -308,7 +288,27 @@ const Home = () => {
               </div>
               <h2>Cyber Security</h2>
               <p>Master cybersecurity fundamentals and advanced techniques. Learn to protect systems, networks, and data from cyber threats. Develop skills in security protocols.</p>
-              <button className="learn-more">Learn More</button>
+              <Link to="/cyber-security"><button className="learn-more">Learn More</button></Link>
+            </div>
+          </div>
+
+          {/* Virtual Assistant Card */}
+          <div className="course-card">
+            <img src={analysisTwo} alt="Virtual Assistant" className="course-image" />
+            <div className="course-info">
+              <div className="course-type">
+                <div className="type-item">
+                  <i className="fas fa-map-marker-alt"></i>
+                  <span>Physical/Online Lecture</span>
+                </div>
+                <div className="type-item">
+                  <i className="far fa-clock"></i>
+                  <span>2 months (Installments allowed)</span>
+                </div>
+              </div>
+              <h2>Virtual Assistant</h2>
+              <p>Learn to provide comprehensive remote support services. Master digital tools, project management, and communication skills for effective virtual assistance.</p>
+              <Link to="/virtual-assistant"><button className="learn-more">Learn More</button></Link>
             </div>
           </div>
 
