@@ -1,4 +1,3 @@
-import React from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import Navbar from './components/Navbar';
@@ -30,6 +29,7 @@ import OneOnOneProgram from './pages/OneOnOneProgram';
 import DataAnalysisCourse from './pages/DataAnalysisCourse';
 import CyberSecurityCourse from './pages/CyberSecurityCourse';
 import VirtualAssistantCourse from './pages/VirtualAssistantCourse';
+import FaqPage from './pages/FaqPage';
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -51,11 +51,9 @@ const ProtectedRoute = ({ children }) => {
 
   return children;
 };
-
 export const App = () => {
   return (
     <AuthProvider>
-      <Router basename="/">
         <div className="app-container">
           <Routes>
             {/* Auth routes without Nav and Footer */}
@@ -115,6 +113,7 @@ export const App = () => {
                       <Route path="/courses/data-analysis" element={<DataAnalysisCourse />} />
                       <Route path="/cyber-security" element={<CyberSecurityCourse />} />
                       <Route path="/virtual-assistant" element={<VirtualAssistantCourse />} />
+                      <Route path="/faqs" element={<FaqPage />} />
                     </Routes>
                   </main>
                   <Footer />
@@ -123,9 +122,8 @@ export const App = () => {
             />
           </Routes>
         </div>
-      </Router>
     </AuthProvider>
   );
 };
 
-export default App
+export default App;

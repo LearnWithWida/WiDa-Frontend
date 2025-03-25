@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import instructorImg from '../assets/instructor.png';
 import './Instructor.css';
 import CustomDropdown from '../components/CustomDropdown';

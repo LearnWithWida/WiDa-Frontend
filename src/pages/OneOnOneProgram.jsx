@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Physical from "../assets/Physical.png";
 import OnlineClass from "../assets/OnlineClass.png";
 import Instructor from "../assets/instructor.png";

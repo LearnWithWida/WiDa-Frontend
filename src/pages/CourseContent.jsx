@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import "./CourseContent.css";
 import CourseThumbnail from "../assets/Thumbnail.png";
 import { FaPlay, FaPause, FaExpand, FaCompress, FaLock, FaRedo, FaArrowRight, FaArrowLeft, FaVideo } from "react-icons/fa";

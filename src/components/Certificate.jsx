@@ -1,4 +1,3 @@
-import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';

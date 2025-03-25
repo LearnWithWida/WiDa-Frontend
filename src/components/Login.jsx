@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { toast, ToastContainer } from 'react-toastify';
 import { 
-  signInWithRedirect, 
+  signInWithRedirect,   
   GoogleAuthProvider, 
   getRedirectResult,
   signInWithEmailAndPassword,
@@ -11,12 +11,17 @@ import {
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
 import dataAuth from '../assets/data-auth.png';
-import PersonOne from "../assets/personOne.png"
+import PersonOne from "../assets/personOne.png";
+import PersonTwo from "../assets/personTwo.png";
+import PersonThree from "../assets/personThree.png";
+import PersonFour from "../assets/personFour.png";
+import PersonFive from "../assets/personFive.png";
 import Google from "../assets/google.png";
 import { HiOutlineMail, HiOutlineLockClosed } from 'react-icons/hi';
 import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import 'react-toastify/dist/ReactToastify.css';
 import "./Login.css";
+import { testimonials } from '../content/testimonials';
 
 const Login = () => {
   const { googleSignIn } = useAuth();
@@ -26,7 +31,11 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { user } = useAuth();
-
+  const [currentImage, setCurrentImage] = useState(0);
+  const [isTyping, setIsTyping] = useState(true);
+  const [currentText, setCurrentText] = useState('');
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  
   useEffect(() => {
     // Check for redirect result when component mounts
     const handleRedirectResult = async () => {
@@ -51,6 +60,38 @@ const Login = () => {
     }
     document.title = 'Login | Wida';
   }, [user, navigate]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setIsTyping(false);
+      setTimeout(() => {
+        setCurrentImage((prev) => (prev + 1) % testimonials.length);
+        setIsTyping(true);
+      }, 1000);
+    }, 8000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    if (isTyping && testimonials[currentImage]) {
+      let index = 0;
+      setCurrentText('');
+      setIsTypingComplete(false);
+
+      const typing = setInterval(() => {
+        if (index < testimonials[currentImage].text.length) {
+          setCurrentText(prev => prev + testimonials[currentImage].text.charAt(index));
+          index++;
+        } else {
+          clearInterval(typing);
+          setIsTypingComplete(true);
+        }
+      }, 50);
+
+      return () => clearInterval(typing);
+    }
+  }, [currentImage, isTyping]);
 
   const handleGoogleSignIn = async (e) => {
     e.preventDefault();
@@ -113,7 +154,37 @@ const Login = () => {
   return (
     <div className="auth-container">
       <div className="auth-left">
-        <img src={PersonOne} alt="Data Analytics" />
+        {testimonials.map((testimonial, index) => (
+          <div
+            key={testimonial.id}
+            className={`slide-container ${index === currentImage ? 'active' : ''}`}
+          >
+            <img
+              src={testimonial.image}
+              alt={testimonial.name}
+              className="slide-image"
+            />
+            <div className="slide-content">
+              {index === currentImage && isTyping && (
+                <>
+                  <div className="testimonial-text typing-text">
+                    {currentText}
+                  </div>
+                  {isTypingComplete && (
+                    <>
+                      <div className="testimonial-author fade-in">
+                        - {testimonial.name}
+                      </div>
+                      <div className="testimonial-role fade-in">
+                        {testimonial.role}
+                      </div>
+                    </>
+                  )}
+                </>
+              )}
+            </div>
+          </div>
+        ))}
       </div>
       <div className="auth-right">
         <div className="auth-form-container">

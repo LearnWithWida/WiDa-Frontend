@@ -4,10 +4,10 @@
 }
 
 .auth-left {
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  width: 50%;
+  overflow: hidden;
+  background-color: #064919;
 }
 
 .auth-left img {
@@ -16,6 +16,57 @@
   object-fit: contain;
   max-height: 120vh;
   margin-right: 100px;
+}
+
+.slide-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.slide-container.active {
+  opacity: 1;
+}
+
+.slide-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.6;
+}
+
+.slide-content {
+  position: absolute;
+  bottom: 20%;
+  left: 10%;
+  right: 10%;
+  color: white;
+  text-align: left;
+  z-index: 2;
+}
+
+.testimonial-text {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.testimonial-author {
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+.testimonial-role {
+  font-size: 1rem;
+  color: #e0e0e0;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
 .login-container {
@@ -216,3 +267,38 @@
     cursor: not-allowed;
     background-color: #999;
   }
+
+@media (max-width: 768px) {
+  .auth-left {
+    display: none;
+  }
+}
+
+.typing-text {
+  border-right: 2px solid transparent;
+  white-space: pre-wrap;
+  animation: blink 0.7s infinite;
+}
+
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.5s forwards;
+  animation-delay: 0.5s;
+}
+
+@keyframes blink {
+  50% {
+    border-color: white;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../pages/CourseContent.css';
 
 const QuizModal = ({ questions, onSubmit, onClose, forceComplete }) => {

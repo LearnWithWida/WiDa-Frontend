@@ -1,4 +1,3 @@
-import React from "react";
 import "./DataAnalysisCourse.css";
 import { FaStar } from "react-icons/fa6";
 import { IoPeopleOutline } from "react-icons/io5";

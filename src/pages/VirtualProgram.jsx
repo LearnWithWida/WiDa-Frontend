@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import Physical from "../assets/Physical.png";
 import OnlineClass from "../assets/OnlineClass.png";
 import Instructor from "../assets/instructor.png";
@@ -10,7 +10,7 @@ import { RiUserStarLine } from "react-icons/ri";
 import { TbCertificate } from "react-icons/tb";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 import { RiTwitterXFill } from "react-icons/ri";
-import { HiOutlineMail } from "react-icons/hi";
+import { HiOutlineMail } from "react-icons/hi"; 
 import { Link } from "react-router-dom";
 import whyData from "../assets/why-data.png";
 import CourseThumb from "../assets/CourseThumb.png";
