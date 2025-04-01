@@ -6,7 +6,10 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { RiTwitterXFill } from 'react-icons/ri';
 import logo from "../assets/WidaLogo.png";
-import "./VirtualAssistantCourse.css";  
+import "./VirtualAssistantCourse.css";
+import { useState } from 'react';
+import PaymentModal from '../components/PaymentModal';
+
 const VirtualAssistantCourse = () => {
     const weekTopic = [
         {
@@ -131,6 +134,8 @@ const VirtualAssistantCourse = () => {
         },
       ];
     
+      const [showPayment, setShowPayment] = useState(false);
+    
       return (
         <div>
           <div className="data-analysis-container">
@@ -147,7 +152,12 @@ const VirtualAssistantCourse = () => {
             <p>
             The goal of this course is to equip learners with the knowledge and skills needed to navigate and excel in virtual learning environments. Whether you are an educator looking to enhance your online teaching methods, a student seeking to maximize your digital learning experience, or a professional aiming to upskill remotely, this course will help you adapt to the evolving world of online education.
             </p>
-            <button className="register-button">Register</button>
+            <button 
+              className="register-button" 
+              onClick={() => setShowPayment(true)}
+            >
+              Register Now
+            </button>
           </div>
           <div className="course-thumb">
             <h1>This course includes:</h1>
@@ -354,6 +364,14 @@ const VirtualAssistantCourse = () => {
               </div>
             </div>
           </div>
+
+          {showPayment && (
+            <PaymentModal 
+              amount={50000}
+              courseName="virtual-assistant"
+              onClose={() => setShowPayment(false)}
+            />
+          )}
         </div>
       );
 };

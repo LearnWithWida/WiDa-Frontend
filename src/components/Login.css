@@ -1,20 +1,24 @@
 .auth-container {
   display: flex;
   min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 .auth-left {
   position: relative;
-  width: 50%;
+  width: 35%;
   overflow: hidden;
-  background-color: #064919;
+  background-color: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 .auth-left img {
   width: 100%;
   height: auto;
   object-fit: contain;
-  max-height: 120vh;
+  max-height: 100vh;
   margin-right: 100px;
 }
 
@@ -36,7 +40,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  opacity: 0.6;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
 .slide-content {
@@ -44,29 +50,29 @@
   bottom: 20%;
   left: 10%;
   right: 10%;
-  color: white;
+  color: #ffffff;
   text-align: left;
   z-index: 2;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
 }
 
 .testimonial-text {
   font-size: 1rem;
   line-height: 1.6;
   margin-bottom: 1.5rem;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  color: #ffffff;
 }
 
 .testimonial-author {
   font-size: 1.2rem;
   font-weight: bold;
   margin-bottom: 0.5rem;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  color: #ffffff;
 }
 
 .testimonial-role {
   font-size: 1rem;
-  color: #e0e0e0;
-  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  color: #ffffff;
 }
 
 .login-container {
@@ -278,6 +284,9 @@
   border-right: 2px solid transparent;
   white-space: pre-wrap;
   animation: blink 0.7s infinite;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ffffff;
 }
 
 .fade-in {
@@ -288,7 +297,7 @@
 
 @keyframes blink {
   50% {
-    border-color: white;
+    border-right: 2px solid white;
   }
 }
 
@@ -301,4 +310,20 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+.slide-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.4) 50%,
+    rgba(0, 0, 0, 0.8) 100%
+  );
+  pointer-events: none;
 }

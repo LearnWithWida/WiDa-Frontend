@@ -184,12 +184,6 @@ const Home = () => {
     };
   }, []);
 
-  useEffect(() => {
-    if (user) {
-      navigate('/dashboard');
-    }
-  }, [user, navigate]);
-
   return (
     <div className="home-container">
       <div className="content-wrapper">
@@ -198,7 +192,7 @@ const Home = () => {
             Unlock Limitless <span className="highlight">Learning</span> - Learn a <span className="highlight">Tech Skill</span> & Transform your Future.
           </h1>
           <p>
-            Dive into our comprehensive suite of tools designed to help you uncover valuable insights, visualize trends, and make informed decisions. Whether you're a novice or an expert, our platform provides intuitive features and robust functionality to support your data exploration journey. Join our community of data enthusiasts today and embark on a voyage of discovery with us!
+          Master essential skills with interactive courses, real-world projects, and expert mentorship. Gain the skills top employers demand and advance your career. Start your Tech Journey with <span className="highlight">LearnwithWIDA</span>
           </p>
           <div className="button-group">
             <button className="primary-btn">Join Us Now</button>
@@ -265,10 +259,14 @@ const Home = () => {
                   <i className="far fa-clock"></i>
                   <span>3 months (Installments allowed)</span>
                 </div>
+                <div className="type-item">
+                  <i className="fas fa-money-bill"></i>
+                  <span>N100,000</span>
+                </div>
               </div>
               <h2>Data Analysis</h2>
               <p>Master data analysis using Excel, SQL, Python, and Power BI. Learn to transform raw data into actionable insights for informed business decisions.</p>
-              <Link to="/data-analysis"><button className="learn-more">Learn More</button></Link>
+              <Link to="/data-analysis"><button className="learn-more course-lrn">Learn More</button></Link>
             </div>
           </div>
 
@@ -285,10 +283,14 @@ const Home = () => {
                   <i className="far fa-clock"></i>
                   <span>4 months (Installments allowed)</span>
                 </div>
+                <div className="type-item">
+                  <i className="fas fa-money-bill"></i>
+                  <span>N100,000</span>
+                </div>
               </div>
               <h2>Cyber Security</h2>
               <p>Master cybersecurity fundamentals and advanced techniques. Learn to protect systems, networks, and data from cyber threats. Develop skills in security protocols.</p>
-              <Link to="/cyber-security"><button className="learn-more">Learn More</button></Link>
+              <Link to="/cyber-security"><button className="learn-more course-lrn">Learn More</button></Link>
             </div>
           </div>
 
@@ -305,10 +307,14 @@ const Home = () => {
                   <i className="far fa-clock"></i>
                   <span>2 months (Installments allowed)</span>
                 </div>
+                <div className="type-item">
+                  <i className="fas fa-money-bill"></i>
+                  <span>N100,000</span>
+                </div>
               </div>
               <h2>Virtual Assistant</h2>
               <p>Learn to provide comprehensive remote support services. Master digital tools, project management, and communication skills for effective virtual assistance.</p>
-              <Link to="/virtual-assistant"><button className="learn-more">Learn More</button></Link>
+              <Link to="/virtual-assistant"><button className="learn-more course-lrn">Learn More</button></Link>
             </div>
           </div>
 

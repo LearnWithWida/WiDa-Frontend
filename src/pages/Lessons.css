@@ -1,0 +1,621 @@
+.lesson{
+    display: flex;
+    flex-direction: column;
+}
+.lessons-container{
+    display: flex;
+    min-height: 200vh;
+    overflow: visible;
+    position: relative;
+}   
+
+.left-container{
+    width: 60%;
+    min-height: 150vh;
+    color: white;
+    border-radius: 8px;
+    overflow-y: auto;
+}
+
+.right-container {
+    width: 40%;
+    position: sticky;
+    top: 0; 
+    height: 100vh;
+    overflow-y: auto;
+    color: #2d2d2d;
+    background: #ffffff;
+    border-left: 1px solid #e0e0e0;
+    align-self: flex-start;
+}
+
+.right-container h1{
+    font-size: 17px;
+    padding-bottom: 4px;
+    font-weight: 600;
+    font-family: 'Recoleta', sans-serif;
+}
+.right-box{
+    padding: 20px;
+    width: 100%;
+    background-color: #cccccc;
+    border-bottom: 1px solid #6e6e6e;
+    cursor: pointer;
+}
+
+.right-box p{
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Recoleta', sans-serif;
+    color: #2d2d2d;
+}
+.right-box-container h3{
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Recoleta', sans-serif;
+    color: #2d2d2d;
+    padding: 20px;
+    border-bottom: 1px solid rgb(167, 167, 167);
+}
+
+.right-box-container {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.right-box-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.right-box-header {
+    display: flex;
+    flex-direction: column;
+}
+
+.topic-item {
+    padding: 12px;
+    margin: 8px 0;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.topic-item:hover {
+    background-color: transparent;
+}
+
+.topic-left {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    width: 100%;
+}
+
+.topic-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    min-width: 16px;
+    border: 2px solid #064919;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.checkbox.checked {
+    background-color: #064919;
+    border-color: #064919;
+}
+
+.topic-text {
+    color: #2d2d2d;
+    font-family: 'Recoleta', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.duration {
+    color: #666;
+    font-size: 12px;
+}
+
+.arrow-icon {
+    color: #2d2d2d;
+    font-size: 14px;
+}
+
+.topics-dropdown {
+    background-color: #f5f5f5;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.topics-dropdown.open {
+    max-height: 1000px; /* Adjust this value based on your content */
+}
+
+.topic-item.completed {
+    background-color: rgba(6, 73, 25, 0.1);
+}
+
+.check-icon {
+    display: none;
+}
+
+.topic-number {
+    color: #666;
+    min-width: 25px;
+}
+
+.topic-name {
+    color: #2d2d2d;
+    font-size: 14px;
+}
+
+.topic-right {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: #666;
+}
+
+.time-icon {
+    font-size: 16px;
+}
+
+.duration-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: 15px;
+}
+
+.content-viewer {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.video-container {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: #000;
+    margin-bottom: 20px;
+    overflow: hidden;
+}
+
+.video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    transition: background 0.3s ease;
+    z-index: 2;
+}
+
+.video-overlay:hover {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.play-button {
+    width: 80px;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.play-button:hover {
+    transform: scale(1.1);
+}
+
+.play-icon-large {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 30px;
+    margin-left: 5px;
+}
+
+.content-details {
+    color: white;
+}
+
+.content-details h2 {
+    margin-bottom: 20px;
+    font-family: 'Recoleta', sans-serif;
+}
+
+.materials {
+    margin: 20px 0;
+}
+
+.materials h3 {
+    margin-bottom: 10px;
+    font-family: 'Recoleta', sans-serif;
+}
+
+.materials ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.materials li {
+    padding: 8px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.transcript {
+    margin-top: 20px;
+}
+
+.transcript h3 {
+    margin-bottom: 10px;
+    font-family: 'Recoleta', sans-serif;
+}
+
+.no-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: white;
+    text-align: center;
+}
+
+.no-content h2 {
+    font-family: 'Recoleta', sans-serif;
+}
+
+.topic-item.active {
+    background-color: rgba(6, 73, 25, 0.1);
+}
+
+.video-player {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: relative;
+    z-index: 1;
+}
+
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+    z-index: 3;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.video-container:hover .video-controls {
+    opacity: 1;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 2px;
+    background: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-bar:hover {
+    height: 4px;
+}
+
+.progress-filled {
+    background: #064919;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: width 0.1s ease;
+}
+
+.controls-container {
+    padding: 2px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.controls-left, .controls-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.control-button {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    border-radius: 50%;
+}
+
+.control-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(1.1);
+}
+
+.control-button.small {
+    padding: 2px;
+    font-size: 10px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 2px 4px;
+    border-radius: 12px;
+    margin-right: 6px;
+}
+
+.volume-slider {
+    width: 40px;
+    height: 2px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.next-button-container {
+    position: absolute;
+    bottom: 80px;
+    right: 20px;
+    z-index: 4;
+    animation: fadeIn 0.5s ease;
+}
+
+.next-button {
+    background: #064919;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: 'Recoleta', sans-serif;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.next-button:hover {
+    background: #053614;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.topic-item.assignment {
+    background-color: #f5f5f5;
+}
+
+.topic-item.assignment.active {
+    background-color: #4CAF50 !important;
+    color: white !important;
+}
+
+.topic-item.assignment.active * {
+    color: white !important;
+}
+
+/* Replace course content text with assignment content when active */
+.course-cont-text {
+    padding: 20px;
+}
+
+.assignment-content {
+    padding: 20px;
+    color: #333;
+}
+
+.assignment-content h2 {
+    margin-bottom: 30px;
+    font-size: 28px;
+    color: #064919;
+    font-family: 'Recoleta', serif;
+    font-weight: bold;
+}
+
+.question {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.question h3 {
+    margin-bottom: 15px;
+    font-size: 20px;
+    color: #064919;
+    font-family: 'Recoleta', serif;
+    font-weight: bold;
+}
+
+.question-text {
+    margin-bottom: 20px;
+    line-height: 1.6;
+    font-size: 16px;
+    color: #000;
+    font-weight: bold;
+    font-family: 'Recoleta', serif;
+}
+
+.options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+/* Clean option styling without borders or shadows */
+.option {
+    padding: 10px 12px;
+    border-radius: 6px;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: none;
+    outline: none;
+    box-shadow: none;
+    margin-bottom: 8px;
+}
+
+.option:hover {
+    background: rgba(240, 240, 240, 0.5);
+}
+
+.option.selected {
+    background: transparent;
+    color: #000;
+}
+
+/* Horizontal layout for radio and text */
+.radio-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-direction: row;
+}
+
+.radio {
+    width: 20px;
+    height: 20px;
+    min-width: 20px; /* Prevent shrinking */
+    border-radius: 50%;
+    border: 2px solid #064919;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    flex-shrink: 0;
+}
+
+.option.selected .radio {
+    background: #064919;
+    border-color: #064919;
+}
+
+.option span {
+    font-size: 14px;
+    color: #333;
+    display: inline-block;
+}
+
+/* Submit button styling */
+.submit-assignment {
+    margin-top: 30px;
+    padding: 12px 24px;
+    background: #064919;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+}
+
+.submit-assignment:hover {
+    background: #053714;
+}
+
+/* Assignment specific styles with higher specificity */
+.topics-dropdown .topic-item.assignment {
+    background-color: #f0f0f0;
+}
+
+/* Active assignment styles with higher specificity */
+.topics-dropdown .topic-item.assignment.active {
+    background-color: #4CAF50 !important;
+}
+
+.topics-dropdown .topic-item.assignment.active .topic-text,
+.topics-dropdown .topic-item.assignment.active .duration,
+.topics-dropdown .topic-item.assignment.active .duration-container svg,
+.topics-dropdown .topic-item.assignment.active .checkbox {
+    color: white !important;
+}
+
+/* Make sure the hover doesn't override the active state */
+.topics-dropdown .topic-item.assignment:hover {
+    background-color: #e0e0e0;
+}
+
+.topics-dropdown .topic-item.assignment.active:hover {
+    background-color: #45a049 !important;
+}
+
+/* Scrollbar styling for the right container */
+.right-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.right-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.right-container::-webkit-scrollbar-thumb {
+    background: #064919;
+}
+
+
+/* For Firefox */
+.right-container {
+    scrollbar-width: thin;
+    scrollbar-color: #064919 #f1f1f1;
+}
+

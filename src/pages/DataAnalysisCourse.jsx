@@ -6,8 +6,12 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { RiTwitterXFill } from 'react-icons/ri';
 import logo from "../assets/WidaLogo.png";
+import { useState } from 'react';
+import PaymentModal from '../components/PaymentModal';
 
 const DataAnalysisCourse = () => {
+  const [showPayment, setShowPayment] = useState(false);
+
   const weekTopic = [
     {
       week: "Week 1",
@@ -212,7 +216,12 @@ const DataAnalysisCourse = () => {
         <p>
         The primary goal of this course is to equip individuals with the knowledge and practical experience needed to combat cyber threats and strengthen digital security. Whether you're an aspiring cybersecurity professional or an IT specialist looking to enhance your skills, this course will prepare you for a future in the ever-evolving field of cybersecurity.
         </p>
-        <button className="register-button">Register</button>
+        <button 
+          className="register-button" 
+          onClick={() => setShowPayment(true)}
+        >
+          Register Now
+        </button>
       </div>
       <div className="course-thumb">
         <h1>This course includes:</h1>
@@ -419,6 +428,14 @@ const DataAnalysisCourse = () => {
           </div>
         </div>
       </div>
+
+      {showPayment && (
+        <PaymentModal 
+          amount={50000}
+          courseName="data-analysis"
+          onClose={() => setShowPayment(false)}
+        />
+      )}
     </div>
   );
 };

@@ -30,6 +30,7 @@ import DataAnalysisCourse from './pages/DataAnalysisCourse';
 import CyberSecurityCourse from './pages/CyberSecurityCourse';
 import VirtualAssistantCourse from './pages/VirtualAssistantCourse';
 import FaqPage from './pages/FaqPage';
+import Lessons from './pages/Lessons';
 
 // Simplified Protected Route Component
 const ProtectedRoute = ({ children }) => {
@@ -106,14 +107,15 @@ export const App = () => {
                       <Route path="/blog" element={<Blog />} />
                       <Route path="/collaborate" element={<Collaborate />} />
                       <Route path="/blog/:id" element={<BlogPost />} />
-                      <Route path="/programs/physical" element={<PhysicalProgram />} />
+                      <Route path="/physical-program" element={<PhysicalProgram />} />
                       <Route path="/programs/virtual" element={<VirtualProgram />} />
                       <Route path="/programs/mentorship" element={<MentorshipProgram />} />
                       <Route path="/programs/one-on-one" element={<OneOnOneProgram />} />
-                      <Route path="/courses/data-analysis" element={<DataAnalysisCourse />} />
+                      <Route path="/data-analysis" element={<DataAnalysisCourse />} />
                       <Route path="/cyber-security" element={<CyberSecurityCourse />} />
                       <Route path="/virtual-assistant" element={<VirtualAssistantCourse />} />
                       <Route path="/faqs" element={<FaqPage />} />
+                      <Route path="/course/:courseName/lessons" element={<Lessons />} />
                     </Routes>
                   </main>
                   <Footer />

@@ -1,4 +1,4 @@
-import  { useState } from 'react';
+import  { useState, useEffect, useRef } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { FaUserCircle } from 'react-icons/fa';
@@ -9,8 +9,8 @@ import WidaLogo from '../assets/WidaLogo.png';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
-  const navigate = useNavigate();
   const [showDropdown, setShowDropdown] = useState(false);
+  const navigate = useNavigate();
   const [showProgramsMenu, setShowProgramsMenu] = useState(false);
   const [showResourcesMenu, setShowResourcesMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -28,15 +28,26 @@ const Navbar = () => {
       unread: true
     }
   ]);
+  const profileRef = useRef(null);
+  const notificationRef = useRef(null);
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate('/');
-      setShowDropdown(false);
-    } catch (error) {
-      console.error('Error logging out:', error);
-    }
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setShowDropdown(false);
+      }
+      if (notificationRef.current && !notificationRef.current.contains(event.target)) {
+        setShowNotifications(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const handleNavigation = (path) => {
+    navigate(path);
+    setShowDropdown(false);
   };
 
   return (
@@ -51,7 +62,7 @@ const Navbar = () => {
         </Link>
       </div>
       <div className="links">
-        <NavLink to="/" className="nav-link">Home</NavLink>
+        <Link to="/" className="home-link">Home</Link>
         <NavLink to="/about" className="nav-link">About Us</NavLink>
         
         {/* Programs Dropdown */}
@@ -74,7 +85,6 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Resources Dropdown */}
         <div 
           className={`nav-dropdown ${showResourcesMenu ? 'active' : ''}`}
           onMouseEnter={() => setShowResourcesMenu(true)}
@@ -99,7 +109,7 @@ const Navbar = () => {
       </div>
       <div className="nav-right">
         {user ? (
-          <div className="notification-wrapper">
+          <div className="notification-wrapper" ref={notificationRef}>
             <div className="notification-icon" onClick={() => setShowNotifications(!showNotifications)}>
               <IoNotificationsOutline size={24} />
               {notifications.filter(n => n.unread).length > 0 && (
@@ -136,16 +146,24 @@ const Navbar = () => {
         )}
 
         {user && (
-          <div className="user-profile" onClick={() => setShowDropdown(!showDropdown)}>
-            <div className="user-info">
-              <FaUserCircle className="user-icon" />
-              <span className="user-name">{user.displayName}</span>
+          <div className="profile-menu" ref={profileRef}>
+            <div 
+              className="profile-icon" 
+              onClick={() => setShowDropdown(!showDropdown)}
+            >
+              {user.photoURL ? (
+                <img src={user.photoURL} alt="Profile" />
+              ) : (
+                <FaUserCircle />
+              )}
             </div>
+            
             {showDropdown && (
               <div className="dropdown-menu">
-                <button onClick={handleLogout} className="dropdown-item">
-                  Sign Out
+                <button onClick={() => handleNavigation('/dashboard')}>
+                  Dashboard
                 </button>
+                <button onClick={logout}>Sign Out</button>
               </div>
             )}
           </div>

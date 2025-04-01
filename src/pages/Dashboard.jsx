@@ -62,9 +62,12 @@ const Dashboard = () => {
             <div className="course-infomation">
               <h2>Data Analysis</h2>
               <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software to uncover patterns and trends, turning raw data into actionable insights. Strong analytical, statistical, and communication skills are essential for success in this field.</p>
-              <Link to="/cyber-security">
-                <button className="Reg">Register</button>
-              </Link>
+              <button 
+                className="go-to-course-btn" 
+                onClick={() => navigate('/course/data-analysis/lessons')}
+              >
+                Go to Course
+              </button>
             </div>
           </div>
 
@@ -78,9 +81,12 @@ const Dashboard = () => {
             <div className="course-infomation">
               <h2>Cyber Security</h2>
               <p>Cybersecurity is the defense against digital threats, protecting data, networks, and systems from hacking, malware, and breaches. It ensures privacy, integrity, and reliability through encryption, firewalls, AI-driven security, and proactive threat detection, keeping the digital world safe and resilient.</p>
-              <Link to="/cyber-security">
-                <button className="Reg">Register</button>
-              </Link>
+              <button 
+                className="go-to-course-btn" 
+                onClick={() => navigate('/course/cyber-security/lessons')}
+              >
+                Go to Course
+              </button>
             </div>
           </div>
 
