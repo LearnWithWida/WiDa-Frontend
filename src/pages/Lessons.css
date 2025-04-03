@@ -619,3 +619,241 @@
     scrollbar-color: #064919 #f1f1f1;
 }
 
+/* Assessment Result Modal Styles */
+.assessment-result-modal .modal-content {
+  border-radius: 10px;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.assessment-result-modal .modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.assessment-result-modal .modal-body {
+  padding: 20px 30px;
+}
+
+.assessment-result-modal .modal-footer {
+  border-top: none;
+  justify-content: center;
+  padding-top: 0;
+}
+
+.assessment-result-modal .score-text {
+  font-size: 18px;
+  font-weight: 500;
+  margin: 15px 0;
+}
+
+.assessment-result-modal .btn {
+  padding: 8px 30px;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+/* Custom Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-container {
+  background-color: white;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.modal-header {
+  padding: 15px 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-bottom: none;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #333;
+  font-family: 'Recoleta', serif;
+  text-align: center;
+}
+
+.failure-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.failure-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  width: 100%;
+}
+
+.retry-button {
+  background-color: #064919;
+  color: white;
+  border: none;
+  padding: 10px 50px;
+}
+
+.retry-button:hover {
+  background-color: #053714;
+}
+
+.course-button {
+  background-color: transparent;
+  color: #064919;
+  border: 2px solid #064919;
+  border-radius: 50px;
+  padding: 10px 20px;
+  border: 1px solid #064919;
+}
+
+.score-text {
+  font-size: 20px;
+  font-weight: 600;
+  margin: 15px 0 5px;
+  color: #333;
+}
+
+.modal-footer {
+  padding: 15px 20px;
+  display: flex;
+  justify-content: center;
+  border-top: none;
+}
+
+.modal-button {
+  padding: 10px 20px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+
+.success-button {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.success-button:hover {
+  background-color: #45a049;
+}
+
+.primary-button {
+  background-color: #064919;
+  color: white;
+}
+
+.primary-button:hover {
+  background-color: #053714;
+}
+
+/* Updated Modal Styles */
+.modal-body {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-body h4 {
+  margin: 10px 0;
+  color: #333;
+  font-family: 'Recoleta', serif;
+  font-size: 18px;
+}
+
+.score-text {
+  font-size: 16px;
+  font-weight: 500;
+  margin: 10px 0 5px;
+  color: #333;
+}
+
+.score-detail {
+  font-size: 14px;
+  color: #666;
+  margin: 5px 0;
+}
+
+.result-icon {
+  margin: 10px auto 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.failure-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.modal-button {
+  padding: 8px 25px;
+  border-radius: 50px;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+  font-size: 14px;
+  border: 1px solid #064919;
+}
+
+/* Success Modal Styles */
+.success-icon {
+  background-color: #4CAF50;
+  color: white;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+}
+
+.success-button {
+  background-color: #064919;
+  color: white;
+  border-radius: 50px;
+  border: none;
+  padding: 10px 50px;
+}
+
+.success-button:hover {
+  background-color: #053714;
+}
+
