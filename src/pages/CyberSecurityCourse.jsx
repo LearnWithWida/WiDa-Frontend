@@ -14,18 +14,33 @@ import PaymentModal from '../components/PaymentModal';
 const CyberSecurityCourse = () => {
   const [showPayment, setShowPayment] = useState(false);
   const [isPurchased, setIsPurchased] = useState(false);
-  const { user } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+  const { user, getUserPurchases } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (user) {
-      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-      const userPurchases = purchasedCourses[user.uid] || {};
-      setIsPurchased(!!userPurchases['cyber-security']);
-    }
-  }, [user]);
+    const checkPurchaseStatus = async () => {
+      setIsLoading(true);
+      if (user) {
+        try {
+          const purchases = await getUserPurchases();
+          setIsPurchased(!!purchases['cyber-security']);
+        } catch (error) {
+          console.error('Error checking purchase status:', error);
+        }
+      }
+      setIsLoading(false);
+    };
+
+    checkPurchaseStatus();
+  }, [user, getUserPurchases]);
 
   const handleButtonClick = () => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    
     if (isPurchased) {
       navigate('/course/cyber-security/lessons');
     } else {
@@ -149,7 +164,7 @@ const CyberSecurityCourse = () => {
   ];
 
   return (
-    <div>
+    <div className="course-container">
       <div className="data-analysis-container">
         <h1>Cyber Security Course</h1>
       </div>
@@ -164,6 +179,13 @@ const CyberSecurityCourse = () => {
         <p>
         The primary goal of this course is to equip individuals with the knowledge and practical experience needed to combat cyber threats and strengthen digital security. Whether you're an aspiring cybersecurity professional or an IT specialist looking to enhance your skills, this course will prepare you for a future in the ever-evolving field of cybersecurity.
         </p>
+        {showPayment && (
+          <PaymentModal 
+            amount={150000}
+            courseName="Cyber Security Course"
+            onClose={() => setShowPayment(false)}
+          />
+        )}
         <button 
           className={`register-button ${isPurchased ? 'enrolled' : ''}`}
           onClick={handleButtonClick}

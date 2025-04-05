@@ -22,9 +22,11 @@ import { IoEyeOutline, IoEyeOffOutline } from 'react-icons/io5';
 import 'react-toastify/dist/ReactToastify.css';
 import "./Login.css";
 import { testimonials } from '../content/testimonials';
+import { useNotifications } from '../context/NotificationContext';
 
 const Login = () => {
-  const { googleSignIn } = useAuth();
+  const { signIn, googleSignIn } = useAuth();
+  const { addNotification } = useNotifications();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -99,13 +101,13 @@ const Login = () => {
 
     try {
       setLoading(true);
-      const provider = new GoogleAuthProvider();
-      // Use redirect instead of popup
-      await signInWithRedirect(auth, provider);
-      // The page will redirect to Google sign-in
+      await googleSignIn();
+      toast.success('Login successful!');
+      navigate('/dashboard');
     } catch (error) {
       console.error('Sign-in error:', error);
       toast.error('Failed to start sign-in process. Please try again.');
+    } finally {
       setLoading(false);
     }
   };
@@ -115,18 +117,9 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      
-      // Check if email is verified
-      if (!userCredential.user.emailVerified) {
-        toast.error('Please verify your email before logging in');
-        // Optionally, send another verification email
-        await sendEmailVerification(userCredential.user);
-        return;
-      }
-
+      await signIn(email, password, addNotification);
       toast.success('Login successful!');
-      navigate('/dashboard'); // Redirect to home after successful login
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error signing in:', error);
       let errorMessage = 'Failed to sign in';
@@ -193,7 +186,7 @@ const Login = () => {
           </p>
           <div className="auth-form-box">
             <h2>Welcome Back!</h2>
-            <p className="auth-subtitle">Dive into back and keep learning.🤩</p>
+            <p className="auth-subtitle">Dive back in and keep learning.🤩</p>
             
             <button 
               className={`google-auth-btn ${loading ? 'disabled' : ''}`}

@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import  { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from '../context/AuthContext';
 import "./Global.css";
@@ -10,7 +10,7 @@ import Mentorship from "../assets/Mentorship.png";
 import analysisOne from "../assets/analysisOne.png";
 import analysisTwo from "../assets/analysisTwo.png";
 import whyData from "../assets/why-data.png";
-import studentImage from "../assets/student.png";
+import studentImage from "../assets/test.png";
 import blogImage from "../assets/blog-img.png";
 import logo from "../assets/WidaLogo.png";
 import { BsBriefcase } from 'react-icons/bs';
@@ -25,29 +25,6 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { RiTwitterXFill } from 'react-icons/ri';
 import '../styles/CourseCards.css';
-const testimonials = [
-  {
-    id: 1,
-    name: "Emma Davis",
-    role: "Data Analyst",
-    image: "https://randomuser.me/api/portraits/women/3.jpg",
-    text: "The support from instructors is outstanding. They're always available to help and guide you through complex concepts.",
-  },
-  {
-    id: 2,
-    name: "John Smith", 
-    role: "Business Intelligence Analyst",
-    image: "https://randomuser.me/api/portraits/men/4.jpg",
-    text: "The practical assignments and real-world projects helped me apply what I learned immediately in my work. Highly recommended!",
-  },
-  {
-    id: 3,
-    name: "Sarah Wilson",
-    role: "Data Scientist",
-    image: "https://randomuser.me/api/portraits/women/5.jpg",
-    text: "The course structure is well-organized and the content is up-to-date with current industry standards. Great learning experience!",
-  }
-];
 
 const faqData = [
   {
@@ -106,7 +83,7 @@ const programsData = [
   {
     id: 1,
     title: "Physical Program",
-    description: "Learn in a traditional classroom setting with direct instructor interaction.",
+    description: "Our in-person Tech program offers hands-on training, expert-led sessions, and collaborative learning experiences.",
     image: Physical,
     link: "/physical-program"
   },
@@ -114,21 +91,21 @@ const programsData = [
     id: 2,
     title: "Virtual Program",
     image: Virtual,
-    description: "Learn data analytics from anywhere with our virtual program. Gain hands-on experience with real-world projects and develop industry-relevant skills through guidance from the comfort of your home.",
+    description: "Learn Tech from anywhere with our virtual program! Gain hands-on experience, work on real projects, and develop industry-relevant skills with expert guidance from the comfort of your home",
     link: "/programs/virtual"
   },
   {
     id: 3,
     title: "One-on-One Program",
     image: OneOnOne,
-    description: "Learn data analytics at your own pace with our personalized one-on-one program. Get customized guidance and lessons tailored just for you.",
+    description: "Learn Tech at your own pace with our personalized one-on-one training, offering flexible scheduling and lessons tailored just for you.",
     link: "/programs/one-on-one"
   },
   {
     id: 4,
     title: "Mentorship",
     image: Mentorship,
-    description: "Accelerate your data analytics journey with our mentorship program. Get guidance from industry experts, experienced analysts, receive career advice, and work on real projects to build your portfolio and boost your confidence in the field.",
+    description: "Accelerate your Tech journey with our mentorship program! Get personalized guidance from experienced analysts, receive career advice, and work on real projects to sharpen your skills and boost your confidence in the field",
     link: "/programs/mentorship"
   }
 ];
@@ -136,13 +113,28 @@ const programsData = [
 const Home = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
-  const [runTour, setRunTour] = useState(true);
-  const [isAtStart, setIsAtStart] = useState(true);
-  const [isAtEnd, setIsAtEnd] = useState(false);
+  const coursesSectionRef = useRef(null);
+
+  const scrollToCourses = () => {
+    coursesSectionRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleJoinClick = () => {
+    if (!user) {
+      navigate('/login');
+    } else {
+      scrollToCourses();
+    }
+  };
 
   const handleInstructorClick = () => {
     navigate("/instructors");
   };
+
+  const [runTour, setRunTour] = useState(true);
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(false);
+  const [currentTestimonial, setCurrentTestimonial] = useState(0);
 
   const checkScrollPosition = (container) => {
     const isStart = container.scrollLeft === 0;
@@ -184,6 +176,35 @@ const Home = () => {
     };
   }, []);
 
+  const testimonials = [
+    {
+      name: "Ajetunbomi Abdulwasiu",
+      course: "Data Analysis",
+      image: studentImage,
+      text: "The best I did for myself was learn from WiDA Analytics. In September last year, I enrolled for the 3rd cohort of WiDa Analytics to learn Data Analysis. This was the best decision for me as I was exposed to the practical way of using Excel, SQL, PowerBI, and Python. After rigorous learning coupled with hands-on assignments and project work, I successfully built my personal project thanks to our tutor's effective way of teaching. I recommend learning data analysis from WiDa Analytics for anyone who wants to take up the journey of Data Analysis, and definitely you will not regret it."
+    },
+    {
+      name: "Sarah Johnson",
+      course: "Cyber Security",
+      image: studentImage,
+      text: "WiDA Analytics' cyber security program exceeded my expectations. The hands-on approach and real-world scenarios helped me develop practical skills that I now use daily in my career. The instructors are knowledgeable and always available to help. I'm now confident in my ability to protect systems and networks from cyber threats."
+    },
+    {
+      name: "Michael Chen",
+      course: "Virtual Assistant",
+      image: studentImage,
+      text: "The Virtual Assistant course at WiDA Analytics transformed my career. The comprehensive curriculum covered everything from basic administrative tasks to advanced automation tools. The practical assignments and real-world projects gave me the confidence to start my own VA business. The support from instructors was exceptional throughout the program."
+    }
+  ];
+
+  const nextTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevTestimonial = () => {
+    setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
   return (
     <div className="home-container">
       <div className="content-wrapper">
@@ -192,11 +213,23 @@ const Home = () => {
             Unlock Limitless <span className="highlight">Learning</span> - Learn a <span className="highlight">Tech Skill</span> & Transform your Future.
           </h1>
           <p>
-          Master essential skills with interactive courses, real-world projects, and expert mentorship. Gain the skills top employers demand and advance your career. Start your Tech Journey with <span className="highlight">LearnwithWIDA</span>
+            Master essential skills with interactive courses, real-world projects, and expert mentorship. Gain the skills top employers demand and advance your career. Start your Tech Journey with <span className="highlight">LearnwithWIDA</span>
           </p>
           <div className="button-group">
-            <button className="primary-btn">Join Us Now</button>
-            <button className="secondary-btn">Explore Course</button>
+            {user ? (
+              <button className="primary-btn" onClick={scrollToCourses}>
+                Explore Courses
+              </button>
+            ) : (
+              <>
+                <button className="primary-btn" onClick={handleJoinClick}>
+                  Join Us Now
+                </button>
+                <button className="secondary-btn" onClick={scrollToCourses}>
+                  Explore Course
+                </button>
+              </>
+            )}
           </div>
         </div>
         <div className="hero-right">
@@ -223,7 +256,7 @@ const Home = () => {
         </div>
       </section>
 
-      <div className="course-section">
+      <div className="course-section" ref={coursesSectionRef}>
         <div className="course-header">
           <h1>Browse Our Top Courses <br />
           Elevate your skills today!</h1>
@@ -429,18 +462,22 @@ const Home = () => {
         </p>
         
         <div className="testimonial-slider">
-          <button className="slider-arrow prev">
+          <button 
+            className="slider-arrow prev" 
+            onClick={prevTestimonial}
+            aria-label="Previous testimonial"
+          >
             <i className="fas fa-arrow-left"></i>
           </button>
           
           <div className="testimonial-content">
             <img 
-              src={studentImage} 
-              alt="Student" 
+              src={testimonials[currentTestimonial].image} 
+              alt={testimonials[currentTestimonial].name} 
               className="student-image"
             />
-            <h3 className="student-name">Ajetunbomi Abdulwasiu</h3>
-            <p className="student-course">Data Analysis</p>
+            <h3 className="student-name">{testimonials[currentTestimonial].name}</h3>
+            <p className="student-course">{testimonials[currentTestimonial].course}</p>
             <div className="rating">
               <i className="fas fa-star"></i>
               <i className="fas fa-star"></i>
@@ -449,14 +486,28 @@ const Home = () => {
               <i className="fas fa-star"></i>
             </div>
             <p className="testimonial-text">
-            The best I did for myself was learn from WiDA Analytics. In September last year, I enrolled for the 3rd cohort of WiDa Analytics to learn Data Analysis. this was the best decision for me as I was exposed to the practical way of using ; Excel, SQL, PowerBI, and Python. After rigorous learning coupled with hand-on assignments and project work, I successfully built my personal project thanks to our tutor's effective way of teaching
-            I recommend learning data analysis from WiDa Analytics for anyone who wants to take up the journey of Data Analysis, and definitely you will not regret it. 
+              {testimonials[currentTestimonial].text}
             </p>
           </div>
 
-          <button className="slider-arrow next">
+          <button 
+            className="slider-arrow next" 
+            onClick={nextTestimonial}
+            aria-label="Next testimonial"
+          >
             <i className="fas fa-arrow-right"></i>
           </button>
+        </div>
+
+        <div className="testimonial-dots">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              className={`dot ${currentTestimonial === index ? 'active' : ''}`}
+              onClick={() => setCurrentTestimonial(index)}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
         </div>
       </div>
       

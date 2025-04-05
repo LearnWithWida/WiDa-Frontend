@@ -6,11 +6,17 @@ import { HiOutlineMail } from 'react-icons/hi';
 import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { RiTwitterXFill } from 'react-icons/ri';
 import logo from "../assets/WidaLogo.png";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PaymentModal from '../components/PaymentModal';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 const DataAnalysisCourse = () => {
   const [showPayment, setShowPayment] = useState(false);
+  const [isPurchased, setIsPurchased] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
   const weekTopic = [
     {
@@ -200,6 +206,28 @@ const DataAnalysisCourse = () => {
     },
   ];
 
+  useEffect(() => {
+    const checkPurchaseStatus = async () => {
+      setIsLoading(true);
+      if (user) {
+        const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+        const userPurchases = purchasedCourses[user.uid] || {};
+        setIsPurchased(!!userPurchases['data-analysis']);
+      }
+      setIsLoading(false);
+    };
+
+    checkPurchaseStatus();
+  }, [user]);
+
+  const handleButtonClick = () => {
+    if (isPurchased) {
+      navigate('/course/data-analysis/lessons');
+    } else {
+      setShowPayment(true);
+    }
+  };
+
   return (
     <div>
       <div className="data-analysis-container">
@@ -216,12 +244,18 @@ const DataAnalysisCourse = () => {
         <p>
         The primary goal of this course is to equip individuals with the knowledge and practical experience needed to combat cyber threats and strengthen digital security. Whether you're an aspiring cybersecurity professional or an IT specialist looking to enhance your skills, this course will prepare you for a future in the ever-evolving field of cybersecurity.
         </p>
-        <button 
-          className="register-button" 
-          onClick={() => setShowPayment(true)}
-        >
-          Register Now
-        </button>
+        {isLoading ? (
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+          </div>
+        ) : (
+          <button 
+            className="register-button" 
+            onClick={handleButtonClick}
+          >
+            {isPurchased ? 'Go to Course' : 'Register Now'}
+          </button>
+        )}
       </div>
       <div className="course-thumb">
         <h1>This course includes:</h1>
@@ -431,9 +465,9 @@ const DataAnalysisCourse = () => {
 
       {showPayment && (
         <PaymentModal 
-          amount={50000}
-          courseName="data-analysis"
           onClose={() => setShowPayment(false)}
+          courseName="data-analysis"
+          amount={50000}
         />
       )}
     </div>

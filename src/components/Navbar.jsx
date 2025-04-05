@@ -6,6 +6,7 @@ import { IoNotificationsOutline, IoArrowDown } from 'react-icons/io5';
 import { MdKeyboardArrowDown } from 'react-icons/md';
 import './Navbar.css';
 import WidaLogo from '../assets/WidaLogo.png';
+import { useNotifications } from '../context/NotificationContext';
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -14,20 +15,7 @@ const Navbar = () => {
   const [showProgramsMenu, setShowProgramsMenu] = useState(false);
   const [showResourcesMenu, setShowResourcesMenu] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState([
-    {
-      id: 1,
-      message: "New course content available",
-      time: "2 hours ago",
-      unread: true
-    },
-    {
-      id: 2,
-      message: "Your progress has been updated",
-      time: "5 hours ago",
-      unread: true
-    }
-  ]);
+  const { notifications, markAsRead, clearNotification } = useNotifications();
   const profileRef = useRef(null);
   const notificationRef = useRef(null);
 
@@ -48,6 +36,10 @@ const Navbar = () => {
   const handleNavigation = (path) => {
     navigate(path);
     setShowDropdown(false);
+  };
+
+  const handleNotificationClick = (id) => {
+    markAsRead(id);
   };
 
   return (
@@ -78,7 +70,7 @@ const Navbar = () => {
           {showProgramsMenu && (
             <div className="dropdown-content programs-dropdown">
               <Link to="/programs/virtual" className="dropdown-link">Virtual Program</Link>
-              <Link to="/programs/physical" className="dropdown-link">Physical Program</Link>
+              <Link to="/physical-program" className="dropdown-link">Physical Program</Link>
               <Link to="/programs/one-on-one" className="dropdown-link">One-on-One Program</Link>
               <Link to="/programs/mentorship" className="dropdown-link">Mentorship Program</Link>
             </div>
@@ -121,19 +113,33 @@ const Navbar = () => {
               <div className="notifications-dropdown">
                 <div className="notifications-header">
                   <h3>Notifications</h3>
-                  <button className="mark-all-read" onClick={() => {
-                    setNotifications(notifications.map(n => ({...n, unread: false})))
-                  }}>
-                    Mark all as read
-                  </button>
+                  {notifications.length > 0 && (
+                    <button className="mark-all-read" onClick={() => {
+                      notifications.forEach(notification => markAsRead(notification.id));
+                    }}>
+                      Mark all as read
+                    </button>
+                  )}
                 </div>
                 <div className="notifications-list">
-                  {notifications.map(notification => (
-                    <div key={notification.id} className={`notification-item ${notification.unread ? 'unread' : ''}`}>
-                      <p className="notification-message">{notification.message}</p>
-                      <span className="notification-time">{notification.time}</span>
+                  {notifications.length > 0 ? (
+                    notifications.map(notification => (
+                      <div 
+                        key={notification.id} 
+                        className={`notification-item ${notification.unread ? 'unread' : ''}`}
+                        onClick={() => handleNotificationClick(notification.id)}
+                      >
+                        <p>{notification.message}</p>
+                        <span className="notification-time">
+                          {new Date(notification.time).toLocaleString()}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <div className="no-notifications-message">
+                      <p>No notifications yet</p>
                     </div>
-                  ))}
+                  )}
                 </div>
               </div>
             )}

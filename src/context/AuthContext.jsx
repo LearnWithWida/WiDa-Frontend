@@ -10,6 +10,8 @@ import {
   updateProfile
 } from 'firebase/auth';
 import { auth } from '../firebase/config';
+import { db } from '../firebase/config';
+import { doc, setDoc, getDoc } from 'firebase/firestore';
 
 // Create the context
 const AuthContext = createContext({});
@@ -20,7 +22,7 @@ export function useAuth() {
 }
 
 // Provider component
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -61,10 +63,13 @@ export function AuthProvider({ children }) {
   };
 
   // Sign in function
-  const signIn = async (email, password) => {
+  const signIn = async (email, password, notify) => {
     try {
       const result = await signInWithEmailAndPassword(auth, email, password);
       setUser(result.user);
+      if (notify) {
+        notify(`Welcome back, ${result.user.email}!`);
+      }
       return result;
     } catch (error) {
       throw error;
@@ -86,6 +91,38 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   };
 
+  const handlePurchase = async (courseName, notify) => {
+    try {
+      const userRef = doc(db, 'users', user.uid);
+      const userDoc = await getDoc(userRef);
+      const userData = userDoc.data() || {};
+      
+      // Update purchases in Firebase
+      await setDoc(userRef, {
+        ...userData,
+        purchases: {
+          ...(userData.purchases || {}),
+          [courseName]: {
+            purchaseDate: new Date().toISOString()
+          }
+        }
+      });
+
+      if (notify) {
+        notify(`✨ Enrolled in ${courseName.split(' ')[0]} course!`);
+      }
+    } catch (error) {
+      throw error;
+    }
+  };
+
+  const getUserPurchases = async () => {
+    if (!user) return {};
+    const userRef = doc(db, 'users', user.uid);
+    const userDoc = await getDoc(userRef);
+    return userDoc.data()?.purchases || {};
+  };
+
   // Context value
   const value = {
     user,
@@ -94,7 +131,9 @@ export function AuthProvider({ children }) {
     signIn,
     googleSignIn,
     logout,
-    resetPassword
+    resetPassword,
+    handlePurchase,
+    getUserPurchases
   };
 
   return (
@@ -102,4 +141,4 @@ export function AuthProvider({ children }) {
       {!loading && children}
     </AuthContext.Provider>
   );
-}
+};

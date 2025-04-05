@@ -5,10 +5,12 @@ import { toast } from 'react-toastify';
 import './PaymentModal.css';
 import { FaLock } from 'react-icons/fa';
 import { useState, useEffect } from 'react';
+import { useNotifications } from '../context/NotificationContext';
 
 const PaymentModal = ({ amount, courseName, onClose }) => {
-  const { user } = useAuth();
+  const { user, handlePurchase } = useAuth();
   const navigate = useNavigate();
+  const { addNotification } = useNotifications();
   const [userCurrency, setUserCurrency] = useState({
     code: 'NGN',
     symbol: '₦',
@@ -70,20 +72,32 @@ const PaymentModal = ({ amount, courseName, onClose }) => {
     'data-analysis': 'Data Analysis Course'
   };
 
-  const handlePaystackSuccess = (reference) => {
-    // Save purchase to localStorage or your backend
-    const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
-    if (!purchasedCourses[user.uid]) {
-      purchasedCourses[user.uid] = {};
+  const handlePaystackSuccess = async (reference) => {
+    try {
+      const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+      if (!purchasedCourses[user.uid]) {
+        purchasedCourses[user.uid] = {};
+      }
+      
+      // Use the course name as stored in validCourseNames
+      const courseKey = Object.keys(validCourseNames).find(key => 
+        validCourseNames[key].toLowerCase() === courseName.toLowerCase()
+      ) || courseName;
+
+      purchasedCourses[user.uid][courseKey] = {
+        purchaseDate: new Date().toISOString(),
+        reference: reference.reference
+      };
+      
+      localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
+      addNotification(`✨ Enrolled in ${courseName.split(' ')[0]} course!`);
+      toast.success('Payment successful! You can now access the course.');
+      onClose();
+      navigate(`/course/${courseKey}/lessons`);
+    } catch (error) {
+      console.error('Error processing payment:', error);
+      toast.error('Error processing payment. Please try again.');
     }
-    purchasedCourses[user.uid][courseName] = true;
-    localStorage.setItem('purchasedCourses', JSON.stringify(purchasedCourses));
-
-    // Close modal
-    onClose();
-
-    // Redirect to lessons page
-    navigate(`/course/${courseName}/lessons`);
   };
 
   const config = {
@@ -99,6 +113,15 @@ const PaymentModal = ({ amount, courseName, onClose }) => {
     onClose: () => {
       toast.info('Payment cancelled');
       onClose();
+    }
+  };
+
+  const onPurchase = async () => {
+    try {
+      await handlePurchase(courseName, addNotification);
+      // ... rest of purchase logic
+    } catch (error) {
+      // ... error handling
     }
   };
 
@@ -123,7 +146,16 @@ const PaymentModal = ({ amount, courseName, onClose }) => {
         
         {user ? (
           <div className="payment-buttons">
-            <PaystackButton {...config} className="paystack-button" />
+            <PaystackButton
+              {...config}
+              className="paystack-button"
+              text="Pay Now"
+              onSuccess={handlePaystackSuccess}
+              onClose={() => {
+                toast.info('Payment cancelled');
+                onClose();
+              }}
+            />
             <button onClick={onClose} className="close-button">
               Cancel
             </button>

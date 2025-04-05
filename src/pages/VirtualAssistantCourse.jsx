@@ -7,7 +7,9 @@ import { FaFacebookF, FaInstagram } from 'react-icons/fa';
 import { RiTwitterXFill } from 'react-icons/ri';
 import logo from "../assets/WidaLogo.png";
 import "./VirtualAssistantCourse.css";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import PaymentModal from '../components/PaymentModal';
 
 const VirtualAssistantCourse = () => {
@@ -135,6 +137,32 @@ const VirtualAssistantCourse = () => {
       ];
     
       const [showPayment, setShowPayment] = useState(false);
+      const [isPurchased, setIsPurchased] = useState(false);
+      const [isLoading, setIsLoading] = useState(true);
+      const { user } = useAuth();
+      const navigate = useNavigate();
+    
+      useEffect(() => {
+        const checkPurchaseStatus = async () => {
+          setIsLoading(true);
+          if (user) {
+            const purchasedCourses = JSON.parse(localStorage.getItem('purchasedCourses')) || {};
+            const userPurchases = purchasedCourses[user.uid] || {};
+            setIsPurchased(!!userPurchases['virtual-assistant']);
+          }
+          setIsLoading(false);
+        };
+    
+        checkPurchaseStatus();
+      }, [user]);
+    
+      const handleButtonClick = () => {
+        if (isPurchased) {
+          navigate('/course/virtual-assistant/lessons');
+        } else {
+          setShowPayment(true);
+        }
+      };
     
       return (
         <div>
@@ -154,9 +182,13 @@ const VirtualAssistantCourse = () => {
             </p>
             <button 
               className="register-button" 
-              onClick={() => setShowPayment(true)}
+              onClick={handleButtonClick}
             >
-              Register Now
+              {isLoading ? (
+                <div className="loading-spinner">
+                  <div className="spinner"></div>
+                </div>
+              ) : isPurchased ? 'Go to Course' : 'Register Now'}
             </button>
           </div>
           <div className="course-thumb">

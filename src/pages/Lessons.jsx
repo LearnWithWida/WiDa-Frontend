@@ -19,7 +19,7 @@ import "./Lessons.css";
 import { IoPeopleOutline } from "react-icons/io5";
 import { FaStar } from "react-icons/fa";
 import logo from "../assets/Widalogo.png";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import { FaFacebookF } from "react-icons/fa";
 import { RiTwitterXFill } from "react-icons/ri";
 import { FaInstagram } from "react-icons/fa";
@@ -29,6 +29,7 @@ import { dataAnalysisContent } from '../data/dataAnalysisCourse';
 import { virtualAssistanceContent } from '../data/virtualAssistanceCourse';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import Failure from '../assets/failure.png';
+import { useAuth } from '../context/AuthContext';
 
 
 const courseContents = {
@@ -38,12 +39,21 @@ const courseContents = {
 };
 
 const Lessons = () => {
-  const params = useParams();
-  console.log("Route params:", params); // Debug log
-  
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const { courseName } = useParams();
-  console.log("Course name from params:", courseName); // Debug log
+  const location = useLocation();
   
+  useEffect(() => {
+    if (!user) {
+      navigate('/login', { 
+        replace: true,
+        state: { from: location.pathname }
+      });
+      return;
+    }
+  }, [user, navigate]);
+
   // 1. Group all useState hooks together
   const [isLoading, setIsLoading] = useState(true);
   const [courseContent, setCourseContent] = useState(null);

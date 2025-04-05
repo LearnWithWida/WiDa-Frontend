@@ -14,7 +14,10 @@ import { HiOutlineMail } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import whyData from "../assets/why-data.png";
 import CourseThumb from "../assets/CourseThumb.png";
-
+import python from "../assets/pyth.png";
+import sql from "../assets/sql-shrt.png";
+import excel from "../assets/da.png";
+import blog from "../assets/blog-img.png";
 const VirtualProgram = () => {
   useEffect(() => {
     document.title = "Virtual Program | Wida";
@@ -26,14 +29,16 @@ const VirtualProgram = () => {
         <h1>VIRTUAL PROGRAM</h1>
         <p>Learn Tech from anywhere with our virtual program! Gain hands-on experience, work on real projects, and develop industry-relevant skills with expert guidance from the comfort of your home</p>
       </div>
-      <div className='course-cont'> 
+
+      {/* Main Courses */}
+      <div className='course-cont'>
         <div className="course-card-container">
-          {/* Data Analysis Card */}
+          {/* Existing Professional Courses */}
           <div className="course-card-wrapper">
             <img src={CourseThumb} alt="Data Analysis" />
             <div className="course-infomation">
               <h2>Data Analysis</h2>
-              <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software to uncover patterns and trends, turning raw data into actionable insights. Strong analytical, statistical, and communication skills are essential for success in this field.</p>
+              <p>A data analyst collects, processes, and interprets data to help organizations make informed decisions. They use tools like Excel, SQL, Python, and visualization software to uncover patterns and trends, turning raw data into actionable insights.</p>
               <h3>₦100,000</h3>
               <Link to="/data-analysis">
                 <button className="Reg">Register</button>
@@ -41,12 +46,11 @@ const VirtualProgram = () => {
             </div>
           </div>
 
-          {/* Data Science Card */}
           <div className="course-card-wrapper">
-            <img src={OnlineClass} alt="Data Science" />
+            <img src={OnlineClass} alt="Cyber Security" />
             <div className="course-infomation">
               <h2>Cyber Security</h2>
-              <p>Cybersecurity is the defense against digital threats, protecting data, networks, and systems from hacking, malware, and breaches. It ensures privacy, integrity, and reliability through encryption, firewalls, AI-driven security, and proactive threat detection, keeping the digital world safe and resilient.</p>
+              <p>Cybersecurity is the defense against digital threats, protecting data, networks, and systems from hacking, malware, and breaches. It ensures privacy, integrity, and reliability through encryption, firewalls, AI-driven security, and proactive threat detection.</p>
               <h3>₦100,000</h3>
               <Link to="/cyber-security">
                 <button className="Reg">Register</button>
@@ -54,21 +58,74 @@ const VirtualProgram = () => {
             </div>
           </div>
 
-          {/* Product Design Card */}
           <div className="course-card-wrapper">
-            <img src={CourseThumb} alt="Product Design" />
+            <img src={CourseThumb} alt="Virtual Assistant" />
             <div className="course-infomation">
               <h2>Virtual Assistant</h2>
-              <p>A virtual assistant is an AI-powered or human-based service that helps with tasks like scheduling, customer support, data management, and more. It enhances productivity by automating repetitive tasks, providing real-time assistance, and streamlining workflows, making operations more efficient in both personal and business settings.</p>
+              <p>A virtual assistant is an AI-powered or human-based service that helps with tasks like scheduling, customer support, data management, and more. It enhances productivity by automating repetitive tasks, providing real-time assistance, and streamlining workflows.</p>
               <h3>₦100,000</h3>
               <Link to="/virtual-assistant">
                 <button className="Reg">Register</button>
               </Link>
             </div>
           </div>
-
         </div>
       </div>
+
+      {/* Short Courses Section */}
+      <div className='course-cont'>
+        <h2 className="short-course-title">Short Courses</h2>
+        <div className="course-card-container">
+          <div className="course-card-wrapper">
+            <img src={excel} alt="Excel Course" />
+            <div className="course-infomation">
+              <h2>Data Analysis with Excel and PowerQuery</h2>
+              <p>Master data analysis using Microsoft Excel and PowerQuery. Learn advanced functions, pivot tables, data modeling, and automation techniques for efficient data processing and analysis.</p>
+              <h3>₦30,000</h3>
+              <Link to="/excel-course">
+                <button className="Reg">Register</button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="course-card-wrapper">
+            <img src={sql} alt="SQL Course" />
+            <div className="course-infomation">
+              <h2>SQL for Data Analysis</h2>
+              <p>Learn to write powerful SQL queries for data analysis. Cover everything from basic queries to advanced joins, subqueries, and window functions for extracting meaningful insights from databases.</p>
+              <h3>₦30,000</h3>
+              <Link to="/sql-course">
+                <button className="Reg">Register</button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="course-card-wrapper">
+            <img src={blog} alt="Power BI Course" />
+            <div className="course-infomation">
+              <h2>Business Intelligence with PowerBI</h2>
+              <p>Create compelling data visualizations and interactive dashboards with Power BI. Learn data modeling, DAX formulas, and best practices for building effective business intelligence solutions.</p>
+              <h3>₦30,000</h3>
+              <Link to="/powerbi-course">
+                <button className="Reg">Register</button>
+              </Link>
+            </div>
+          </div>
+
+          <div className="course-card-wrapper">
+            <img src={python} alt="Python Course" />
+            <div className="course-infomation">
+              <h2>Python Programming for Data Analysis</h2>
+              <p>Learn Python programming fundamentals and essential libraries like Pandas, NumPy, and Matplotlib for data analysis. Build practical skills in data manipulation, analysis, and visualization.</p>
+              <h3>₦30,000</h3>
+              <Link to="/python-course">
+                <button className="Reg">Register</button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <section className="why-study-section">
         <h2>Why Study with Us</h2>
         <p className="study-subtitle">
